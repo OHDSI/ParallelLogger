@@ -1,0 +1,33 @@
+Package: ParallelLogger
+Type: Package
+Title: Support for Parallel Computation, Logging, and Function Automation
+Version: 1.0.0
+Date: 2018-06-28
+Authors@R: c(
+    person("Martijn", "Schuemie", email = "schuemie@ohdsi.org", role = c("aut", "cre")),
+    person("Marc", "Suchard", role = c("aut")),
+    person("Observational Health Data Science and Informatics", role = c("cph"))
+  )
+Maintainer: Martijn Schuemie <schuemie@ohdsi.org>
+Description: Support for parallel computation with progress bar, and option to stop or proceed on errors. Also provides logging to console and disk, 
+    and the logging persists in the parallel threads. Additional functions support function call automation with delayed execution (e.g. for executing functions in
+    parallel).
+License: Apache License 2.0
+VignetteBuilder: knitr
+Depends:
+    R (>= 3.1.0)
+Imports:
+    snow,
+    XML,
+    jsonlite,
+    methods,
+    utils,
+    mailR
+Suggests:
+    testthat,
+    shiny,
+    DT,
+    knitr,
+    rmarkdown
+NeedsCompilation: no
+RoxygenNote: 6.0.1.9000

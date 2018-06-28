@@ -1,0 +1,9 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+.gitattributes
+extras
+man-roxygen
+.travis.yml
+deploy.sh
+compare_versions
+^cran-comments.md$
