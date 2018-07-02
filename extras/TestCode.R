@@ -1,9 +1,4 @@
 
-insertCohortDefinitionInPackage(definitionId = 5021, 
-                                name = "Test", 
-                                baseUrl = Sys.getenv("baseUrl"))
-
-
 
 # Test mail notifications -------------------------------------------------
 mailSettings <- list(from = Sys.getenv("mailAddress"),
@@ -22,18 +17,5 @@ runAndNotify({
 
 
 
-# WebAPI functions -----------------------------------------------------------
 
-getCohortDefinitionName(baseUrl = Sys.getenv("baseUrl"), definitionId = 5021)
-
-getConceptSetName(baseUrl = Sys.getenv("baseUrl"), setId = 12)
-
-getPriorityVocabKey(baseUrl = Sys.getenv("baseUrl"))
-
-getConceptSetConceptIds(baseUrl = Sys.getenv("baseUrl"), setId = 12)
-
-
-# Args functions --------------------------------------------------------------
-
-
-createArgFunction(functionName = "getCohortDefinitionName", rCode = "")
+createArgFunction(functionName = "runAndNotify", rCode = "")
