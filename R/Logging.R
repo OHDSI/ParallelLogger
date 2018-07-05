@@ -188,8 +188,8 @@ unregisterLogger <- function(x) {
     warning("Could not find logger ", x)
     return(FALSE)
   } else if (is(x, "Logger")) {
-    for (i in 1:length(settings$loggers)) {
-      if (settings$loggers == x) {
+    for (i in length(settings$loggers):1) {
+      if (all.equal(x, settings$loggers[[i]])) {
         settings$loggers[[i]] <- NULL
         setLoggerSettings(settings)
         return(TRUE)
@@ -228,14 +228,15 @@ clearLoggers <- function() {
 #'
 #' @examples 
 #' logger <- addDefaultConsoleLogger()
-#' registerLogger(logger)                      
 #' logTrace("This event is below the threshold (INFO)")
 #' logInfo("Hello world")                       
 #' unregisterLogger(logger)  
 #' 
 #' @export
 addDefaultConsoleLogger <- function() {
-  registerLogger(createLogger())
+  logger <- createLogger()
+  registerLogger(logger)
+  invisible(logger)
 }
 
 #' Add the default file logger

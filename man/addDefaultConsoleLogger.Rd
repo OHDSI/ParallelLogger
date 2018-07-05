@@ -15,7 +15,6 @@ Creates a logger that writes to the console using the "INFO" threshold and the
 }
 \examples{
 logger <- addDefaultConsoleLogger()
-registerLogger(logger)                      
 logTrace("This event is below the threshold (INFO)")
 logInfo("Hello world")                       
 unregisterLogger(logger)  
