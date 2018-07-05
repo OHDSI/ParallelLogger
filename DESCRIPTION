@@ -21,8 +21,7 @@ Imports:
     XML,
     jsonlite,
     methods,
-    utils,
-    mailR
+    utils
 Suggests:
     testthat,
     shiny,
