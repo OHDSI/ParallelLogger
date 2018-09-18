@@ -4,7 +4,8 @@
 \alias{clusterApply}
 \title{Apply a function to a list using the cluster}
 \usage{
-clusterApply(cluster, x, fun, ..., stopOnError = FALSE, progressBar = TRUE)
+clusterApply(cluster, x, fun, ..., stopOnError = FALSE,
+  progressBar = TRUE)
 }
 \arguments{
 \item{cluster}{The cluster of threads to run the function.}
