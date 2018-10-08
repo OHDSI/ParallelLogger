@@ -84,10 +84,16 @@ createConsoleAppender <- function(layout = layoutSimple) {
 #' @export
 createFileAppender <- function(layout = layoutParallel, fileName) {
   appendFunction <- function(this, level, message) {
-    con <- file(fileName, open = "at", blocking = FALSE)
-    writeLines(text = message, con = con)
-    flush(con)
-    close(con)
+    tryCatch({
+      con <- file(fileName, open = "at", blocking = FALSE)
+      writeLines(text = message, con = con)
+      flush(con)
+      close(con)
+    },
+    error = function(e) {
+      closeAllConnections()
+    }
+    )
   }
   appender <- list(appendFunction = appendFunction, layout = layout, fileName = fileName)
   class(appender) <- "Appender"
