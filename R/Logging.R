@@ -85,15 +85,27 @@ createConsoleAppender <- function(layout = layoutSimple) {
 createFileAppender <- function(layout = layoutParallel, fileName) {
   appendFunction <- function(this, level, message) {
     tryCatch({
-      con <- file(fileName, open = "at", blocking = FALSE)
-      writeLines(text = message, con = con)
-      flush(con)
-      close(con)
-    },
-    error = function(e) {
-      closeAllConnections()
-    }
-    )
+      suppressWarnings({
+        con <- file(fileName, open = "at", blocking = FALSE)
+        writeLines(text = message, con = con)
+        flush(con)
+        close(con)
+      })
+    }, error = function(e) {
+      settings <- getLoggerSettings()
+      for (i in length(settings$loggers):1) {
+        for (j in length(settings$loggers[[i]]$appenders):1) {
+          if (identical(settings$loggers[[i]]$appenders[[j]], this)) {
+            settings$loggers[[i]]$appenders[[j]] <- NULL
+            if (length(settings$loggers[[i]]$appenders) == 0) {
+              settings$loggers[[i]] <- NULL
+            }
+          }
+        }
+      }
+      setLoggerSettings(settings)
+      warning("Error '", e$message, "' when writing log to file '", fileName, ". Removing file appender from logger.")
+    })
   }
   appender <- list(appendFunction = appendFunction, layout = layout, fileName = fileName)
   class(appender) <- "Appender"
