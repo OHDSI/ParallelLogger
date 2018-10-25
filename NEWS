@@ -1,3 +1,13 @@
+ParallelLogger v1.0.1 (Release date: 2018-10-25)
+================================================
+
+Changes:
+
+1. When the folder containing the log file is deleted while logging, a warning is thrown (instead of an error), and the file appender is automatically deleted.
+
+2. The Shiny app now ignores malformed lines in the log file (instead of throwing an error).
+
+
 ParallelLogger v1.0.0 (Release date: 2018-06-28)
 ================================================
 
