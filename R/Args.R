@@ -299,6 +299,24 @@ convertMemberToAttr <- function(object) {
   return(object)
 }
 
+#' Convert a settings object to a JSON string
+#'
+#' @details
+#' Convert a settings object to a JSON string, using pretty formatting and preserving object classes and
+#' attributes.
+#'
+#' @param object     R object to be converted.
+#' 
+#' @return A JSON string representing the R object.
+#'
+#' @export
+convertSettingsToJson <- function(object) {
+  object <- convertAttrToMember(object)
+  json <- jsonlite::toJSON(object, pretty = TRUE, force = TRUE, null = "null", auto_unbox = TRUE)
+  return(json)
+}
+
+
 #' Save a settings object as JSON file
 #'
 #' @details
@@ -310,9 +328,26 @@ convertMemberToAttr <- function(object) {
 #'
 #' @export
 saveSettingsToJson <- function(object, fileName) {
-  object <- convertAttrToMember(object)
-  json <- jsonlite::toJSON(object, pretty = TRUE, force = TRUE, null = "null", auto_unbox = TRUE)
+  json <- convertSettingsToJson(object)
   write(json, fileName)
+}
+
+#' Converts a JSON string to a settings object
+#'
+#' @details
+#' onverts a JSON string generated using the \code{\link{convertSettingsToJson}} function to a settings objec, restoring object classes and attributes.
+#'
+#' @param json   A JSON string.
+#'
+#' @return
+#' An R object as specified by the JSON.
+#'
+#' @export
+convertJsonToSettings <- function(json) {
+  object <- jsonlite::fromJSON(json, simplifyVector = TRUE, simplifyDataFrame = FALSE)
+  object <- convertMemberToAttr(object)
+  object <- restoreDataFrames(object)
+  return(object)
 }
 
 #' Load a settings object from a JSON file
@@ -327,9 +362,8 @@ saveSettingsToJson <- function(object, fileName) {
 #'
 #' @export
 loadSettingsFromJson <- function(fileName) {
-  object <- jsonlite::fromJSON(fileName, simplifyVector = TRUE, simplifyDataFrame = FALSE)
-  object <- convertMemberToAttr(object)
-  object <- restoreDataFrames(object)
+  json <- readChar(fileName, file.info(fileName)$size)
+  object <- convertJsonToSettings(json)
   return(object)
 }
 
