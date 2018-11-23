@@ -37,6 +37,8 @@ rmarkdown::render("vignettes/Parallel.Rmd",
                                           toc = TRUE,
                                           number_sections = TRUE))
 
+pkgdown::build_site()
+
 # Release package -----------------------------------------------------
 devtools::build_win()
 

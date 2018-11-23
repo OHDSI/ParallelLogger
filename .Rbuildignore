@@ -7,3 +7,5 @@ man-roxygen
 deploy.sh
 compare_versions
 ^cran-comments.md$
+_pkgdown.yml
+docs

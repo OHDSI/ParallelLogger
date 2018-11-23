@@ -28,7 +28,7 @@ Suggests:
     DT,
     knitr,
     rmarkdown
-URL: https://github.com/OHDSI/ParallelLogger
+URL: https://ohdsi.github.io/ParallelLogger, https://github.com/OHDSI/ParallelLogger
 BugReports: https://github.com/OHDSI/ParallelLogger/issues
 NeedsCompilation: no
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1

@@ -1,0 +1,46 @@
+template:
+  params:
+    bootswatch: cosmo
+
+home:
+  links:
+  - text: Ask a question
+    href: http://forums.ohdsi.org
+
+reference:
+  - title: "Logging"
+    desc: >
+      Functions for logging messages to file or console.
+    contents:
+      - logTrace
+      - logDebug
+      - logInfo
+      - logWarn
+      - logError
+      - logFatal
+      - ends_with("Logger")
+      - ends_with("Appender")
+      - starts_with("layout")
+      - getLoggers 
+      - clearLoggers 
+      - launchLogViewer 
+  - title: "Parallel processing"
+    desc: >
+      Functions for processing R commands in parallel.
+    contents:
+      - makeCluster 
+      - clusterRequire 
+      - clusterApply 
+      - stopCluster 	  
+  - title: "Function automation"
+    desc: >
+      Functions for capturing arguments for function calls so these can be executed automatically later on.
+    contents:
+      - createArgFunction 
+      - convertSettingsToJson 
+      - convertJsonToSettings 
+      - saveSettingsToJson 	  
+      - loadSettingsFromJson 
+      - excludeFromList 
+      - matchInList 
+      - selectFromList 

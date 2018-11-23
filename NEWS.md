@@ -1,5 +1,5 @@
-ParallelLogger v1.0.1 (Release date: 2018-10-25)
-================================================
+ParallelLogger 1.0.1
+=====================
 
 Changes:
 
@@ -8,7 +8,7 @@ Changes:
 2. The Shiny app now ignores malformed lines in the log file (instead of throwing an error).
 
 
-ParallelLogger v1.0.0 (Release date: 2018-06-28)
-================================================
+ParallelLogger 1.0.0
+=====================
 
 Changes: initial submission to CRAN

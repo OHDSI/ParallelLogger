@@ -1,8 +1,12 @@
 ParallelLogger
 ==============
 
+[![Build Status](https://travis-ci.org/OHDSI/ParallelLogger.svg?branch=master)](https://travis-ci.org/OHDSI/ParallelLogger)
+[![codecov.io](https://codecov.io/github/OHDSI/ParallelLogger/coverage.svg?branch=master)](https://codecov.io/github/OHDSI/ParallelLogger?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
 [![CRAN_Status_Badge](http://cranlogs.r-pkg.org/badges/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
+
+ParallelLogger is part of the [OHDSI Methods Library](https://ohdsi.github.io/MethodsLibrary).
 
 Introduction
 ============
@@ -15,7 +19,7 @@ Features
 - Functions used for automating analyses
 
 Examples
-===========
+========
 
 ```r
 # Run a function in parallel:
@@ -40,27 +44,32 @@ System Requirements
 ============
 Requires R (version 3.1.0 or higher)
 
-Dependencies
-============
-None
-
 Getting Started
 ===============
-1. In R, use the following commands to download and install ParallelLogger:
+In R, to install the latest stable version, install from CRAN:
 
-  ```r
-  install.packages("devtools")
-  library(devtools)
-  install_github("ohdsi/ParallelLogger")
-  ```
+```r
+install.packages("ParallelLogger")
+```
+  
+To install the latest development version, install from GitHub:
 
-Getting Involved
-=============
+```r
+install.packages("devtools")
+devtools::install_github("ohdsi/ParallelLogger")
+```
+
+User Documentation
+==================
 * Vignette: [Logging using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/inst/doc/Logging.pdf)
 * Vignette: [Parallel execution using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/inst/doc/Parallel.pdf)
 * Package manual: [ParallelLogger.pdf](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/extras/ParallelLogger.pdf)
+
+
+Support
+=======
 * Developer questions/comments/feedback: <a href="http://forums.ohdsi.org/c/developers">OHDSI Forum</a>
-* We use the <a href="../../issues">GitHub issue tracker</a> for all bugs/issues/enhancements
+* We use the <a href="https://github.com/OHDSI/ParallelLogger/issues">GitHub issue tracker</a> for all bugs/issues/enhancements
 
 License
 =======
@@ -71,8 +80,6 @@ Development
 ParallelLogger is being developed in R Studio.
 
 ### Development status
-[![Build Status](https://travis-ci.org/OHDSI/ParallelLogger.svg?branch=master)](https://travis-ci.org/OHDSI/ParallelLogger)
-[![codecov.io](https://codecov.io/github/OHDSI/ParallelLogger/coverage.svg?branch=master)](https://codecov.io/github/OHDSI/ParallelLogger?branch=master)
 
 Ready for use
 
