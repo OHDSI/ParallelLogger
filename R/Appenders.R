@@ -29,6 +29,8 @@
 #' @export
 createConsoleAppender <- function(layout = layoutSimple) {
   appendFunction <- function(this, level, message) {
+    # Avoid note in check:
+    missing(this)
     if (level == "WARN" || level == "ERROR") {
       writeLines(message, con = stderr())
     } else if (level != "FATAL") {
@@ -52,6 +54,8 @@ createConsoleAppender <- function(layout = layoutSimple) {
 #' @export
 createFileAppender <- function(layout = layoutParallel, fileName) {
   appendFunction <- function(this, level, message) {
+    # Avoid note in check:
+    missing(level)
     tryCatch({
       suppressWarnings({
         con <- file(fileName, open = "at", blocking = FALSE)
@@ -78,4 +82,75 @@ createFileAppender <- function(layout = layoutParallel, fileName) {
   appender <- list(appendFunction = appendFunction, layout = layout, fileName = fileName)
   class(appender) <- "Appender"
   return(appender)
+}
+
+#' Create e-mail appender
+#'
+#' @details
+#' Creates an appender that will send log events to an e-mail address using the \code{mailR} package. Please
+#' make sure your settings are correct by using the mailR package before using those settings here. 
+#' ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
+#'
+#' @param layout          The layout to be used by the appender.
+#' @param mailSettings    Arguments to be passed to the send.mail function in the mailR package (except
+#'                        subject and body).
+#' @param label           A label to be used in the e-mail subject to identify a run.
+#' @param test            If TRUE, a message will be displayed on the console instead of sending an e-mail.
+#'
+#' @examples
+#' mailSettings <- list(from = "someone@gmail.com",
+#'                      to = c("someone_else@gmail.com"),
+#'                      smtp = list(host.name = "smtp.gmail.com",
+#'                                  port = 465,
+#'                                  user.name = "someone@gmail.com",
+#'                                  passwd = "super_secret!",
+#'                                  ssl = TRUE),
+#'                      authenticate = TRUE,
+#'                      send = TRUE)
+#' # Setting test to TRUE in this example so we don't really send an e-mail:
+#' appender <- createEmailAppender(layout = layoutEmail,
+#'                                 mailSettings = mailSettings, 
+#'                                 label = "My R session", 
+#'                                 test = TRUE)
+#' 
+#' logger <- createLogger(name = "EMAIL",
+#'                        threshold = "FATAL",
+#'                        appenders = list(appender))
+#' registerLogger(logger)
+#' 
+#' logFatal("Something bad")
+#' 
+#' unregisterLogger("EMAIL")
+#' 
+#' @export
+createEmailAppender <- function(layout = layoutEmail, mailSettings, label = "Your R session", test = FALSE) {
+  ensure_installed("mailR")
+  
+  appendFunction <- function(this, level, message) {
+    # Avoid note in check:
+    missing(this)
+    mailSettings$subject <- sprintf("[%s] %s", label, level)
+    mailSettings$body <- message
+    if (test) {
+      myfun <- testSendMail
+    } else {
+      myfun <- get("send.mail", asNamespace("mailR"))
+    }
+    try(do.call(myfun, mailSettings), silent = TRUE)
+  } 
+  appender <- list(appendFunction = appendFunction, layout = layout, mailSettings = mailSettings, label = label)
+  class(appender) <- "Appender"
+  return(appender)
+}
+
+testSendMail <- function(to, subject, body, ...) {
+  writeLines("You've got mail:")
+  writeLines("To:")
+  writeLines(to)
+  writeLines("")
+  writeLines("Subject:")
+  writeLines(subject)
+  writeLines("")
+  writeLines("Body:")
+  writeLines(body)           
 }

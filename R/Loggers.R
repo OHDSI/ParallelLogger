@@ -89,3 +89,43 @@ addDefaultFileLogger <- function(fileName) {
                               appenders = list(createFileAppender(layout = layoutParallel,
                                                                   fileName = fileName))))
 }
+
+#' Add the default e-mail logger
+#'
+#' @details
+#' Creates a logger that writes to e-mail using the "FATAL" threshold and the
+#' \code{\link{layoutEmail}} layout. This function uses the \code{mailR} package. Please
+#' make sure your e-mail settings are correct by using the mailR package before using those settings here. 
+#' ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
+#'
+#' @param mailSettings    Arguments to be passed to the send.mail function in the mailR package (except
+#'                        subject and body).
+#' @param label           A label to be used in the e-mail subject to identify a run.
+#' @param test            If TRUE, a message will be displayed on the console instead of sending an e-mail.
+#' 
+#' @examples
+#' mailSettings <- list(from = "someone@gmail.com",
+#'                      to = c("someone_else@gmail.com"),
+#'                      smtp = list(host.name = "smtp.gmail.com",
+#'                                  port = 465,
+#'                                  user.name = "someone@gmail.com",
+#'                                  passwd = "super_secret!",
+#'                                  ssl = TRUE),
+#'                      authenticate = TRUE,
+#'                      send = TRUE)
+#'                      
+#' # Setting test to TRUE in this example so we don't really send an e-mail:
+#' addDefaultEmailLogger(mailSettings, "My R session", test = TRUE)
+#' logFatal("Something bad")
+#' 
+#' unregisterLogger("DEFAULT")
+#'
+#' @export
+addDefaultEmailLogger <- function(mailSettings, label = "Your R session", test = FALSE) {
+  registerLogger(createLogger(name = "DEFAULT",
+                              threshold = "FATAL",
+                              appenders = list(createEmailAppender(layout = layoutEmail,
+                                                                   mailSettings = mailSettings,
+                                                                   label = label,
+                                                                   test = test))))
+}

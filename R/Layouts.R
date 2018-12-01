@@ -122,3 +122,35 @@ layoutStackTrace <- function(level, message) {
   stackTrace <- paste(rev(stackTrace), collapse = " - ")
   sprintf("%s\t%s\t%s", time, stackTrace, message)
 }
+
+#' Logging layout for e-mail
+#'
+#' @description
+#' A layout function to be used with an e-mail appender. This layout adds the thread ID and strack trace to the message.
+#'
+#' @param level     The level of the message (e.g. "INFO")
+#' @param message   The message to layout.
+#'
+#' @export
+layoutEmail <- function(level, message) {
+  lines <- c()
+  lines <- c(lines, paste("Message: ", message))
+  time <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
+  lines <- c(lines, paste("Time: ", time))
+  lines <- c(lines, paste("Level: ", level))
+  threadNumber <- getOption("threadNumber")
+  if (is.null(threadNumber)) {
+    lines <- c(lines, "Thread: Main")
+  } else {
+    lines <- c(lines, paste("Thread: ", threadNumber))
+  }
+  lines <- c(lines, "Stack trace:")
+  nFrame <- -4
+  fun <- sys.call(nFrame)
+  while (!is.null(fun) && class(fun[[1]]) != "function") {
+    lines <- c(lines, as.character(fun[[1]]))
+    nFrame <- nFrame - 1
+    fun <- sys.call(nFrame)
+  }
+  return(paste(lines, collapse = "\n"))
+}

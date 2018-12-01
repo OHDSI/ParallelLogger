@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.1.0</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
       <h1>Logging using ParallelLogger</h1>
                         <h4 class="author">Martijn J. Schuemie</h4>
             
-            <h4 class="date">2018-11-23</h4>
+            <h4 class="date">2018-12-01</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/OHDSI/ParallelLogger/blob/master/vignettes/Logging.Rmd"><code>vignettes/Logging.Rmd</code></a></small>
       <div class="hidden name"><code>Logging.Rmd</code></div>
@@ -162,7 +162,7 @@
 <a class="sourceLine" id="cb1-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</a></code></pre></div>
 <pre><code>#&gt; Hello world
-#&gt; 2018-11-23 14:40:49  Hello world</code></pre>
+#&gt; 2018-12-01 09:29:10  Hello world</code></pre>
 <p>Note that the message is displayed twice. This is because there is a default logger that uses the simple layout and threshold = “INFO”, and writes to console. We can remove this logger before registering our logger to avoid duplication:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/clearLoggers.html">clearLoggers</a></span>()</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
@@ -173,7 +173,7 @@
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</a></code></pre></div>
-<pre><code>#&gt; 2018-11-23 14:40:49  Hello world</code></pre>
+<pre><code>#&gt; 2018-12-01 09:29:10  Hello world</code></pre>
 <div id="shorthand" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shorthand" class="anchor"></a>Shorthand</h2>
@@ -201,12 +201,12 @@
 <a class="sourceLine" id="cb8-9" data-line-number="9"><span class="kw"><a href="../reference/logDebug.html">logDebug</a></span>(<span class="st">"There are "</span>,  <span class="kw">length</span>(<span class="kw"><a href="../reference/getLoggers.html">getLoggers</a></span>()), <span class="st">" loggers"</span>)</a>
 <a class="sourceLine" id="cb8-10" data-line-number="10"></a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</a></code></pre></div>
-<pre><code>#&gt; 2018-11-23 14:40:49  Hello world</code></pre>
+<pre><code>#&gt; 2018-12-01 09:29:11  Hello world</code></pre>
 <p>We can read the log file:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">writeLines</span>(<span class="kw">readChar</span>(logFileName, <span class="kw">file.info</span>(logFileName)<span class="op">$</span>size))</a></code></pre></div>
-<pre><code>#&gt; 2018-11-23 14:40:49  [Main thread]   TRACE   evaluate    timing_fn   Executed this line
-#&gt; 2018-11-23 14:40:49  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers
-#&gt; 2018-11-23 14:40:49  [Main thread]   INFO    evaluate    timing_fn   Hello world</code></pre>
+<pre><code>#&gt; 2018-12-01 09:29:11  [Main thread]   TRACE   evaluate    timing_fn   Executed this line
+#&gt; 2018-12-01 09:29:11  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers
+#&gt; 2018-12-01 09:29:11  [Main thread]   INFO    evaluate    timing_fn   Hello world</code></pre>
 <p>And clean it up when we’re done:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">unlink</span>(logFileName)</a></code></pre></div>
 <div id="shorthand-1" class="section level2">
@@ -237,9 +237,9 @@
 <a class="sourceLine" id="cb15-10" data-line-number="10">a &lt;-<span class="st"> </span>b</a>
 <a class="sourceLine" id="cb15-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb15-12" data-line-number="12"><span class="kw">writeLines</span>(<span class="kw">readChar</span>(logFileName, <span class="kw">file.info</span>(logFileName)<span class="op">$</span>size))</a></code></pre></div>
-<pre><code>#&gt; 2018-11-23 14:40:50  [Main thread]   WARN    evaluate    timing_fn   Danger!
-#&gt; 2018-11-23 14:40:50  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion
-#&gt; 2018-11-23 14:40:50  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</code></pre>
+<pre><code>#&gt; 2018-12-01 09:29:11  [Main thread]   WARN    evaluate    timing_fn   Danger!
+#&gt; 2018-12-01 09:29:11  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion
+#&gt; 2018-12-01 09:29:11  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</code></pre>
 </div>
 <div id="logging-when-parallel-processing" class="section level1">
 <h1 class="hasAnchor">
@@ -265,24 +265,24 @@
 <a class="sourceLine" id="cb17-18" data-line-number="18"><span class="kw"><a href="../reference/stopCluster.html">stopCluster</a></span>(cluster)</a>
 <a class="sourceLine" id="cb17-19" data-line-number="19"></a>
 <a class="sourceLine" id="cb17-20" data-line-number="20"><span class="kw">writeLines</span>(<span class="kw">readChar</span>(logFileName, <span class="kw">file.info</span>(logFileName)<span class="op">$</span>size))</a></code></pre></div>
-<pre><code>#&gt; 2018-11-23 14:40:50  [Main thread]   TRACE   evaluate    timing_fn   Initiating cluster with 3 threads
-#&gt; 2018-11-23 14:40:53  [Thread 1]  TRACE           Thread 1 initiated
-#&gt; 2018-11-23 14:40:53  [Thread 2]  TRACE           Thread 2 initiated
-#&gt; 2018-11-23 14:40:53  [Thread 3]  TRACE           Thread 3 initiated
-#&gt; 2018-11-23 14:40:53  [Thread 2]  INFO            The value of x is 2
-#&gt; 2018-11-23 14:40:53  [Thread 1]  INFO            The value of x is 1
-#&gt; 2018-11-23 14:40:53  [Thread 3]  INFO            The value of x is 3
-#&gt; 2018-11-23 14:40:53  [Thread 2]  INFO            The value of x is 4
-#&gt; 2018-11-23 14:40:53  [Thread 1]  INFO            The value of x is 5
-#&gt; 2018-11-23 14:40:53  [Thread 3]  INFO            The value of x is 6
-#&gt; 2018-11-23 14:40:53  [Thread 2]  INFO            The value of x is 7
-#&gt; 2018-11-23 14:40:53  [Thread 3]  DEBUG           X equals 6
-#&gt; 2018-11-23 14:40:53  [Thread 1]  INFO            The value of x is 8
-#&gt; 2018-11-23 14:40:53  [Thread 2]  INFO            The value of x is 9
-#&gt; 2018-11-23 14:40:53  [Thread 1]  INFO            The value of x is 10
-#&gt; 2018-11-23 14:40:53  [Main thread]   TRACE   evaluate    timing_fn   Stopping cluster
-#&gt; 2018-11-23 14:40:53  [Thread 3]  TRACE           Thread 3 terminated
-#&gt; 2018-11-23 14:40:53  [Thread 2]  TRACE           Thread 2 terminated</code></pre>
+<pre><code>#&gt; 2018-12-01 09:29:11  [Main thread]   TRACE   evaluate    timing_fn   Initiating cluster with 3 threads
+#&gt; 2018-12-01 09:29:12  [Thread 1]  TRACE           Thread 1 initiated
+#&gt; 2018-12-01 09:29:12  [Thread 2]  TRACE           Thread 2 initiated
+#&gt; 2018-12-01 09:29:12  [Thread 3]  TRACE           Thread 3 initiated
+#&gt; 2018-12-01 09:29:12  [Thread 3]  INFO            The value of x is 3
+#&gt; 2018-12-01 09:29:12  [Thread 1]  INFO            The value of x is 1
+#&gt; 2018-12-01 09:29:12  [Thread 2]  INFO            The value of x is 2
+#&gt; 2018-12-01 09:29:12  [Thread 3]  INFO            The value of x is 4
+#&gt; 2018-12-01 09:29:12  [Thread 1]  INFO            The value of x is 5
+#&gt; 2018-12-01 09:29:12  [Thread 2]  INFO            The value of x is 6
+#&gt; 2018-12-01 09:29:12  [Thread 3]  INFO            The value of x is 7
+#&gt; 2018-12-01 09:29:12  [Thread 2]  DEBUG           X equals 6
+#&gt; 2018-12-01 09:29:12  [Thread 1]  INFO            The value of x is 8
+#&gt; 2018-12-01 09:29:12  [Thread 3]  INFO            The value of x is 9
+#&gt; 2018-12-01 09:29:12  [Thread 2]  INFO            The value of x is 10
+#&gt; 2018-12-01 09:29:12  [Main thread]   TRACE   evaluate    timing_fn   Stopping cluster
+#&gt; 2018-12-01 09:29:12  [Thread 3]  TRACE           Thread 3 terminated
+#&gt; 2018-12-01 09:29:12  [Thread 2]  TRACE           Thread 2 terminated</code></pre>
 </div>
 <div id="shiny-log-viewer" class="section level1">
 <h1 class="hasAnchor">
