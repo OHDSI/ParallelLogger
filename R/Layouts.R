@@ -145,12 +145,19 @@ layoutEmail <- function(level, message) {
     lines <- c(lines, paste("Thread: ", threadNumber))
   }
   lines <- c(lines, "Stack trace:")
-  nFrame <- -4
-  fun <- sys.call(nFrame)
-  while (!is.null(fun) && class(fun[[1]]) != "function") {
-    lines <- c(lines, as.character(fun[[1]]))
-    nFrame <- nFrame - 1
-    fun <- sys.call(nFrame)
+  if (sys.nframe() > 4) {
+    for (i in 4:sys.nframe()) {
+      packageName <- utils::packageName(env = sys.frame(-i))
+      if (length(packageName) != 0 && packageName != "base" && packageName != "snow" && packageName !=
+          "ParallelLogger") {
+        if (class(sys.call(-i)[[1]]) != "function") {
+          functionName <- as.character(sys.call(-i)[[1]])
+          if (functionName != "::") {
+            lines <- c(lines, paste(packageName, functionName, sep = "::"))
+          }
+        }
+      }
+    }
   }
   return(paste(lines, collapse = "\n"))
 }

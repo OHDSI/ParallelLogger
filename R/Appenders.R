@@ -129,6 +129,12 @@ createEmailAppender <- function(layout = layoutEmail, mailSettings, label = "You
   appendFunction <- function(this, level, message) {
     # Avoid note in check:
     missing(this)
+    
+    # No need to send an e-mail at the death of an orphan thread:
+    testString <- "Error in unserialize(node$con)"
+    if (substr(message, 1, nchar(testString)) == testString) {
+      return()
+    }
     mailSettings$subject <- sprintf("[%s] %s", label, level)
     mailSettings$body <- message
     if (test) {
