@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.0.1</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.1.0</span>
       </span>
     </div>
 
@@ -147,7 +147,7 @@ Use <code><a href='addDefaultFileLogger.html'>addDefaultFileLogger</a></code> to
     <pre class="examples"><div class='input'><span class='co'># Create a log file:</span>
 <span class='no'>logFile</span> <span class='kw'>&lt;-</span> <span class='fu'>file.path</span>(<span class='fu'>tempdir</span>(), <span class='st'>"log.txt"</span>)
 <span class='fu'><a href='addDefaultFileLogger.html'>addDefaultFileLogger</a></span>(<span class='no'>logFile</span>)
-<span class='fu'><a href='logInfo.html'>logInfo</a></span>(<span class='st'>"Hello world"</span>)</div><div class='output co'>#&gt; 2018-11-23 14:40:28	Hello world</div><div class='input'>
+<span class='fu'><a href='logInfo.html'>logInfo</a></span>(<span class='st'>"Hello world"</span>)</div><div class='output co'>#&gt; 2018-12-01 09:29:01	Hello world</div><div class='input'>
 <span class='co'># Launch the log file viewer (only if in interactive mode):</span>
 <span class='kw'>if</span> (<span class='fu'>interactive</span>()) {
   <span class='fu'>launchLogViewer</span>(<span class='no'>logFile</span>)

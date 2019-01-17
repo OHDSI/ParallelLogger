@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add the default console logger — addDefaultConsoleLogger • ParallelLogger</title>
+<title>Add the default e-mail logger — addDefaultEmailLogger • ParallelLogger</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Add the default console logger — addDefaultConsoleLogger" />
+<meta property="og:title" content="Add the default e-mail logger — addDefaultEmailLogger" />
 
-<meta property="og:description" content="Add the default console logger" />
+<meta property="og:description" content="Add the default e-mail logger" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,35 +115,110 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add the default console logger</h1>
+    <h1>Add the default e-mail logger</h1>
     <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Loggers.R'><code>R/Loggers.R</code></a></small>
-    <div class="hidden name"><code>addDefaultConsoleLogger.Rd</code></div>
+    <div class="hidden name"><code>addDefaultEmailLogger.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Add the default console logger</p>
+    <p>Add the default e-mail logger</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>addDefaultConsoleLogger</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>addDefaultEmailLogger</span>(<span class='no'>mailSettings</span>, <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Your R session"</span>,
+  <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>mailSettings</th>
+      <td><p>Arguments to be passed to the send.mail function in the mailR package (except
+subject and body).</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>A label to be used in the e-mail subject to identify a run.</p></td>
+    </tr>
+    <tr>
+      <th>test</th>
+      <td><p>If TRUE, a message will be displayed on the console instead of sending an e-mail.</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Creates a logger that writes to the console using the "INFO" threshold and the
-<code><a href='layoutSimple.html'>layoutSimple</a></code> layout.</p>
+    <p>Creates a logger that writes to e-mail using the "FATAL" threshold and the
+<code><a href='layoutEmail.html'>layoutEmail</a></code> layout. This function uses the <code>mailR</code> package. Please
+make sure your e-mail settings are correct by using the mailR package before using those settings here. 
+ParallelLogger will not display any messages if something goes wrong when sending the e-mail.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>logger</span> <span class='kw'>&lt;-</span> <span class='fu'>addDefaultConsoleLogger</span>()
-<span class='fu'><a href='logTrace.html'>logTrace</a></span>(<span class='st'>"This event is below the threshold (INFO)"</span>)
-<span class='fu'><a href='logInfo.html'>logInfo</a></span>(<span class='st'>"Hello world"</span>)</div><div class='output co'>#&gt; Hello world
-#&gt; Hello world</div><div class='input'><span class='fu'><a href='unregisterLogger.html'>unregisterLogger</a></span>(<span class='no'>logger</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+    <pre class="examples"><div class='input'><span class='no'>mailSettings</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"someone@gmail.com"</span>,
+                     <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"someone_else@gmail.com"</span>),
+                     <span class='kw'>smtp</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>host.name</span> <span class='kw'>=</span> <span class='st'>"smtp.gmail.com"</span>,
+                                 <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>465</span>,
+                                 <span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"someone@gmail.com"</span>,
+                                 <span class='kw'>passwd</span> <span class='kw'>=</span> <span class='st'>"super_secret!"</span>,
+                                 <span class='kw'>ssl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+                     <span class='kw'>authenticate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                     <span class='kw'>send</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='co'># Setting test to TRUE in this example so we don't really send an e-mail:</span>
+<span class='fu'>addDefaultEmailLogger</span>(<span class='no'>mailSettings</span>, <span class='st'>"My R session"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='logFatal.html'>logFatal</a></span>(<span class='st'>"Something bad"</span>)</div><div class='output co'>#&gt; You've got mail:
+#&gt; To:
+#&gt; someone_else@gmail.com
+#&gt; 
+#&gt; Subject:
+#&gt; [My R session] FATAL
+#&gt; 
+#&gt; Body:
+#&gt; Message:  Something bad
+#&gt; Time:  2018-12-01 09:28:57
+#&gt; Level:  FATAL
+#&gt; Thread: Main
+#&gt; Stack trace:
+#&gt; eval
+#&gt; eval
+#&gt; withVisible
+#&gt; withCallingHandlers
+#&gt; doTryCatch
+#&gt; tryCatchOne
+#&gt; tryCatchList
+#&gt; tryCatch
+#&gt; try
+#&gt; handle
+#&gt; timing_fn
+#&gt; evaluate_call
+#&gt; ::
+#&gt; evaluate
+#&gt; evaluate
+#&gt; .f
+#&gt; ::
+#&gt; purrr
+#&gt; pmap_chr
+#&gt; as_data.tag_examples
+#&gt; as_data
+#&gt; data_reference_topic
+#&gt; .f
+#&gt; ::
+#&gt; purrr
+#&gt; map
+#&gt; build_reference
+#&gt; build_site_local
+#&gt; ::
+#&gt; pkgdown
+#&gt; build_site</div><div class='input'>
+<span class='fu'><a href='unregisterLogger.html'>unregisterLogger</a></span>(<span class='st'>"DEFAULT"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#details">Details</a></li>
       

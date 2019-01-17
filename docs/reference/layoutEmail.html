@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Add the default console logger — addDefaultConsoleLogger • ParallelLogger</title>
+<title>Logging layout for e-mail — layoutEmail • ParallelLogger</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Add the default console logger — addDefaultConsoleLogger" />
+<meta property="og:title" content="Logging layout for e-mail — layoutEmail" />
 
-<meta property="og:description" content="Add the default console logger" />
+<meta property="og:description" content="A layout function to be used with an e-mail appender. This layout adds the thread ID and strack trace to the message." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,40 +115,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Add the default console logger</h1>
-    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Loggers.R'><code>R/Loggers.R</code></a></small>
-    <div class="hidden name"><code>addDefaultConsoleLogger.Rd</code></div>
+    <h1>Logging layout for e-mail</h1>
+    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Layouts.R'><code>R/Layouts.R</code></a></small>
+    <div class="hidden name"><code>layoutEmail.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Add the default console logger</p>
+    <p>A layout function to be used with an e-mail appender. This layout adds the thread ID and strack trace to the message.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>addDefaultConsoleLogger</span>()</pre>
-        
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Creates a logger that writes to the console using the "INFO" threshold and the
-<code><a href='layoutSimple.html'>layoutSimple</a></code> layout.</p>
+    <pre class="usage"><span class='fu'>layoutEmail</span>(<span class='no'>level</span>, <span class='no'>message</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>level</th>
+      <td><p>The level of the message (e.g. "INFO")</p></td>
+    </tr>
+    <tr>
+      <th>message</th>
+      <td><p>The message to layout.</p></td>
+    </tr>
+    </table>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>logger</span> <span class='kw'>&lt;-</span> <span class='fu'>addDefaultConsoleLogger</span>()
-<span class='fu'><a href='logTrace.html'>logTrace</a></span>(<span class='st'>"This event is below the threshold (INFO)"</span>)
-<span class='fu'><a href='logInfo.html'>logInfo</a></span>(<span class='st'>"Hello world"</span>)</div><div class='output co'>#&gt; Hello world
-#&gt; Hello world</div><div class='input'><span class='fu'><a href='unregisterLogger.html'>unregisterLogger</a></span>(<span class='no'>logger</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#arguments">Arguments</a></li>
+                </ul>
 
   </div>
 </div>

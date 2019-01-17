@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a logger — createLogger • ParallelLogger</title>
+<title>Create e-mail appender — createEmailAppender • ParallelLogger</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Create a logger — createLogger" />
+<meta property="og:title" content="Create e-mail appender — createEmailAppender" />
 
-<meta property="og:description" content="Create a logger" />
+<meta property="og:description" content="Create e-mail appender" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -115,68 +115,122 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a logger</h1>
-    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Loggers.R'><code>R/Loggers.R</code></a></small>
-    <div class="hidden name"><code>createLogger.Rd</code></div>
+    <h1>Create e-mail appender</h1>
+    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Appenders.R'><code>R/Appenders.R</code></a></small>
+    <div class="hidden name"><code>createEmailAppender.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Create a logger</p>
+    <p>Create e-mail appender</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>createLogger</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"SIMPLE"</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='st'>"INFO"</span>,
-  <span class='kw'>appenders</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='fu'><a href='createConsoleAppender.html'>createConsoleAppender</a></span>()))</pre>
+    <pre class="usage"><span class='fu'>createEmailAppender</span>(<span class='kw'>layout</span> <span class='kw'>=</span> <span class='no'>layoutEmail</span>, <span class='no'>mailSettings</span>,
+  <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Your R session"</span>, <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>name</th>
-      <td><p>A name for the logger.</p></td>
+      <th>layout</th>
+      <td><p>The layout to be used by the appender.</p></td>
     </tr>
     <tr>
-      <th>threshold</th>
-      <td><p>The threshold to be used for reporting.</p></td>
+      <th>mailSettings</th>
+      <td><p>Arguments to be passed to the send.mail function in the mailR package (except
+subject and body).</p></td>
     </tr>
     <tr>
-      <th>appenders</th>
-      <td><p>A list of one or more appenders as created for example using the
-<code><a href='createConsoleAppender.html'>createConsoleAppender</a></code> or <code><a href='createFileAppender.html'>createFileAppender</a></code> function.</p></td>
+      <th>label</th>
+      <td><p>A label to be used in the e-mail subject to identify a run.</p></td>
+    </tr>
+    <tr>
+      <th>test</th>
+      <td><p>If TRUE, a message will be displayed on the console instead of sending an e-mail.</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>An object of type <code>Logger</code>, to be used with the <code><a href='registerLogger.html'>registerLogger</a></code> function.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Creates a logger that will log messages to its appenders. The logger will only log messages at a
-level equal to or higher than its threshold. For example, if the threshold is "INFO" then messages
-marked "INFO" will be logged, but messages marked "TRACE" will not. The order of levels is "TRACE",
-"DEBUG", "INFO", "WARN", "ERROR, "and FATAL".</p>
+    <p>Creates an appender that will send log events to an e-mail address using the <code>mailR</code> package. Please
+make sure your settings are correct by using the mailR package before using those settings here. 
+ParallelLogger will not display any messages if something goes wrong when sending the e-mail.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>appender</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='createConsoleAppender.html'>createConsoleAppender</a></span>(<span class='kw'>layout</span> <span class='kw'>=</span> <span class='no'>layoutTimestamp</span>)
+    <pre class="examples"><div class='input'><span class='no'>mailSettings</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"someone@gmail.com"</span>,
+                     <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"someone_else@gmail.com"</span>),
+                     <span class='kw'>smtp</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>host.name</span> <span class='kw'>=</span> <span class='st'>"smtp.gmail.com"</span>,
+                                 <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>465</span>,
+                                 <span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"someone@gmail.com"</span>,
+                                 <span class='kw'>passwd</span> <span class='kw'>=</span> <span class='st'>"super_secret!"</span>,
+                                 <span class='kw'>ssl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+                     <span class='kw'>authenticate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+                     <span class='kw'>send</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='co'># Setting test to TRUE in this example so we don't really send an e-mail:</span>
+<span class='no'>appender</span> <span class='kw'>&lt;-</span> <span class='fu'>createEmailAppender</span>(<span class='kw'>layout</span> <span class='kw'>=</span> <span class='no'>layoutEmail</span>,
+                                <span class='kw'>mailSettings</span> <span class='kw'>=</span> <span class='no'>mailSettings</span>,
+                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"My R session"</span>,
+                                <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='no'>logger</span> <span class='kw'>&lt;-</span> <span class='fu'>createLogger</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"SIMPLE"</span>,
-                       <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='st'>"INFO"</span>,
+<span class='no'>logger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='createLogger.html'>createLogger</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"EMAIL"</span>,
+                       <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='st'>"FATAL"</span>,
                        <span class='kw'>appenders</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='no'>appender</span>))
 <span class='fu'><a href='registerLogger.html'>registerLogger</a></span>(<span class='no'>logger</span>)
-<span class='fu'><a href='logTrace.html'>logTrace</a></span>(<span class='st'>"This event is below the threshold (INFO)"</span>)
-<span class='fu'><a href='logInfo.html'>logInfo</a></span>(<span class='st'>"Hello world"</span>)</div><div class='output co'>#&gt; 2018-12-01 09:29:00	Hello world
-#&gt; 2018-12-01 09:29:00	Hello world</div><div class='input'><span class='fu'><a href='unregisterLogger.html'>unregisterLogger</a></span>(<span class='st'>"SIMPLE"</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+
+<span class='fu'><a href='logFatal.html'>logFatal</a></span>(<span class='st'>"Something bad"</span>)</div><div class='output co'>#&gt; You've got mail:
+#&gt; To:
+#&gt; someone_else@gmail.com
+#&gt; 
+#&gt; Subject:
+#&gt; [My R session] FATAL
+#&gt; 
+#&gt; Body:
+#&gt; Message:  Something bad
+#&gt; Time:  2018-12-01 09:29:00
+#&gt; Level:  FATAL
+#&gt; Thread: Main
+#&gt; Stack trace:
+#&gt; eval
+#&gt; eval
+#&gt; withVisible
+#&gt; withCallingHandlers
+#&gt; doTryCatch
+#&gt; tryCatchOne
+#&gt; tryCatchList
+#&gt; tryCatch
+#&gt; try
+#&gt; handle
+#&gt; timing_fn
+#&gt; evaluate_call
+#&gt; ::
+#&gt; evaluate
+#&gt; evaluate
+#&gt; .f
+#&gt; ::
+#&gt; purrr
+#&gt; pmap_chr
+#&gt; as_data.tag_examples
+#&gt; as_data
+#&gt; data_reference_topic
+#&gt; .f
+#&gt; ::
+#&gt; purrr
+#&gt; map
+#&gt; build_reference
+#&gt; build_site_local
+#&gt; ::
+#&gt; pkgdown
+#&gt; build_site</div><div class='input'>
+<span class='fu'><a href='unregisterLogger.html'>unregisterLogger</a></span>(<span class='st'>"EMAIL"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
