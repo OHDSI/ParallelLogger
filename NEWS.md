@@ -1,3 +1,11 @@
+ParallelLogger 1.1.0
+=====================
+
+Changes:
+
+1. Added e-mail appender and layout.
+
+
 ParallelLogger 1.0.1
 =====================
 

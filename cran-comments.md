@@ -1,4 +1,4 @@
-This update includes two improvements of existing functionality (see NEWS)
+This update includes one new functionality (see NEWS)
 
 ---
 

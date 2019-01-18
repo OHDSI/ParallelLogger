@@ -2,7 +2,7 @@ Package: ParallelLogger
 Type: Package
 Title: Support for Parallel Computation, Logging, and Function Automation
 Version: 1.1.0
-Date: 2018-12-01
+Date: 2019-01-18
 Authors@R: c(
   person("Martijn", "Schuemie", email = "schuemie@ohdsi.org", role = c("aut", "cre")),
   person("Marc", "Suchard", role = c("aut")),
@@ -33,3 +33,4 @@ URL: https://ohdsi.github.io/ParallelLogger, https://github.com/OHDSI/ParallelLo
 BugReports: https://github.com/OHDSI/ParallelLogger/issues
 NeedsCompilation: no
 RoxygenNote: 6.1.1
+Encoding: UTF-8

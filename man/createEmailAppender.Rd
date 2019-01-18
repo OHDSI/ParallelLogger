@@ -5,7 +5,7 @@
 \title{Create e-mail appender}
 \usage{
 createEmailAppender(layout = layoutEmail, mailSettings,
-  label = "Your R session", test = FALSE)
+  label = Sys.info()["nodename"], test = FALSE)
 }
 \arguments{
 \item{layout}{The layout to be used by the appender.}
@@ -13,7 +13,8 @@ createEmailAppender(layout = layoutEmail, mailSettings,
 \item{mailSettings}{Arguments to be passed to the send.mail function in the mailR package (except
 subject and body).}
 
-\item{label}{A label to be used in the e-mail subject to identify a run.}
+\item{label}{A label to be used in the e-mail subject to identify a run. By default the
+name of the computer is used.}
 
 \item{test}{If TRUE, a message will be displayed on the console instead of sending an e-mail.}
 }

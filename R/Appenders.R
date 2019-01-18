@@ -94,7 +94,8 @@ createFileAppender <- function(layout = layoutParallel, fileName) {
 #' @param layout          The layout to be used by the appender.
 #' @param mailSettings    Arguments to be passed to the send.mail function in the mailR package (except
 #'                        subject and body).
-#' @param label           A label to be used in the e-mail subject to identify a run.
+#' @param label           A label to be used in the e-mail subject to identify a run. By default the
+#'                        name of the computer is used.
 #' @param test            If TRUE, a message will be displayed on the console instead of sending an e-mail.
 #'
 #' @examples
@@ -123,7 +124,7 @@ createFileAppender <- function(layout = layoutParallel, fileName) {
 #' unregisterLogger("EMAIL")
 #' 
 #' @export
-createEmailAppender <- function(layout = layoutEmail, mailSettings, label = "Your R session", test = FALSE) {
+createEmailAppender <- function(layout = layoutEmail, mailSettings, label = Sys.info()["nodename"], test = FALSE) {
   ensure_installed("mailR")
   
   appendFunction <- function(this, level, message) {

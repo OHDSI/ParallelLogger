@@ -38,15 +38,16 @@ This vignette describes how you can use the `ParallelLogger` package to perform 
     * `WARN`: Events that indicate something probably requires attention.
     * `ERROR`: Events indicating something went wrong.
     * `FATAL`: Events indicating something went wrong, causing the analysis to terminate.
-* **Appender**: An object that writes to a destination, for example the console or a file. An appender uses a **layout** to format its messages. There currently are two types appenders:
+* **Appender**: An object that writes to a destination, for example the console or a file. An appender uses a **layout** to format its messages. There currently are three types of appenders:
     * **Console appender**: Writes to the console, created using the `createConsoleAppender` function.
     * **File appender**: Writes to a file, created using the `createFileAppender` function.
+    * **E-mail appender**: Sends an e-mail, created using the `createEmailAppender` function.
 * **Layout**: Objects specifying the format in which the log will be created. The following layouts are available:
     * `layoutSimple`: Only outputs the message. 
     * `layoutTimestamp`: Adds the current time and date to the message.
     * `layoutStackTrace`: Adds the time and date, and full stack trace to the message.
     * `layoutParallel`: Includes the thread identifier, name of the package and function raising the event, the current time and date, the message level, and the message itself.
-  
+    * `layoutEmail`:  This layout adds the thread ID and strack trace to the message.
   
 # Creating a console logger
 
@@ -148,6 +149,48 @@ registerLogger(createLogger(name = "DEFAULT",
                                                                   fileName = logFileName))))
 ```
 
+# Creating an e-mail logger
+
+We can also add a logger that sends an e-mail whenever an event is logged above the specified threshold. For example, for a process running on a remote machine it might be useful to receive e-mails of fatal events:
+
+```{r, eval=FALSE}
+mailSettings <- list(from = "someone@gmail.com",
+                      to = c("someone_else@gmail.com"),
+                      smtp = list(host.name = "smtp.gmail.com",
+                                  port = 465,
+                                  user.name = "someone@gmail.com",
+                                  passwd = "super_secret!",
+                                  ssl = TRUE),
+                      authenticate = TRUE,
+                      send = TRUE)
+
+logger <- createLogger(name = "EMAIL",
+                       threshold = "FATAL",
+                       appenders = list(createEmailAppender(layout = layoutEmail,
+                                                            mailSettings = mailSettings)))
+registerLogger(logger)
+
+logFatal("No more data to process")
+```
+
+Note that the `mailSettings` object will be passed on to the `send.mail` function in the `mailR` package, so for more details see `?mailR::send.mail`'
+
+## Shorthand 
+
+A shorthand for creating the e-mail logger detailed here is offered by the `addDefaultEmailLogger` function. The code
+
+```{r, eval=FALSE}
+addDefaultEmailLogger(mailSettings)
+```
+
+is equivalent to
+
+```{r, eval=FALSE}
+ registerLogger(createLogger(name = "DEFAULT",
+                             threshold = "FATAL",
+                             appenders = list(createEmailAppender(layout = layoutEmail,
+                                                                  mailSettings = mailSettings))))
+```
 
 # Warnings and fatal errors
 

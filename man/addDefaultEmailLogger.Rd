@@ -4,14 +4,15 @@
 \alias{addDefaultEmailLogger}
 \title{Add the default e-mail logger}
 \usage{
-addDefaultEmailLogger(mailSettings, label = "Your R session",
+addDefaultEmailLogger(mailSettings, label = Sys.info()["nodename"],
   test = FALSE)
 }
 \arguments{
 \item{mailSettings}{Arguments to be passed to the send.mail function in the mailR package (except
 subject and body).}
 
-\item{label}{A label to be used in the e-mail subject to identify a run.}
+\item{label}{A label to be used in the e-mail subject to identify a run. By default the
+name of the computer is used.}
 
 \item{test}{If TRUE, a message will be displayed on the console instead of sending an e-mail.}
 }
