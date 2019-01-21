@@ -40,6 +40,8 @@ rmarkdown::render("vignettes/Parallel.Rmd",
 pkgdown::build_site(preview = FALSE)
 
 # Release package -----------------------------------------------------
-devtools::build_win()
+devtools::check_win_devel()
+
+devtools::check_rhub()
 
 devtools::release()
