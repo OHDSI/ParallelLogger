@@ -23,9 +23,15 @@ registerDefaultHandlers <- function() {
   options(error = logBaseError)
 
   options(warning.expression = quote(for (i in 1:sys.nframe()) {
-    if (sys.call(-i)[[1]] == ".signalSimpleWarning" && length(sys.call(-i)) > 1) {
-      ParallelLogger::logWarn(sys.call(-i)[[2]])
-      break
+    frame <- sys.call(-i)
+    if (!is.null(frame) && length(frame) > 1) {
+      if (frame[[1]] == ".signalSimpleWarning") {
+        ParallelLogger::logWarn(frame[[2]])
+        break
+      } else if (frame[[1]] == ".Deprecated") {
+        ParallelLogger::logWarn("This function is deprecated. Use '", frame[[2]], "' instead.")
+        break
+      }
     }
   }))
 }

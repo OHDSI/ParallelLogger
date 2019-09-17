@@ -1,3 +1,10 @@
+ParallelLogger 1.1.1
+=====================
+
+Bugfixes:
+
+1. Call to .Deprecated() no longer causes silent crash.
+
 ParallelLogger 1.1.0
 =====================
 
