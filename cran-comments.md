@@ -1,10 +1,10 @@
-This update includes one new functionality (see NEWS)
+This update includes one bugfix (see NEWS)
 
 ---
 
 ## Test environments
-* Ubuntu 14.04.5 LTS (Travis), R 3.5.0
-* Windows 7, R 3.5.1
+* Ubuntu 14.04.5 LTS (Travis), R 3.6.1
+* Windows 7, R 3.6.0
 
 ## R CMD check results
 

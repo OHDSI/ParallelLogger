@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Logging using ParallelLogger • ParallelLogger</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Logging using ParallelLogger">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -67,7 +68,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/OHDSI/ParallelLogger">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -80,13 +81,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Logging using ParallelLogger</h1>
                         <h4 class="author">Martijn J. Schuemie</h4>
             
-            <h4 class="date">2019-01-18</h4>
+            <h4 class="date">2019-10-29</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/OHDSI/ParallelLogger/blob/master/vignettes/Logging.Rmd"><code>vignettes/Logging.Rmd</code></a></small>
       <div class="hidden name"><code>Logging.Rmd</code></div>
@@ -157,180 +159,181 @@
 <h1 class="hasAnchor">
 <a href="#creating-a-console-logger" class="anchor"></a>Creating a console logger</h1>
 <p>The code below demonstrates how one would create a logger that writes all events at level <code>INFO</code> or greater to the console using a layout with time stamp:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">logger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"SIMPLE"</span>,</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">                       <span class="dt">threshold =</span> <span class="st">"INFO"</span>,</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">                       <span class="dt">appenders =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span>(<span class="dt">layout =</span> layoutTimestamp)))</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="../reference/logTrace.html">logTrace</a></span>(<span class="st">"This event is below the threshold (INFO)"</span>)</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>logger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"SIMPLE"</span>,</span>
+<span id="cb1-2"><a href="#cb1-2"></a>                       <span class="dt">threshold =</span> <span class="st">"INFO"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3"></a>                       <span class="dt">appenders =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span>(<span class="dt">layout =</span> layoutTimestamp)))</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="kw"><a href="../reference/logTrace.html">logTrace</a></span>(<span class="st">"This event is below the threshold (INFO)"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</span></code></pre></div>
 <pre><code>#&gt; Hello world
-#&gt; 2019-01-18 07:43:02  Hello world</code></pre>
+#&gt; 2019-10-29 11:19:46  Hello world</code></pre>
 <p>Note that the message is displayed twice. This is because there is a default logger that uses the simple layout and threshold = “INFO”, and writes to console. We can remove this logger before registering our logger to avoid duplication:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/clearLoggers.html">clearLoggers</a></span>()</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">logger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"SIMPLE"</span>,</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">                       <span class="dt">threshold =</span> <span class="st">"INFO"</span>,</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">                       <span class="dt">appenders =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span>(<span class="dt">layout =</span> layoutTimestamp)))</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</a></code></pre></div>
-<pre><code>#&gt; 2019-01-18 07:43:02  Hello world</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/clearLoggers.html">clearLoggers</a></span>()</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>logger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"SIMPLE"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4"></a>                       <span class="dt">threshold =</span> <span class="st">"INFO"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5"></a>                       <span class="dt">appenders =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span>(<span class="dt">layout =</span> layoutTimestamp)))</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</span></code></pre></div>
+<pre><code>#&gt; 2019-10-29 11:19:46  Hello world</code></pre>
 <div id="shorthand" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shorthand" class="anchor"></a>Shorthand</h2>
 <p>A shorthand for creating a simple console logger is offered by the <code>addDefaultConsoleLogger</code> function. The code</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/addDefaultConsoleLogger.html">addDefaultConsoleLogger</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/addDefaultConsoleLogger.html">addDefaultConsoleLogger</a></span>()</span></code></pre></div>
 <p>is equivalent to</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(<span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"SIMPLE"</span>,</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">                            <span class="dt">threshold =</span> <span class="st">"INFO"</span>, </a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">                            <span class="dt">appenders =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span>(<span class="dt">layout =</span> layoutSimple))))</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(<span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"SIMPLE"</span>,</span>
+<span id="cb6-2"><a href="#cb6-2"></a>                            <span class="dt">threshold =</span> <span class="st">"INFO"</span>, </span>
+<span id="cb6-3"><a href="#cb6-3"></a>                            <span class="dt">appenders =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span>(<span class="dt">layout =</span> layoutSimple))))</span></code></pre></div>
 </div>
 </div>
 <div id="creating-a-file-logger" class="section level1">
 <h1 class="hasAnchor">
 <a href="#creating-a-file-logger" class="anchor"></a>Creating a file logger</h1>
 <p>Probably more useful is a file logger. In the code below, we instantiate a logger that writes to file, using a threshold of <code>TRACE</code> (so including all events), and using the layout for parallel processing.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">logFileName &lt;-<span class="st"> "log.txt"</span></a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">logger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"PARALLEL"</span>,</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">                       <span class="dt">threshold =</span> <span class="st">"TRACE"</span>,</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">                       <span class="dt">appenders =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="../reference/createFileAppender.html">createFileAppender</a></span>(<span class="dt">layout =</span> layoutParallel,</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">                                                           <span class="dt">fileName =</span> logFileName)))</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="kw"><a href="../reference/logTrace.html">logTrace</a></span>(<span class="st">"Executed this line"</span>)</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9"><span class="kw"><a href="../reference/logDebug.html">logDebug</a></span>(<span class="st">"There are "</span>,  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(<span class="kw"><a href="../reference/getLoggers.html">getLoggers</a></span>()), <span class="st">" loggers"</span>)</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</a></code></pre></div>
-<pre><code>#&gt; 2019-01-18 07:43:02  Hello world</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>logFileName &lt;-<span class="st"> "log.txt"</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>logger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"PARALLEL"</span>,</span>
+<span id="cb8-2"><a href="#cb8-2"></a>                       <span class="dt">threshold =</span> <span class="st">"TRACE"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3"></a>                       <span class="dt">appenders =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="../reference/createFileAppender.html">createFileAppender</a></span>(<span class="dt">layout =</span> layoutParallel,</span>
+<span id="cb8-4"><a href="#cb8-4"></a>                                                           <span class="dt">fileName =</span> logFileName)))</span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</span>
+<span id="cb8-6"><a href="#cb8-6"></a></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="kw"><a href="../reference/logTrace.html">logTrace</a></span>(<span class="st">"Executed this line"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="kw"><a href="../reference/logDebug.html">logDebug</a></span>(<span class="st">"There are "</span>,  <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="../reference/getLoggers.html">getLoggers</a></span>()), <span class="st">" loggers"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10"></a></span>
+<span id="cb8-11"><a href="#cb8-11"></a><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</span></code></pre></div>
+<pre><code>#&gt; 2019-10-29 11:19:47  Hello world</code></pre>
 <p>We can read the log file:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/writeLines">writeLines</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readChar">readChar</a></span>(logFileName, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.info">file.info</a></span>(logFileName)<span class="op">$</span>size))</a></code></pre></div>
-<pre><code>#&gt; 2019-01-18 07:43:02  [Main thread]   TRACE   evaluate    timing_fn   Executed this line
-#&gt; 2019-01-18 07:43:02  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers
-#&gt; 2019-01-18 07:43:02  [Main thread]   INFO    evaluate    timing_fn   Hello world</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(logFileName, <span class="kw"><a href="https://rdrr.io/r/base/file.info.html">file.info</a></span>(logFileName)<span class="op">$</span>size))</span></code></pre></div>
+<pre><code>#&gt; 2019-10-29 11:19:47  [Main thread]   TRACE   evaluate    timing_fn   Executed this line
+#&gt; 2019-10-29 11:19:47  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers
+#&gt; 2019-10-29 11:19:47  [Main thread]   INFO    evaluate    timing_fn   Hello world</code></pre>
 <p>And clean it up when we’re done:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlink">unlink</a></span>(logFileName)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(logFileName)</span></code></pre></div>
 <div id="shorthand-1" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shorthand-1" class="anchor"></a>Shorthand</h2>
 <p>A shorthand for creating the file logger detailed here is offered by the <code>addDefaultFileLogger</code> function. The code</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span>(logFileName)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span>(logFileName)</span></code></pre></div>
 <p>is equivalent to</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(<span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"DEFAULT"</span>,</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">                            <span class="dt">threshold =</span> <span class="st">"TRACE"</span>, </a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">                            <span class="dt">appenders =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="../reference/createFileAppender.html">createFileAppender</a></span>(<span class="dt">layout =</span> layoutParallel, </a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">                                                                  <span class="dt">fileName =</span> logFileName))))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(<span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"DEFAULT"</span>,</span>
+<span id="cb14-2"><a href="#cb14-2"></a>                            <span class="dt">threshold =</span> <span class="st">"TRACE"</span>, </span>
+<span id="cb14-3"><a href="#cb14-3"></a>                            <span class="dt">appenders =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="../reference/createFileAppender.html">createFileAppender</a></span>(<span class="dt">layout =</span> layoutParallel, </span>
+<span id="cb14-4"><a href="#cb14-4"></a>                                                                  <span class="dt">fileName =</span> logFileName))))</span></code></pre></div>
 </div>
 </div>
 <div id="creating-an-e-mail-logger" class="section level1">
 <h1 class="hasAnchor">
 <a href="#creating-an-e-mail-logger" class="anchor"></a>Creating an e-mail logger</h1>
 <p>We can also add a logger that sends an e-mail whenever an event is logged above the specified threshold. For example, for a process running on a remote machine it might be useful to receive e-mails of fatal events:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">mailSettings &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">from =</span> <span class="st">"someone@gmail.com"</span>,</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">                      <span class="dt">to =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"someone_else@gmail.com"</span>),</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">                      <span class="dt">smtp =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">host.name =</span> <span class="st">"smtp.gmail.com"</span>,</a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">                                  <span class="dt">port =</span> <span class="dv">465</span>,</a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">                                  <span class="dt">user.name =</span> <span class="st">"someone@gmail.com"</span>,</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6">                                  <span class="dt">passwd =</span> <span class="st">"super_secret!"</span>,</a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">                                  <span class="dt">ssl =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb15-8" data-line-number="8">                      <span class="dt">authenticate =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb15-9" data-line-number="9">                      <span class="dt">send =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb15-11" data-line-number="11">logger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"EMAIL"</span>,</a>
-<a class="sourceLine" id="cb15-12" data-line-number="12">                       <span class="dt">threshold =</span> <span class="st">"FATAL"</span>,</a>
-<a class="sourceLine" id="cb15-13" data-line-number="13">                       <span class="dt">appenders =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="../reference/createEmailAppender.html">createEmailAppender</a></span>(<span class="dt">layout =</span> layoutEmail,</a>
-<a class="sourceLine" id="cb15-14" data-line-number="14">                                                            <span class="dt">mailSettings =</span> mailSettings)))</a>
-<a class="sourceLine" id="cb15-15" data-line-number="15"><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</a>
-<a class="sourceLine" id="cb15-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb15-17" data-line-number="17"><span class="kw"><a href="../reference/logFatal.html">logFatal</a></span>(<span class="st">"No more data to process"</span>)</a></code></pre></div>
-<p>Note that the <code>mailSettings</code> object will be passed on to the <code>send.mail</code> function in the <code>mailR</code> package, so for more details see <code><a href="https://www.rdocumentation.org/packages/mailR/topics/send.mail">?mailR::send.mail</a></code>’</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>mailSettings &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">from =</span> <span class="st">"someone@gmail.com"</span>,</span>
+<span id="cb15-2"><a href="#cb15-2"></a>                      <span class="dt">to =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"someone_else@gmail.com"</span>),</span>
+<span id="cb15-3"><a href="#cb15-3"></a>                      <span class="dt">smtp =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">host.name =</span> <span class="st">"smtp.gmail.com"</span>,</span>
+<span id="cb15-4"><a href="#cb15-4"></a>                                  <span class="dt">port =</span> <span class="dv">465</span>,</span>
+<span id="cb15-5"><a href="#cb15-5"></a>                                  <span class="dt">user.name =</span> <span class="st">"someone@gmail.com"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6"></a>                                  <span class="dt">passwd =</span> <span class="st">"super_secret!"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7"></a>                                  <span class="dt">ssl =</span> <span class="ot">TRUE</span>),</span>
+<span id="cb15-8"><a href="#cb15-8"></a>                      <span class="dt">authenticate =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb15-9"><a href="#cb15-9"></a>                      <span class="dt">send =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb15-10"><a href="#cb15-10"></a></span>
+<span id="cb15-11"><a href="#cb15-11"></a>logger &lt;-<span class="st"> </span><span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"EMAIL"</span>,</span>
+<span id="cb15-12"><a href="#cb15-12"></a>                       <span class="dt">threshold =</span> <span class="st">"FATAL"</span>,</span>
+<span id="cb15-13"><a href="#cb15-13"></a>                       <span class="dt">appenders =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="../reference/createEmailAppender.html">createEmailAppender</a></span>(<span class="dt">layout =</span> layoutEmail,</span>
+<span id="cb15-14"><a href="#cb15-14"></a>                                                            <span class="dt">mailSettings =</span> mailSettings)))</span>
+<span id="cb15-15"><a href="#cb15-15"></a><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</span>
+<span id="cb15-16"><a href="#cb15-16"></a></span>
+<span id="cb15-17"><a href="#cb15-17"></a><span class="kw"><a href="../reference/logFatal.html">logFatal</a></span>(<span class="st">"No more data to process"</span>)</span></code></pre></div>
+<p>Note that the <code>mailSettings</code> object will be passed on to the <code>send.mail</code> function in the <code>mailR</code> package, so for more details see <code><a href="https://rdrr.io/pkg/mailR/man/send.mail.html">?mailR::send.mail</a></code>’</p>
 <div id="shorthand-2" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shorthand-2" class="anchor"></a>Shorthand</h2>
 <p>A shorthand for creating the e-mail logger detailed here is offered by the <code>addDefaultEmailLogger</code> function. The code</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/addDefaultEmailLogger.html">addDefaultEmailLogger</a></span>(mailSettings)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw"><a href="../reference/addDefaultEmailLogger.html">addDefaultEmailLogger</a></span>(mailSettings)</span></code></pre></div>
 <p>is equivalent to</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"> <span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(<span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"DEFAULT"</span>,</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">                             <span class="dt">threshold =</span> <span class="st">"FATAL"</span>,</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">                             <span class="dt">appenders =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="kw"><a href="../reference/createEmailAppender.html">createEmailAppender</a></span>(<span class="dt">layout =</span> layoutEmail,</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">                                                                  <span class="dt">mailSettings =</span> mailSettings))))</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a> <span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(<span class="kw"><a href="../reference/createLogger.html">createLogger</a></span>(<span class="dt">name =</span> <span class="st">"DEFAULT"</span>,</span>
+<span id="cb17-2"><a href="#cb17-2"></a>                             <span class="dt">threshold =</span> <span class="st">"FATAL"</span>,</span>
+<span id="cb17-3"><a href="#cb17-3"></a>                             <span class="dt">appenders =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw"><a href="../reference/createEmailAppender.html">createEmailAppender</a></span>(<span class="dt">layout =</span> layoutEmail,</span>
+<span id="cb17-4"><a href="#cb17-4"></a>                                                                  <span class="dt">mailSettings =</span> mailSettings))))</span></code></pre></div>
 </div>
 </div>
 <div id="warnings-and-fatal-errors" class="section level1">
 <h1 class="hasAnchor">
 <a href="#warnings-and-fatal-errors" class="anchor"></a>Warnings and fatal errors</h1>
 <p>All R warnings and errors are automatically logged, and therefore do not require explicit logging. For example:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="../reference/clearLoggers.html">clearLoggers</a></span>()</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span>(logFileName)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/warning">warning</a></span>(<span class="st">"Danger!"</span>)</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="co"># This throws a warning:</span></a>
-<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/numeric">as.numeric</a></span>(<span class="st">'a'</span>)</a>
-<a class="sourceLine" id="cb18-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="co"># This throws an error:</span></a>
-<a class="sourceLine" id="cb18-10" data-line-number="10">a &lt;-<span class="st"> </span>b</a>
-<a class="sourceLine" id="cb18-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb18-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/writeLines">writeLines</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readChar">readChar</a></span>(logFileName, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.info">file.info</a></span>(logFileName)<span class="op">$</span>size))</a></code></pre></div>
-<pre><code>#&gt; 2019-01-18 07:43:02  [Main thread]   WARN    evaluate    timing_fn   Danger!
-#&gt; 2019-01-18 07:43:02  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion
-#&gt; 2019-01-18 07:43:02  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw"><a href="../reference/clearLoggers.html">clearLoggers</a></span>()</span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="kw"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span>(logFileName)</span>
+<span id="cb18-3"><a href="#cb18-3"></a></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="kw"><a href="https://rdrr.io/r/base/warning.html">warning</a></span>(<span class="st">"Danger!"</span>)</span>
+<span id="cb18-5"><a href="#cb18-5"></a></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="co"># This throws a warning:</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="kw"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="st">'a'</span>)</span>
+<span id="cb18-8"><a href="#cb18-8"></a></span>
+<span id="cb18-9"><a href="#cb18-9"></a><span class="co"># This throws an error:</span></span>
+<span id="cb18-10"><a href="#cb18-10"></a>a &lt;-<span class="st"> </span>b</span>
+<span id="cb18-11"><a href="#cb18-11"></a></span>
+<span id="cb18-12"><a href="#cb18-12"></a><span class="kw"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(logFileName, <span class="kw"><a href="https://rdrr.io/r/base/file.info.html">file.info</a></span>(logFileName)<span class="op">$</span>size))</span></code></pre></div>
+<pre><code>#&gt; 2019-10-29 11:19:47  [Main thread]   WARN    evaluate    timing_fn   Danger!
+#&gt; 2019-10-29 11:19:47  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion
+#&gt; 2019-10-29 11:19:47  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</code></pre>
 </div>
 <div id="logging-when-parallel-processing" class="section level1">
 <h1 class="hasAnchor">
 <a href="#logging-when-parallel-processing" class="anchor"></a>Logging when parallel processing</h1>
 <p>The logging functions are designed to work with the parallel processing functions included in this package. The <code>layoutParallel</code> records thread identifiers, making it possible to later untangle the various threads. Below is a simple example:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlink">unlink</a></span>(logFileName) <span class="co"># Clean up log file from the previous example</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw"><a href="../reference/clearLoggers.html">clearLoggers</a></span>() <span class="co"># Clean up the loggers from the previous example</span></a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4"><span class="kw"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span>(logFileName)</a>
-<a class="sourceLine" id="cb20-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb20-6" data-line-number="6">cluster &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeCluster.html">makeCluster</a></span>(<span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb20-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8">fun &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb20-9" data-line-number="9">  ParallelLogger<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/ParallelLogger/topics/logInfo">logInfo</a></span>(<span class="st">"The value of x is "</span>, x)</a>
-<a class="sourceLine" id="cb20-10" data-line-number="10">  <span class="co"># Do something</span></a>
-<a class="sourceLine" id="cb20-11" data-line-number="11">  <span class="cf">if</span> (x <span class="op">==</span><span class="st"> </span><span class="dv">6</span>)</a>
-<a class="sourceLine" id="cb20-12" data-line-number="12">    ParallelLogger<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/ParallelLogger/topics/logDebug">logDebug</a></span>(<span class="st">"X equals 6"</span>)</a>
-<a class="sourceLine" id="cb20-13" data-line-number="13">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/function">return</a></span>(<span class="ot">NULL</span>)</a>
-<a class="sourceLine" id="cb20-14" data-line-number="14">}</a>
-<a class="sourceLine" id="cb20-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb20-16" data-line-number="16">dummy &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clusterApply.html">clusterApply</a></span>(cluster, <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, fun, <span class="dt">progressBar =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb20-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb20-18" data-line-number="18"><span class="kw"><a href="../reference/stopCluster.html">stopCluster</a></span>(cluster)</a>
-<a class="sourceLine" id="cb20-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb20-20" data-line-number="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/writeLines">writeLines</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/readChar">readChar</a></span>(logFileName, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.info">file.info</a></span>(logFileName)<span class="op">$</span>size))</a></code></pre></div>
-<pre><code>#&gt; 2019-01-18 07:43:02  [Main thread]   TRACE   evaluate    timing_fn   Initiating cluster with 3 threads
-#&gt; 2019-01-18 07:43:04  [Thread 1]  TRACE           Thread 1 initiated
-#&gt; 2019-01-18 07:43:04  [Thread 2]  TRACE           Thread 2 initiated
-#&gt; 2019-01-18 07:43:05  [Thread 3]  TRACE           Thread 3 initiated
-#&gt; 2019-01-18 07:43:05  [Thread 3]  INFO            The value of x is 3
-#&gt; 2019-01-18 07:43:05  [Thread 1]  INFO            The value of x is 1
-#&gt; 2019-01-18 07:43:05  [Thread 2]  INFO            The value of x is 2
-#&gt; 2019-01-18 07:43:05  [Thread 3]  INFO            The value of x is 4
-#&gt; 2019-01-18 07:43:05  [Thread 1]  INFO            The value of x is 5
-#&gt; 2019-01-18 07:43:05  [Thread 2]  INFO            The value of x is 6
-#&gt; 2019-01-18 07:43:05  [Thread 3]  INFO            The value of x is 7
-#&gt; 2019-01-18 07:43:05  [Thread 1]  INFO            The value of x is 8
-#&gt; 2019-01-18 07:43:05  [Thread 2]  DEBUG           X equals 6
-#&gt; 2019-01-18 07:43:05  [Thread 3]  INFO            The value of x is 9
-#&gt; 2019-01-18 07:43:05  [Thread 1]  INFO            The value of x is 10
-#&gt; 2019-01-18 07:43:05  [Main thread]   TRACE   evaluate    timing_fn   Stopping cluster
-#&gt; 2019-01-18 07:43:05  [Thread 1]  TRACE           Thread 1 terminated
-#&gt; 2019-01-18 07:43:05  [Thread 3]  TRACE           Thread 3 terminated</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(logFileName) <span class="co"># Clean up log file from the previous example</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="kw"><a href="../reference/clearLoggers.html">clearLoggers</a></span>() <span class="co"># Clean up the loggers from the previous example</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="kw"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span>(logFileName)</span>
+<span id="cb20-5"><a href="#cb20-5"></a></span>
+<span id="cb20-6"><a href="#cb20-6"></a>cluster &lt;-<span class="st"> </span><span class="kw"><a href="../reference/makeCluster.html">makeCluster</a></span>(<span class="dv">3</span>)</span>
+<span id="cb20-7"><a href="#cb20-7"></a></span>
+<span id="cb20-8"><a href="#cb20-8"></a>fun &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb20-9"><a href="#cb20-9"></a>  ParallelLogger<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/ParallelLogger/man/logInfo.html">logInfo</a></span>(<span class="st">"The value of x is "</span>, x)</span>
+<span id="cb20-10"><a href="#cb20-10"></a>  <span class="co"># Do something</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a>  <span class="cf">if</span> (x <span class="op">==</span><span class="st"> </span><span class="dv">6</span>)</span>
+<span id="cb20-12"><a href="#cb20-12"></a>    ParallelLogger<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/ParallelLogger/man/logDebug.html">logDebug</a></span>(<span class="st">"X equals 6"</span>)</span>
+<span id="cb20-13"><a href="#cb20-13"></a>  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="ot">NULL</span>)</span>
+<span id="cb20-14"><a href="#cb20-14"></a>}</span>
+<span id="cb20-15"><a href="#cb20-15"></a></span>
+<span id="cb20-16"><a href="#cb20-16"></a>dummy &lt;-<span class="st"> </span><span class="kw"><a href="../reference/clusterApply.html">clusterApply</a></span>(cluster, <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>, fun, <span class="dt">progressBar =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb20-17"><a href="#cb20-17"></a></span>
+<span id="cb20-18"><a href="#cb20-18"></a><span class="kw"><a href="../reference/stopCluster.html">stopCluster</a></span>(cluster)</span>
+<span id="cb20-19"><a href="#cb20-19"></a></span>
+<span id="cb20-20"><a href="#cb20-20"></a><span class="kw"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(logFileName, <span class="kw"><a href="https://rdrr.io/r/base/file.info.html">file.info</a></span>(logFileName)<span class="op">$</span>size))</span></code></pre></div>
+<pre><code>#&gt; 2019-10-29 11:19:47  [Main thread]   TRACE   evaluate    timing_fn   Initiating cluster with 3 threads
+#&gt; 2019-10-29 11:19:48  [Thread 1]  TRACE           Thread 1 initiated
+#&gt; 2019-10-29 11:19:48  [Thread 2]  TRACE           Thread 2 initiated
+#&gt; 2019-10-29 11:19:48  [Thread 3]  TRACE           Thread 3 initiated
+#&gt; 2019-10-29 11:19:48  [Thread 1]  INFO            The value of x is 1
+#&gt; 2019-10-29 11:19:48  [Thread 2]  INFO            The value of x is 2
+#&gt; 2019-10-29 11:19:48  [Thread 3]  INFO            The value of x is 3
+#&gt; 2019-10-29 11:19:48  [Thread 2]  INFO            The value of x is 4
+#&gt; 2019-10-29 11:19:48  [Thread 1]  INFO            The value of x is 5
+#&gt; 2019-10-29 11:19:48  [Thread 3]  INFO            The value of x is 6
+#&gt; 2019-10-29 11:19:48  [Thread 2]  INFO            The value of x is 7
+#&gt; 2019-10-29 11:19:48  [Thread 3]  DEBUG           X equals 6
+#&gt; x is 8
+#&gt; 2019-10-29 11:19:48  [Thread 2]  INFO            The value of x is 9
+#&gt; 2019-10-29 11:19:48  [Thread 1]  INFO            The value of x is 10
+#&gt; 2019-10-29 11:19:48  [Main thread]   TRACE   evaluate    timing_fn   Stopping cluster
+#&gt; 2019-10-29 11:19:48  [Thread 2]  TRACE           Thread 2 terminated
+#&gt; 2019-10-29 11:19:48  [Thread 3]  TRACE           Thread 3 terminated
+#&gt; 2019-10-29 11:19:48  [Thread 1]  TRACE           Thread 1 terminated</code></pre>
 </div>
 <div id="shiny-log-viewer" class="section level1">
 <h1 class="hasAnchor">
 <a href="#shiny-log-viewer" class="anchor"></a>Shiny log viewer</h1>
 <p>A Shiny app for viewing a log file created using the <code>layoutParallel</code> is included in the package. To explore the log created in the prior example, run</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw"><a href="../reference/launchLogViewer.html">launchLogViewer</a></span>(logFileName)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw"><a href="../reference/launchLogViewer.html">launchLogViewer</a></span>(logFileName)</span></code></pre></div>
 <p>to launch the viewer shown in Figure 1.</p>
 <div class="figure">
-<img src="shinyApp.png" alt="Shiny log viewer app"><p class="caption">Shiny log viewer app</p>
+<img src="shinyApp.png" alt=""><p class="caption">Shiny log viewer app</p>
 </div>
 </div>
   </div>
@@ -370,17 +373,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by Martijn Schuemie, Marc Suchard.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>
