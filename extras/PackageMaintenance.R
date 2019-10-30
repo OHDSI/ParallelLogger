@@ -20,6 +20,7 @@
 OhdsiRTools::formatRFolder("R")
 OhdsiRTools::checkUsagePackage("ParallelLogger")
 OhdsiRTools::updateCopyrightYearFolder()
+devtools::spell_check()
 
 # Create manual and vignette ------------------------------------------
 shell("rm extras/ParallelLogger.pdf")

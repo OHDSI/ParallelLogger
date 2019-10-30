@@ -12,5 +12,5 @@ layoutStackTrace(level, message)
 \item{message}{The message to layout.}
 }
 \description{
-A layout function to be used with an appender. This layout adds the strack trace to the message.
+A layout function to be used with an appender. This layout adds the stack trace to the message.
 }

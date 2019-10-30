@@ -12,5 +12,5 @@ layoutEmail(level, message)
 \item{message}{The message to layout.}
 }
 \description{
-A layout function to be used with an e-mail appender. This layout adds the thread ID and strack trace to the message.
+A layout function to be used with an e-mail appender. This layout adds the thread ID and stack trace to the message.
 }

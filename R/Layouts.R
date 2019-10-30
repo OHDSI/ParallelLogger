@@ -101,7 +101,7 @@ layoutParallel <- function(level, message) {
 #' Logging layout with stacktrace
 #'
 #' @description
-#' A layout function to be used with an appender. This layout adds the strack trace to the message.
+#' A layout function to be used with an appender. This layout adds the stack trace to the message.
 #'
 #' @param level     The level of the message (e.g. "INFO")
 #' @param message   The message to layout.
@@ -126,7 +126,7 @@ layoutStackTrace <- function(level, message) {
 #' Logging layout for e-mail
 #'
 #' @description
-#' A layout function to be used with an e-mail appender. This layout adds the thread ID and strack trace to the message.
+#' A layout function to be used with an e-mail appender. This layout adds the thread ID and stack trace to the message.
 #'
 #' @param level     The level of the message (e.g. "INFO")
 #' @param message   The message to layout.
