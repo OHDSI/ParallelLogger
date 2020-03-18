@@ -4,8 +4,11 @@
 \alias{addDefaultEmailLogger}
 \title{Add the default e-mail logger}
 \usage{
-addDefaultEmailLogger(mailSettings, label = Sys.info()["nodename"],
-  test = FALSE)
+addDefaultEmailLogger(
+  mailSettings,
+  label = Sys.info()["nodename"],
+  test = FALSE
+)
 }
 \arguments{
 \item{mailSettings}{Arguments to be passed to the send.mail function in the mailR package (except

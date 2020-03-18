@@ -3,7 +3,6 @@
 \docType{package}
 \name{ParallelLogger}
 \alias{ParallelLogger}
-\alias{ParallelLogger-package}
 \title{ParallelLogger}
 \description{
 ParallelLogger

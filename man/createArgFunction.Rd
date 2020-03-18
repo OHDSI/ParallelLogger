@@ -4,8 +4,14 @@
 \alias{createArgFunction}
 \title{Create an argument function}
 \usage{
-createArgFunction(functionName, excludeArgs = c(), includeArgs = NULL,
-  addArgs = list(), rCode = c(), newName)
+createArgFunction(
+  functionName,
+  excludeArgs = c(),
+  includeArgs = NULL,
+  addArgs = list(),
+  rCode = c(),
+  newName
+)
 }
 \arguments{
 \item{functionName}{The name of the function for which we want to create an args function.}

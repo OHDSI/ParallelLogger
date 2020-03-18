@@ -1,3 +1,10 @@
+ParallelLogger 1.1.2
+=====================
+
+Bugfixes:
+
+1. Fixing error when ggplot2 (v3.3.0) throws a warning.
+
 ParallelLogger 1.1.1
 =====================
 

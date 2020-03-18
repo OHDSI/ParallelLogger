@@ -1,6 +1,6 @@
 # @file PackageMaintentance.R
 #
-# Copyright 2019 Observational Health Data Sciences and Informatics
+# Copyright 2020 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 #
@@ -23,20 +23,23 @@ OhdsiRTools::updateCopyrightYearFolder()
 devtools::spell_check()
 
 # Create manual and vignette ------------------------------------------
-shell("rm extras/ParallelLogger.pdf")
+unlink("extras/ParallelLogger.pdf")
 shell("R CMD Rd2pdf ./ --output=extras/ParallelLogger.pdf")
+
 
 rmarkdown::render("vignettes/Logging.Rmd",
                   output_file = "../inst/doc/Logging.pdf",
                   rmarkdown::pdf_document(latex_engine = "pdflatex",
                                           toc = TRUE,
                                           number_sections = TRUE))
+unlink("inst/doc/Logging.tex")
 
 rmarkdown::render("vignettes/Parallel.Rmd",
                   output_file = "../inst/doc/Parallel.pdf",
                   rmarkdown::pdf_document(latex_engine = "pdflatex",
                                           toc = TRUE,
                                           number_sections = TRUE))
+unlink("inst/doc/Parallel.tex")
 
 pkgdown::build_site(preview = FALSE)
 

@@ -4,8 +4,11 @@
 \alias{createLogger}
 \title{Create a logger}
 \usage{
-createLogger(name = "SIMPLE", threshold = "INFO",
-  appenders = list(createConsoleAppender()))
+createLogger(
+  name = "SIMPLE",
+  threshold = "INFO",
+  appenders = list(createConsoleAppender())
+)
 }
 \arguments{
 \item{name}{A name for the logger.}

@@ -4,8 +4,12 @@
 \alias{makeCluster}
 \title{Create a cluster of nodes for parallel computation}
 \usage{
-makeCluster(numberOfThreads, singleThreadToMain = TRUE,
-  divideFfMemory = TRUE, setFfTempDir = TRUE)
+makeCluster(
+  numberOfThreads,
+  singleThreadToMain = TRUE,
+  divideFfMemory = TRUE,
+  setFfTempDir = TRUE
+)
 }
 \arguments{
 \item{numberOfThreads}{Number of parallel threads.}

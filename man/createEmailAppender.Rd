@@ -4,8 +4,12 @@
 \alias{createEmailAppender}
 \title{Create e-mail appender}
 \usage{
-createEmailAppender(layout = layoutEmail, mailSettings,
-  label = Sys.info()["nodename"], test = FALSE)
+createEmailAppender(
+  layout = layoutEmail,
+  mailSettings,
+  label = Sys.info()["nodename"],
+  test = FALSE
+)
 }
 \arguments{
 \item{layout}{The layout to be used by the appender.}
