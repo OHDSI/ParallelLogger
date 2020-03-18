@@ -21,19 +21,23 @@ registerDefaultHandlers <- function() {
     logFatal(gsub("\n", " ", geterrmessage()))
   }
   options(error = logBaseError)
-
-  options(warning.expression = quote(for (i in 1:sys.nframe()) {
-    frame <- sys.call(-i)
-    if (!is.null(frame) && length(frame) > 1) {
-      if (frame[[1]] == ".signalSimpleWarning") {
-        ParallelLogger::logWarn(frame[[2]])
-        break
-      } else if (frame[[1]] == ".Deprecated") {
-        ParallelLogger::logWarn("This function is deprecated. Use '", frame[[2]], "' instead.")
-        break
+  
+  options(warning.expression = quote(
+    for (i in 1:sys.nframe()) {
+      frame <- sys.call(-i)
+      if (!is.null(frame) && length(frame) > 1) {
+        if (is.language(frame[[1]]) && as.character(frame[[1]]) == "warning") {
+          ParallelLogger::logWarn(eval(frame[[2]], envir = sys.frame(-i - 1)))
+          break
+        } else if (as.character(frame[[1]]) == ".signalSimpleWarning") {
+          ParallelLogger::logWarn(frame[[2]])
+          break
+        } else if (as.character(frame[[1]]) == ".Deprecated") {
+          ParallelLogger::logWarn("This function is deprecated. Use '", frame[[2]], "' instead.")
+          break
+        } 
       }
-    }
-  }))
+    }))
 }
 
 getDefaultLoggerSettings <- function() {
