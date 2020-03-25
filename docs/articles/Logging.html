@@ -169,7 +169,7 @@
 <span id="cb1-8"><a href="#cb1-8"></a></span>
 <span id="cb1-9"><a href="#cb1-9"></a><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</span></code></pre></div>
 <pre><code>#&gt; Hello world
-#&gt; 2020-03-25 09:55:54  Hello world</code></pre>
+#&gt; 2020-03-25 10:28:46  Hello world</code></pre>
 <p>Note that the message is displayed twice. This is because there is a default logger that uses the simple layout and threshold = “INFO”, and writes to console. We can remove this logger before registering our logger to avoid duplication:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/clearLoggers.html">clearLoggers</a></span>()</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
@@ -180,7 +180,7 @@
 <span id="cb3-7"><a href="#cb3-7"></a><span class="kw"><a href="../reference/registerLogger.html">registerLogger</a></span>(logger)</span>
 <span id="cb3-8"><a href="#cb3-8"></a></span>
 <span id="cb3-9"><a href="#cb3-9"></a><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</span></code></pre></div>
-<pre><code>#&gt; 2020-03-25 09:55:54  Hello world</code></pre>
+<pre><code>#&gt; 2020-03-25 10:28:46  Hello world</code></pre>
 <div id="shorthand" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shorthand" class="anchor"></a>Shorthand</h2>
@@ -208,12 +208,12 @@
 <span id="cb8-9"><a href="#cb8-9"></a><span class="kw"><a href="../reference/logDebug.html">logDebug</a></span>(<span class="st">"There are "</span>,  <span class="kw"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="kw"><a href="../reference/getLoggers.html">getLoggers</a></span>()), <span class="st">" loggers"</span>)</span>
 <span id="cb8-10"><a href="#cb8-10"></a></span>
 <span id="cb8-11"><a href="#cb8-11"></a><span class="kw"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</span></code></pre></div>
-<pre><code>#&gt; 2020-03-25 09:55:55  Hello world</code></pre>
+<pre><code>#&gt; 2020-03-25 10:28:46  Hello world</code></pre>
 <p>We can read the log file:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(logFileName, <span class="kw"><a href="https://rdrr.io/r/base/file.info.html">file.info</a></span>(logFileName)<span class="op">$</span>size))</span></code></pre></div>
-<pre><code>#&gt; 2020-03-25 09:55:55  [Main thread]   TRACE   evaluate    timing_fn   Executed this line
-#&gt; 2020-03-25 09:55:55  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers
-#&gt; 2020-03-25 09:55:55  [Main thread]   INFO    evaluate    timing_fn   Hello world</code></pre>
+<pre><code>#&gt; 2020-03-25 10:28:46  [Main thread]   TRACE   evaluate    timing_fn   Executed this line
+#&gt; 2020-03-25 10:28:46  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers
+#&gt; 2020-03-25 10:28:46  [Main thread]   INFO    evaluate    timing_fn   Hello world</code></pre>
 <p>And clean it up when we’re done:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(logFileName)</span></code></pre></div>
 <div id="shorthand-1" class="section level2">
@@ -278,9 +278,9 @@
 <span id="cb18-10"><a href="#cb18-10"></a>a &lt;-<span class="st"> </span>b</span>
 <span id="cb18-11"><a href="#cb18-11"></a></span>
 <span id="cb18-12"><a href="#cb18-12"></a><span class="kw"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(logFileName, <span class="kw"><a href="https://rdrr.io/r/base/file.info.html">file.info</a></span>(logFileName)<span class="op">$</span>size))</span></code></pre></div>
-<pre><code>#&gt; 2020-03-25 09:55:55  [Main thread]   WARN    evaluate    timing_fn   Danger!
-#&gt; 2020-03-25 09:55:55  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion
-#&gt; 2020-03-25 09:55:55  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</code></pre>
+<pre><code>#&gt; 2020-03-25 10:28:46  [Main thread]   WARN    evaluate    timing_fn   Danger!
+#&gt; 2020-03-25 10:28:46  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion
+#&gt; 2020-03-25 10:28:46  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</code></pre>
 </div>
 <div id="logging-when-parallel-processing" class="section level1">
 <h1 class="hasAnchor">
@@ -306,17 +306,20 @@
 <span id="cb20-18"><a href="#cb20-18"></a><span class="kw"><a href="../reference/stopCluster.html">stopCluster</a></span>(cluster)</span>
 <span id="cb20-19"><a href="#cb20-19"></a></span>
 <span id="cb20-20"><a href="#cb20-20"></a><span class="kw"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(logFileName, <span class="kw"><a href="https://rdrr.io/r/base/file.info.html">file.info</a></span>(logFileName)<span class="op">$</span>size))</span></code></pre></div>
-<pre><code>#&gt; 2020-03-25 09:55:55  [Main thread]   TRACE   evaluate    timing_fn   Initiating cluster with 3 threads
-#&gt; 2020-03-25 09:55:57  [Thread 1]  TRACE           Thread 1 initiated
-#&gt; 2020-03-25 09:55:57  [Thread 2]  TRACE           Thread 2 initiated
-#&gt; 2020-03-25 09:55:57  [Thread 3]  TRACE           Thread 3 initiated
-#&gt; 2020-03-25 09:55:57  [Thread 2]  INFO            The value of x is 2
-#&gt; 2020-03-25 09:55:57  [Thread 1]  INFO            The value of x is 5
-#&gt; 2020-03-25 09:55:57  [Thread 2]  INFO            The value of x is 7
-#&gt; 2020-03-25 09:55:57  [Thread 1]  INFO            The value of x is 8
-#&gt; 2020-03-25 09:55:57  [Thread 2]  INFO            The value of x is 10
-#&gt; 2020-03-25 09:55:57  [Main thread]   TRACE   evaluate    timing_fn   Stopping cluster
-#&gt; 2020-03-25 09:55:57  [Thread 2]  TRACE           Thread 2 terminated</code></pre>
+<pre><code>#&gt; 2020-03-25 10:28:47  [Main thread]   TRACE   evaluate    timing_fn   Initiating cluster with 3 threads
+#&gt; 2020-03-25 10:28:48  [Thread 1]  TRACE           Thread 1 initiated
+#&gt; 2020-03-25 10:28:48  [Thread 2]  TRACE           Thread 2 initiated
+#&gt; 2020-03-25 10:28:48  [Thread 3]  TRACE           Thread 3 initiated
+#&gt; 2020-03-25 10:28:48  [Thread 2]  INFO            The value of x is 2
+#&gt; 2020-03-25 10:28:48  [Thread 1]  INFO            The value of x is 1
+#&gt; 2020-03-25 10:28:48  [Thread 2]  INFO            The value of x is 4
+#&gt; 2020-03-25 10:28:48  [Thread 3]  INFO            The value of x is 6
+#&gt; 2020-03-25 10:28:48  [Thread 2]  INFO            The value of x is 7
+#&gt; 2020-03-25 10:28:48  [Thread 3]  DEBUG           X equals 6
+#&gt; 2020-03-25 10:28:48  [Thread 2]  INFO            The value of x is 10
+#&gt; 2020-03-25 10:28:48  [Thread 1]  INFO            The value of x is 9
+#&gt; 2020-03-25 10:28:48  [Main thread]   TRACE   evaluate    timing_fn   Stopping cluster
+#&gt; 2020-03-25 10:28:48  [Thread 3]  TRACE           Thread 3 terminated</code></pre>
 </div>
 <div id="shiny-log-viewer" class="section level1">
 <h1 class="hasAnchor">

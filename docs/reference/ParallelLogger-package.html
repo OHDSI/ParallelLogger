@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Register a logger — registerLogger • ParallelLogger</title>
+<title>ParallelLogger: Support for Parallel Computation, Logging, and Function Automation — ParallelLogger-package • ParallelLogger</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="Register a logger — registerLogger" />
-<meta property="og:description" content="Register a logger" />
+<meta property="og:title" content="ParallelLogger: Support for Parallel Computation, Logging, and Function Automation — ParallelLogger-package" />
+<meta property="og:description" content="Support for parallel computation with progress bar, and option to stop or proceed on errors. Also provides logging to console and disk, 
+  and the logging persists in the parallel threads. Additional functions support function call automation with delayed execution (e.g. for executing functions in
+  parallel)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,49 +125,46 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Register a logger</h1>
-    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Logging.R'><code>R/Logging.R</code></a></small>
-    <div class="hidden name"><code>registerLogger.Rd</code></div>
+    <h1>ParallelLogger: Support for Parallel Computation, Logging, and Function Automation</h1>
+    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/ParallelLogger.R'><code>R/ParallelLogger.R</code></a></small>
+    <div class="hidden name"><code>ParallelLogger-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Register a logger</p>
+    <p>Support for parallel computation with progress bar, and option to stop or proceed on errors. Also provides logging to console and disk, 
+  and the logging persists in the parallel threads. Additional functions support function call automation with delayed execution (e.g. for executing functions in
+  parallel).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>registerLogger</span>(<span class='no'>logger</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>logger</th>
-      <td><p>An object of type <code>Logger</code> as created using the <code><a href='createLogger.html'>createLogger</a></code>
-function.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Registers a logger as created using the <code><a href='createLogger.html'>createLogger</a></code> function to the logging system.</p>
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://ohdsi.github.io/ParallelLogger'>https://ohdsi.github.io/ParallelLogger</a></p></li>
+<li><p><a href='https://github.com/OHDSI/ParallelLogger'>https://github.com/OHDSI/ParallelLogger</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/OHDSI/ParallelLogger/issues'>https://github.com/OHDSI/ParallelLogger/issues</a></p></li>
+</ul>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>appender</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='createConsoleAppender.html'>createConsoleAppender</a></span>(<span class='kw'>layout</span> <span class='kw'>=</span> <span class='no'>layoutTimestamp</span>)
+</div>
 
-<span class='no'>logger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='createLogger.html'>createLogger</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"SIMPLE"</span>,
-                       <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='st'>"INFO"</span>,
-                       <span class='kw'>appenders</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>appender</span>))
-<span class='fu'>registerLogger</span>(<span class='no'>logger</span>)
-<span class='fu'><a href='logTrace.html'>logTrace</a></span>(<span class='st'>"This event is below the threshold (INFO)"</span>)
-<span class='fu'><a href='logInfo.html'>logInfo</a></span>(<span class='st'>"Hello world"</span>)</div><div class='output co'>#&gt; 2020-03-25 10:28:37	Hello world
-#&gt; 2020-03-25 10:28:37	Hello world</div><div class='input'><span class='fu'><a href='unregisterLogger.html'>unregisterLogger</a></span>(<span class='st'>"SIMPLE"</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
+
+    <h2>Author</h2>
+    <p><strong>Maintainer</strong>: Martijn Schuemie <a href='mailto:schuemie@ohdsi.org'>schuemie@ohdsi.org</a></p>
+<p>Authors:</p><ul>
+<li><p>Marc Suchard</p></li>
+</ul>
+
+<p>Other contributors:</p><ul>
+<li><p>Observational Health Data Science and Informatics [copyright holder]</p></li>
+</ul>
+
 
   </div>
 </div>

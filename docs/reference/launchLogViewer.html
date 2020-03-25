@@ -152,7 +152,7 @@ Use <code><a href='addDefaultFileLogger.html'>addDefaultFileLogger</a></code> to
     <pre class="examples"><div class='input'><span class='co'># Create a log file:</span>
 <span class='no'>logFile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"log.txt"</span>)
 <span class='fu'><a href='addDefaultFileLogger.html'>addDefaultFileLogger</a></span>(<span class='no'>logFile</span>)
-<span class='fu'><a href='logInfo.html'>logInfo</a></span>(<span class='st'>"Hello world"</span>)</div><div class='output co'>#&gt; 2020-03-25 09:55:38	Hello world</div><div class='input'>
+<span class='fu'><a href='logInfo.html'>logInfo</a></span>(<span class='st'>"Hello world"</span>)</div><div class='output co'>#&gt; 2020-03-25 10:28:32	Hello world</div><div class='input'>
 <span class='co'># Launch the log file viewer (only if in interactive mode):</span>
 <span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
   <span class='fu'>launchLogViewer</span>(<span class='no'>logFile</span>)
