@@ -32,5 +32,5 @@ Suggests:
 URL: https://ohdsi.github.io/ParallelLogger, https://github.com/OHDSI/ParallelLogger
 BugReports: https://github.com/OHDSI/ParallelLogger/issues
 NeedsCompilation: no
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Encoding: UTF-8

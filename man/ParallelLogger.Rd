@@ -4,6 +4,3 @@
 \name{ParallelLogger}
 \alias{ParallelLogger}
 \title{ParallelLogger}
-\description{
-ParallelLogger
-}
