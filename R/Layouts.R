@@ -77,7 +77,7 @@ layoutParallel <- function(level, message) {
       if (length(packageName) != 0 && packageName != "base" && packageName != "snow" && packageName !=
           "ParallelLogger") {
         if (class(sys.call(-i)[[1]]) == "function") {
-          # USing do.call without quotes means the function name is lost
+          # Using do.call without quotes means the function name is lost
           functionName <- ""
         } else {
           functionName <- as.character(sys.call(-i)[[1]])
@@ -108,19 +108,21 @@ layoutParallel <- function(level, message) {
 #'
 #' @export
 layoutStackTrace <- function(level, message) {
-  # Avoid check notes about non-used parameters:
-  missing(level)
   time <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
-  stackTrace <- c()
-  nFrame <- -4
-  fun <- sys.call(nFrame)
-  while (!is.null(fun) && class(fun[[1]]) != "function") {
-    stackTrace <- c(stackTrace, as.character(fun[[1]]))
-    nFrame <- nFrame - 1
-    fun <- sys.call(nFrame)
+  threadNumber <- getOption("threadNumber")
+  if (is.null(threadNumber)) {
+    threadLabel <- "Main thread"
+  } else {
+    threadLabel <- paste("Thread", threadNumber)
   }
-  stackTrace <- paste(rev(stackTrace), collapse = " - ")
-  sprintf("%s\t%s\t%s", time, stackTrace, message)
+  trace <- limitedLabels(sys.calls())
+  trace <- trace[(length(trace) - 5):1]
+  trace <- paste(length(trace):1, trace, sep = ": ")
+  output <- paste(c(sprintf("%s\t[%s]\t%s\t%s", time, threadLabel, level, message),
+                    trace,
+                    collapse = "\n"))
+  return(output)
+  
 }
 
 #' Logging layout for e-mail
@@ -145,19 +147,9 @@ layoutEmail <- function(level, message) {
     lines <- c(lines, paste("Thread: ", threadNumber))
   }
   lines <- c(lines, "Stack trace:")
-  if (sys.nframe() > 4) {
-    for (i in 4:sys.nframe()) {
-      packageName <- utils::packageName(env = sys.frame(-i))
-      if (length(packageName) != 0 && packageName != "base" && packageName != "snow" && packageName !=
-          "ParallelLogger") {
-        if (class(sys.call(-i)[[1]]) != "function") {
-          functionName <- as.character(sys.call(-i)[[1]])
-          if (functionName != "::") {
-            lines <- c(lines, paste(packageName, functionName, sep = "::"))
-          }
-        }
-      }
-    }
-  }
+  trace <- limitedLabels(sys.calls())
+  trace <- trace[(length(trace) - 5):1]
+  trace <- paste(length(trace):1, trace, sep = ": ")
+  lines <- c(lines, trace)
   return(paste(lines, collapse = "\n"))
 }

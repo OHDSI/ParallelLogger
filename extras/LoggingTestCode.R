@@ -2,6 +2,9 @@
 
 library(ParallelLogger)
 
+
+ParallelLogger:::registerDefaultHandlers()
+
 # By default there is one logger with threshold = "INFO" that writes to the console:
 
 logInfo("Hello world")
@@ -16,7 +19,33 @@ registerLogger(createLogger(threshold = "INFO",
 unlink("c:/temp/logFile.txt")
 addDefaultFileLogger("c:/temp/logFile.txt")
 
+registerLogger(createLogger(name = "STACKTRACE",
+                            threshold = "WARN",
+                            appenders = list(createFileAppender(layout = layoutStackTrace,
+                                                                fileName = "c:/temp/errorLog.txt"))))
+
+addDefaultFileLogger("c:/temp/errorLog.txt")
+addDefaultEmailLogger(mailSettings, test = TRUE)
+
+# Throws an error:
+do.call(registerLogger, list())
+
+registerLogger(NULL)
+stop("tst")
+warning("tst")
+
+unregisterLogger("STACKTRACE")
+unregisterLogger("DEFAULT")
+writeLines(SqlRender::readSql("c:/temp/errorLog.txt"))
+unlink("c:/temp/errorLog.txt")
+
 logDebug("Hello world")
+
+library(EmpiricalCalibration)
+data(sccs)
+negatives <- sccs[sccs$groundTruth == 0, ]
+negatives$seLogRr <- NA
+null <- fitNull(negatives$logRr, negatives$seLogRr)
 
 # We can add a second logger that logs to a file:
 
@@ -33,6 +62,8 @@ fun <- function(x) {
 dummy <- clusterApply(cluster, 1:10, fun)
 
 stopCluster(cluster)
+
+
 
 # A convenient way to view the log file is with the log viewer:
 launchLogViewer("c:/temp/logFile.txt")
@@ -54,7 +85,7 @@ a <- b
 logError("asd\naaa")
 
 options(warning.expression = substitute(print(sys.call(-4)[[2]])))
-         
+
 warning("hi my name is mud")
 
 

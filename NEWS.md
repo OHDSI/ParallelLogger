@@ -1,9 +1,18 @@
 ParallelLogger 1.1.2
 =====================
 
+Changes:
+
+1. Improved stack trace.
+
+
+ParallelLogger 1.1.2
+=====================
+
 Bugfixes:
 
 1. Fixing error when ggplot2 (v3.3.0) throws a warning.
+
 
 ParallelLogger 1.1.1
 =====================
@@ -11,6 +20,7 @@ ParallelLogger 1.1.1
 Bugfixes:
 
 1. Call to .Deprecated() no longer causes silent crash.
+
 
 ParallelLogger 1.1.0
 =====================
