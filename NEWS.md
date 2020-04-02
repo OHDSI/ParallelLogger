@@ -1,9 +1,19 @@
-ParallelLogger 1.1.2
+ParallelLogger 1.1.3
 =====================
 
 Changes:
 
-1. Improved stack trace.
+1. Errors in a cluster are now also logged by the remote thread. This allows for example for the stack trace to be captured. The e-mail logger will only be triggered by events in the main thread to avoid spam.
+
+2. Added the layoutErrorReport layout.
+
+3. Added overwrite and expirationTime arguments to createFileAppender.
+
+4. Added the addDefaultErrorReportLogger function. 
+
+5. Improved stack trace.
+
+6. Changed names of default loggers to DEFAULT_FILE_LOGGER, DEFAULT_EMAIL_LOGGER, and DEFAULT_ERRORREPORT_LOGGER.
 
 
 ParallelLogger 1.1.2

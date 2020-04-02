@@ -48,17 +48,24 @@ createConsoleAppender <- function(layout = layoutSimple) {
 #' @details
 #' Creates an appender that will write to a file.
 #'
-#' @param layout     The layout to be used by the appender.
-#' @param fileName   The name of the file to write to.
+#' @param layout         The layout to be used by the appender.
+#' @param fileName       The name of the file to write to.
+#' @param overwrite      Overwrite the file if it is older than the expiration time?
+#' @param expirationTime Expiration time in seconds 
 #'
 #' @export
-createFileAppender <- function(layout = layoutParallel, fileName) {
+createFileAppender <- function(layout = layoutParallel, fileName, overwrite = FALSE, expirationTime = 60) {
   appendFunction <- function(this, level, message) {
     # Avoid note in check:
     missing(level)
     tryCatch({
       suppressWarnings({
-        con <- file(fileName, open = "at", blocking = FALSE)
+        if (overwrite && file.exists(fileName) && difftime(Sys.time(), file.mtime(fileName), units = "secs") > expirationTime) {
+          open <- "wt"
+        } else {
+          open <- "at" 
+        }
+        con <- file(fileName, open = open, blocking = FALSE)
         writeLines(text = message, con = con)
         flush(con)
         close(con)
@@ -78,8 +85,11 @@ createFileAppender <- function(layout = layoutParallel, fileName) {
       setLoggerSettings(settings)
       warning("Error '", e$message, "' when writing log to file '", fileName, ". Removing file appender from logger.")
     })
+    if (is.null(getOption("threadNumber")) && identical(layout, layoutErrorReport)) {
+      writeLines(paste("An error report has been created at ", fileName))
+    }
   }
-  appender <- list(appendFunction = appendFunction, layout = layout, fileName = fileName)
+  appender <- list(appendFunction = appendFunction, layout = layout, fileName = fileName, overwrite = overwrite, expirationTime = expirationTime)
   class(appender) <- "Appender"
   return(appender)
 }
@@ -133,9 +143,15 @@ createEmailAppender <- function(layout = layoutEmail, mailSettings, label = Sys.
     
     # No need to send an e-mail at the death of an orphan thread:
     testString <- "Error in unserialize(node$con)"
-    if (substr(message, 1, nchar(testString)) == testString) {
+    if (grepl(testString, message)[[1]]) {
       return()
     }
+    
+    # Only main thread gets to send e-mails:
+    if (is.null(getOption("threadNumber"))) {
+      return()
+    }
+    
     mailSettings$subject <- sprintf("[%s] %s", label, level)
     mailSettings$body <- message
     if (test) {

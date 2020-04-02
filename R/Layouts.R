@@ -115,9 +115,7 @@ layoutStackTrace <- function(level, message) {
   } else {
     threadLabel <- paste("Thread", threadNumber)
   }
-  trace <- limitedLabels(sys.calls())
-  trace <- trace[(length(trace) - 5):1]
-  trace <- paste(length(trace):1, trace, sep = ": ")
+  trace < .tidyStackTrace(limitedLabels(sys.calls()))
   output <- paste(c(sprintf("%s\t[%s]\t%s\t%s", time, threadLabel, level, message),
                     trace,
                     collapse = "\n"))
@@ -128,7 +126,8 @@ layoutStackTrace <- function(level, message) {
 #' Logging layout for e-mail
 #'
 #' @description
-#' A layout function to be used with an e-mail appender. This layout adds the thread ID and stack trace to the message.
+#' A layout function to be used with an e-mail appender. This layout creates a short summary e-mail message on the event, 
+#' including stack trace.
 #'
 #' @param level     The level of the message (e.g. "INFO")
 #' @param message   The message to layout.
@@ -140,16 +139,72 @@ layoutEmail <- function(level, message) {
   time <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
   lines <- c(lines, paste("Time: ", time))
   lines <- c(lines, paste("Level: ", level))
+  lines <- c(lines, "Stack trace:")
+  lines <- c(lines, .tidyStackTrace(limitedLabels(sys.calls())))
+  return(paste(lines, collapse = "\n"))
+}
+
+#' Logging layout for error report
+#'
+#' @description
+#' A layout function to be used with an appender. This layout creates a more eborate error message, for
+#' sharing with the developer. If an error occurs in the main thread a summary of the system info will
+#' be included.
+#'
+#' @param level     The level of the message (e.g. "INFO")
+#' @param message   The message to layout.
+#'
+#' @export
+layoutErrorReport <- function(level, message) {
+  lines <- c()
   threadNumber <- getOption("threadNumber")
   if (is.null(threadNumber)) {
     lines <- c(lines, "Thread: Main")
   } else {
     lines <- c(lines, paste("Thread: ", threadNumber))
   }
+  lines <- c(lines, paste("Message: ", message))
+  lines <- c(lines, paste("Level: ", level))
+  time <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
+  lines <- c(lines, paste("Time: ", time))
+  lines <- c(lines, "")
   lines <- c(lines, "Stack trace:")
-  trace <- limitedLabels(sys.calls())
-  trace <- trace[(length(trace) - 5):1]
-  trace <- paste(length(trace):1, trace, sep = ": ")
-  lines <- c(lines, trace)
+  lines <- c(lines, .tidyStackTrace(limitedLabels(sys.calls())))
+  lines <- c(lines, "")
+  lines <- c(lines, "Check")
+  if (is.null(threadNumber)) {
+    lines <- c(lines, .systemInfo())
+    lines <- c(lines, "")
+  }
+  lines <- c(lines, "")
   return(paste(lines, collapse = "\n"))
+}
+
+.systemInfo <- function() {
+  si <- sessionInfo()
+  lines <- c()
+  lines <- c(lines, "R version:")
+  lines <- c(lines, si$R.version$version.string)
+  lines <- c(lines, "")
+  lines <- c(lines, "Platform:")
+  lines <- c(lines, si$R.version$platform)
+  lines <- c(lines, "")
+  lines <- c(lines, "Attached base packages:")
+  lines <- c(lines, paste("-", si$basePkgs))
+  lines <- c(lines, "")
+  lines <- c(lines, "Other attached packages:")
+  for (pkg in si$otherPkgs) lines <- c(lines,
+                                       paste("- ", pkg$Package, " (", pkg$Version, ")", sep = ""))
+  return(lines)
+}
+
+.tidyStackTrace <- function(trace) {
+  if (is.null(getOption("threadNumber"))) {
+    trace <- trace[1:(length(trace) - 5)]
+  } else {
+    trace <- trace[23:(length(trace) - 5)]
+  }
+  trace <- paste(1:length(trace), trace, sep = ": ")
+  trace <- rev(trace)
+  return(trace)
 }

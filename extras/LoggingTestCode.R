@@ -35,13 +35,17 @@ stop("tst")
 warning("tst")
 
 unregisterLogger("STACKTRACE")
-unregisterLogger("DEFAULT")
+unregisterLogger("DEFAULT_FILE_LOGGER")
+unregisterLogger("DEFAULT_ERRORREPORT_LOGGER")
+
 writeLines(SqlRender::readSql("c:/temp/errorLog.txt"))
 unlink("c:/temp/errorLog.txt")
 
 logDebug("Hello world")
 
 library(EmpiricalCalibration)
+fitNull(logRr = "sadf", seLogRr = "asdf")
+
 data(sccs)
 negatives <- sccs[sccs$groundTruth == 0, ]
 negatives$seLogRr <- NA
@@ -54,13 +58,11 @@ null <- fitNull(negatives$logRr, negatives$seLogRr)
 a <- 3
 cluster <- makeCluster(3)
 fun <- function(x) {
-  warning("warn: Value of runif is ", runif(1))
-  if (x == 6 || x == 9)
-    x <- a
-  return(NULL)
+  ParallelLogger::logFatal("Hello")
+  return(ParallelLogger::getLoggers())
 }
 dummy <- clusterApply(cluster, 1:10, fun)
-
+dummy[[1]]
 stopCluster(cluster)
 
 

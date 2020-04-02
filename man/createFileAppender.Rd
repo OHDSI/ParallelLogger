@@ -4,12 +4,21 @@
 \alias{createFileAppender}
 \title{Create file appender}
 \usage{
-createFileAppender(layout = layoutParallel, fileName)
+createFileAppender(
+  layout = layoutParallel,
+  fileName,
+  overwrite = FALSE,
+  expirationTime = 60
+)
 }
 \arguments{
 \item{layout}{The layout to be used by the appender.}
 
 \item{fileName}{The name of the file to write to.}
+
+\item{overwrite}{Overwrite the file if it is older than the expiration time?}
+
+\item{expirationTime}{Expiration time in seconds}
 }
 \description{
 Create file appender

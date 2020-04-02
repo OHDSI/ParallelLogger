@@ -150,6 +150,20 @@ stopCluster <- function(cluster) {
   }
 }
 
+docall <- function(fun, args) {
+  if ((is.character(fun) && length(fun) == 1) || is.name(fun))
+    fun <- get(as.character(fun), envir = .GlobalEnv, mode = "function")
+  do.call("fun", lapply(args, enquote))
+}
+
+functionWrapper <- function(..., fun = fun) {
+  handler <- function(e) {
+    ParallelLogger::logFatal(conditionMessage(e))
+    stop(e)
+  }
+  withCallingHandlers(docall(fun , list(...)), error = handler)
+}
+
 #' Apply a function to a list using the cluster
 #'
 #' @details
@@ -188,7 +202,7 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
         pb <- txtProgressBar(style = 3)
       
       for (i in 1:min(n, p)) {
-        snow::sendCall(cluster[[i]], fun, c(list(x[[i]]), list(...)), tag = i)
+        snow::sendCall(cluster[[i]], functionWrapper, c(list(x[[i]]), list(...), list(fun = fun)), tag = i)
       }
       
       val <- vector("list", n)
