@@ -84,8 +84,9 @@ registerLogger <- function(logger) {
 #' @details
 #' Unregisters a logger from the logging system.
 #'
-#' @param x   Can either be an integer (e.g. 2 to remove the second logger), the name of the logger, or
-#'            the logger object itself.
+#' @param x       Can either be an integer (e.g. 2 to remove the second logger), the name of the logger, or
+#'                the logger object itself.
+#' @param silent  If TRUE, no warning will be issued if the logger is not found.
 #'
 #' @return
 #' Returns TRUE if the logger was removed.
@@ -93,7 +94,7 @@ registerLogger <- function(logger) {
 #' @template LoggingExample
 #'
 #' @export
-unregisterLogger <- function(x) {
+unregisterLogger <- function(x, silent = FALSE) {
   settings <- getLoggerSettings()
   if (is.integer(x) || is.numeric(x)) {
     if (x <= length(settings$loggers)) {
@@ -101,7 +102,9 @@ unregisterLogger <- function(x) {
       setLoggerSettings(settings)
       return(TRUE)
     } else {
-      warning("Could not find logger ", x)
+      if (!silent) {
+        warning("Could not find logger ", x)
+      }
       return(FALSE)
     }
   } else if (is.character(x)) {
@@ -112,7 +115,9 @@ unregisterLogger <- function(x) {
         return(TRUE)
       }
     }
-    warning("Could not find logger ", x)
+    if (!silent) {
+      warning("Could not find logger ", x)
+    }
     return(FALSE)
   } else if (is(x, "Logger")) {
     for (i in length(settings$loggers):1) {
@@ -123,7 +128,9 @@ unregisterLogger <- function(x) {
       }
     }
   }
-  warning("Could not find logger ", x)
+  if (!silent) {
+    warning("Could not find logger ", x)
+  }
   return(FALSE)
 }
 
