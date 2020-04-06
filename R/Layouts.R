@@ -171,7 +171,6 @@ layoutErrorReport <- function(level, message) {
   lines <- c(lines, "Stack trace:")
   lines <- c(lines, .tidyStackTrace(limitedLabels(sys.calls())))
   lines <- c(lines, "")
-  lines <- c(lines, "Check")
   if (is.null(threadNumber)) {
     lines <- c(lines, .systemInfo())
     lines <- c(lines, "")
