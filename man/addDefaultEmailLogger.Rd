@@ -23,7 +23,7 @@ name of the computer is used.}
 Add the default e-mail logger
 }
 \details{
-Creates a logger that writes to e-mail using the "FATAL" threshold and the
+Creates a logger names 'DEFAULT_EMAIL_LOGGER' that writes to e-mail using the "FATAL" threshold and the
 \code{\link{layoutEmail}} layout. This function uses the \code{mailR} package. Please
 make sure your e-mail settings are correct by using the mailR package before using those settings here. 
 ParallelLogger will not display any messages if something goes wrong when sending the e-mail.

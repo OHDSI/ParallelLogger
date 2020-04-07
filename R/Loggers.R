@@ -76,7 +76,7 @@ addDefaultConsoleLogger <- function() {
 #' Add the default file logger
 #'
 #' @details
-#' Creates a logger that writes to a file using the "TRACE" threshold and the
+#' Creates a logger named 'DEFAULT_FILE_LOGGER' that writes to a file using the "TRACE" threshold and the
 #' \code{\link{layoutParallel}} layout. The output can be viewed with the built-in log viewer that can
 #' be started using \code{\link{launchLogViewer}}.
 #'
@@ -93,7 +93,7 @@ addDefaultFileLogger <- function(fileName) {
 #' Add the default e-mail logger
 #'
 #' @details
-#' Creates a logger that writes to e-mail using the "FATAL" threshold and the
+#' Creates a logger names 'DEFAULT_EMAIL_LOGGER' that writes to e-mail using the "FATAL" threshold and the
 #' \code{\link{layoutEmail}} layout. This function uses the \code{mailR} package. Please
 #' make sure your e-mail settings are correct by using the mailR package before using those settings here. 
 #' ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
@@ -134,7 +134,7 @@ addDefaultEmailLogger <- function(mailSettings, label = Sys.info()["nodename"], 
 #' Add the default error report logger
 #'
 #' @details
-#' Creates a logger that writes to a file using the "FATAL" threshold and the
+#' Creates a logger named 'DEFAULT_ERRORREPORT_LOGGER' that writes to a file using the "FATAL" threshold and the
 #' \code{\link{layoutErrorReport}} layout. The file will be overwritten if it is 
 #' older than 60 seconds. The user will be notified that the error report has been
 #' created, and where to find it.
