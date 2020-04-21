@@ -17,6 +17,10 @@ Changes
 
 7. Added 'silent' argument to unregisterLogger function.
 
+Bugfixes
+
+1. Now walking up the stack to try to evaluate warning message. For example prevents 'wrn not found' errors when using tidyVerse packages.
+
 
 ParallelLogger 1.1.2
 =====================

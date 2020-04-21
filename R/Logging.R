@@ -22,12 +22,25 @@ registerDefaultHandlers <- function() {
   }
   options(error = logBaseError)
   
-  options(warning.expression = quote(
+  options(warning.expression = quote({
+    evaluate <- function(message, frameIndex) {
+      if (frameIndex < -20) {
+        return(as.character(force(message)))
+      } else {
+        text <- tryCatch(as.character(eval(message, envir = sys.frame(frameIndex))), error = function(x) "error")
+        if (text == "error") {
+          return(evaluate(message, frameIndex - 2))
+        } else {
+          return(text)
+        }
+      }
+    }
+    
     for (i in 1:sys.nframe()) {
       frame <- sys.call(-i)
       if (!is.null(frame) && length(frame) > 1) {
         if (is.language(frame[[1]]) && as.character(frame[[1]]) == "warning") {
-          ParallelLogger::logWarn(eval(frame[[2]], envir = sys.frame(-i - 1)))
+          ParallelLogger::logWarn(evaluate(frame[[2]], -i - 1))
           break
         } else if (as.character(frame[[1]]) == ".signalSimpleWarning") {
           ParallelLogger::logWarn(frame[[2]])
@@ -37,7 +50,8 @@ registerDefaultHandlers <- function() {
           break
         } 
       }
-    }))
+    }})
+  )
 }
 
 getDefaultLoggerSettings <- function() {
