@@ -2,7 +2,7 @@
 % Please edit documentation in R/Layouts.R
 \name{layoutStackTrace}
 \alias{layoutStackTrace}
-\title{Logging layout with stacktrace}
+\title{Logging layout with stack trace}
 \usage{
 layoutStackTrace(level, message)
 }

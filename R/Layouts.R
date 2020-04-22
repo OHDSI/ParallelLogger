@@ -98,7 +98,7 @@ layoutParallel <- function(level, message) {
   sprintf("%s\t[%s]\t%s\t%s\t%s\t%s", time, threadLabel, level, packageName, functionName, message)
 }
 
-#' Logging layout with stacktrace
+#' Logging layout with stack trace
 #'
 #' @description
 #' A layout function to be used with an appender. This layout adds the stack trace to the message.
@@ -147,7 +147,7 @@ layoutEmail <- function(level, message) {
 #' Logging layout for error report
 #'
 #' @description
-#' A layout function to be used with an appender. This layout creates a more eborate error message, for
+#' A layout function to be used with an appender. This layout creates a more elaborate error message, for
 #' sharing with the developer. If an error occurs in the main thread a summary of the system info will
 #' be included.
 #'

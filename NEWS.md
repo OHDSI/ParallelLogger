@@ -1,4 +1,4 @@
-ParallelLogger 1.1.3
+ParallelLogger 1.2.0
 =====================
 
 Changes

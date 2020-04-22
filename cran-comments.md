@@ -1,10 +1,10 @@
-This update includes one bugfix (see NEWS)
+This update includes 7 changes and 1 bugfix (see NEWS)
 
 ---
 
 ## Test environments
 * Ubuntu 14.04.5 LTS (Travis), R 3.6.2
-* Windows 7, R 3.6.1
+* Windows 7, R 3.6.1 and R 4.0.0
 
 ## R CMD check results
 

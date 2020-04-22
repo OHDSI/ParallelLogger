@@ -12,7 +12,7 @@ layoutErrorReport(level, message)
 \item{message}{The message to layout.}
 }
 \description{
-A layout function to be used with an appender. This layout creates a more eborate error message, for
+A layout function to be used with an appender. This layout creates a more elaborate error message, for
 sharing with the developer. If an error occurs in the main thread a summary of the system info will
 be included.
 }

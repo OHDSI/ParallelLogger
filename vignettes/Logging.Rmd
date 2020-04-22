@@ -14,14 +14,14 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+  
+  ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(ParallelLogger)
 knitr::opts_chunk$set(
-  cache = FALSE,
-  comment = "#>",
-  error = FALSE,
-  tidy = FALSE)
+cache = FALSE,
+comment = "#>",
+error = FALSE,
+tidy = FALSE)
 ```
 # Introduction
 
@@ -32,23 +32,24 @@ This vignette describes how you can use the `ParallelLogger` package to perform 
 * **Logger**: An object that can receive **events**, and writes them to a log. A logger has a **name**, a prespecified **event level** (only events at or above that level are logged), and one or more **appenders**.
 * **Event**: Consists of a message and an event level.
 * **Event level**: Each event has an associated level. These levels (in ranked order) are 
-    * `TRACE`: Events to mark the analysis has passed through some code.
-    * `DEBUG`: Events to help understand the state of the code (e.g. whether a variable has a value).
-    * `INFO`: Events typically displayed to the user to inform of the progress.
-    * `WARN`: Events that indicate something probably requires attention.
-    * `ERROR`: Events indicating something went wrong.
-    * `FATAL`: Events indicating something went wrong, causing the analysis to terminate.
+  * `TRACE`: Events to mark the analysis has passed through some code.
+  * `DEBUG`: Events to help understand the state of the code (e.g. whether a variable has a value).
+  * `INFO`: Events typically displayed to the user to inform of the progress.
+  * `WARN`: Events that indicate something probably requires attention.
+  * `ERROR`: Events indicating something went wrong.
+  * `FATAL`: Events indicating something went wrong, causing the analysis to terminate.
 * **Appender**: An object that writes to a destination, for example the console or a file. An appender uses a **layout** to format its messages. There currently are three types of appenders:
-    * **Console appender**: Writes to the console, created using the `createConsoleAppender` function.
-    * **File appender**: Writes to a file, created using the `createFileAppender` function.
-    * **E-mail appender**: Sends an e-mail, created using the `createEmailAppender` function.
+* **Console appender**: Writes to the console, created using the `createConsoleAppender` function.
+* **File appender**: Writes to a file, created using the `createFileAppender` function.
+* **E-mail appender**: Sends an e-mail, created using the `createEmailAppender` function.
 * **Layout**: Objects specifying the format in which the log will be created. The following layouts are available:
-    * `layoutSimple`: Only outputs the message. 
-    * `layoutTimestamp`: Adds the current time and date to the message.
-    * `layoutStackTrace`: Adds the time and date, and full stack trace to the message.
-    * `layoutParallel`: Includes the thread identifier, name of the package and function raising the event, the current time and date, the message level, and the message itself.
-    * `layoutEmail`:  This layout adds the thread ID and strack trace to the message.
-  
+  * `layoutSimple`: Only outputs the message. 
+  * `layoutTimestamp`: Adds the current time and date to the message.
+  * `layoutStackTrace`: Adds the time and date, and full stack trace to the message.
+  * `layoutParallel`: Includes the thread identifier, name of the package and function raising the event, the current time and date, the message level, and the message itself.
+  * `layoutErrorReport`: Creates a report for an event, including the message, stack trace, and information about the run-time environment such as the type of operating system, and installed R packages.
+  * `layoutEmail`:  This layout adds the thread ID and stack trace to the message.
+
 # Creating a console logger
 
 The code below demonstrates how one would create a logger that writes  all events at level `INFO` or greater to the console using a layout with time stamp:
@@ -143,11 +144,39 @@ addDefaultFileLogger(logFileName)
 is equivalent to
 
 ```{r, eval=FALSE}
-registerLogger(createLogger(name = "DEFAULT",
+registerLogger(createLogger(name = "DEFAULT_FILE_LOGGER",
                             threshold = "TRACE", 
                             appenders = list(createFileAppender(layout = layoutParallel, 
-                                                                  fileName = logFileName))))
+                                                                fileName = logFileName))))
 ```
+
+# Creating an error report logger
+
+A special case of a file logger is an error report logger. Rather than logging one event per row, the error report logger creates a single file dedicated to one event. As the name implies, this makes most sense for fatal error events. The error report contains the error message, stack trace, and information on the run-time environment, including the type of operating system and installed R packages. The idea is that this report can be shared between someone running the code and someone debugging the code remotely. 
+
+The error report will be overwritten if a new error occurs, unless the new error occurs within 60 seconds of the creation of the error report. The reason for this delay is that it may be that a sub-thread throws an error, which we'd want to catch, followed shortly after by an error in the main thread, which we'd also like to catch. Both threads will then provide their error messages and stack trace, but only the main thread will include the information about the run-time environment, to avoid redundancy.
+
+## Shorthand
+
+It is recommended to simply always use the shorthand for creating an error report logger:
+
+```{r, eval=FALSE}
+addDefaultErrorReportLogger()
+```
+
+which is equivalent to
+
+```{r, eval=FALSE}
+fileName <- file.path(getwd(), "errorReportR.txt")
+
+registerLogger(createLogger(name = "DEFAULT_ERRORREPORT_LOGGER",
+                            threshold = "FATAL",
+                            appenders = list(createFileAppender(layout = layoutErrorReport,
+                                                                fileName = fileName,
+                                                                overwrite = TRUE,
+                                                                expirationTime = 60))))
+```
+
 
 # Creating an e-mail logger
 
@@ -155,19 +184,19 @@ We can also add a logger that sends an e-mail whenever an event is logged above 
 
 ```{r, eval=FALSE}
 mailSettings <- list(from = "someone@gmail.com",
-                      to = c("someone_else@gmail.com"),
-                      smtp = list(host.name = "smtp.gmail.com",
-                                  port = 465,
-                                  user.name = "someone@gmail.com",
-                                  passwd = "super_secret!",
-                                  ssl = TRUE),
-                      authenticate = TRUE,
-                      send = TRUE)
+to = c("someone_else@gmail.com"),
+smtp = list(host.name = "smtp.gmail.com",
+port = 465,
+user.name = "someone@gmail.com",
+passwd = "super_secret!",
+ssl = TRUE),
+authenticate = TRUE,
+send = TRUE)
 
 logger <- createLogger(name = "EMAIL",
-                       threshold = "FATAL",
-                       appenders = list(createEmailAppender(layout = layoutEmail,
-                                                            mailSettings = mailSettings)))
+threshold = "FATAL",
+appenders = list(createEmailAppender(layout = layoutEmail,
+mailSettings = mailSettings)))
 registerLogger(logger)
 
 logFatal("No more data to process")
@@ -186,10 +215,10 @@ addDefaultEmailLogger(mailSettings)
 is equivalent to
 
 ```{r, eval=FALSE}
- registerLogger(createLogger(name = "DEFAULT",
-                             threshold = "FATAL",
-                             appenders = list(createEmailAppender(layout = layoutEmail,
-                                                                  mailSettings = mailSettings))))
+registerLogger(createLogger(name = "DEFAULT_EMAIL_LOGGER",
+threshold = "FATAL",
+appenders = list(createEmailAppender(layout = layoutEmail,
+mailSettings = mailSettings))))
 ```
 
 # Warnings and fatal errors
@@ -233,11 +262,11 @@ addDefaultFileLogger(logFileName)
 cluster <- makeCluster(3)
 
 fun <- function(x) {
-  ParallelLogger::logInfo("The value of x is ", x)
-  # Do something
-  if (x == 6)
-    ParallelLogger::logDebug("X equals 6")
-  return(NULL)
+ParallelLogger::logInfo("The value of x is ", x)
+# Do something
+if (x == 6)
+ParallelLogger::logDebug("X equals 6")
+return(NULL)
 }
 
 dummy <- clusterApply(cluster, 1:10, fun, progressBar = FALSE)
@@ -245,6 +274,58 @@ dummy <- clusterApply(cluster, 1:10, fun, progressBar = FALSE)
 stopCluster(cluster)
 
 writeLines(readChar(logFileName, file.info(logFileName)$size))
+```
+
+# Creating loggers in functions
+
+Creating a logger right before starting a very complex computation is probably a good idea, to capture information that may help to debug when things go wrong. Although having multiple loggers simultaneously should work fine, it probably makes sense to only invoke loggers at the highest level. So instead of
+
+```{r, eval=FALSE}
+subSubTask <- function() {
+  addDefaultFileLogger("subSubTaskLog.txt")
+  # do something
+}
+
+subTask <- function() {
+  addDefaultFileLogger("subTaskLog.txt")
+  # do something
+  subSubTask()
+}
+
+mainTask <- function() {
+  addDefaultFileLogger("mainTaskLog.txt")
+  # do something
+  subTask()
+}
+```
+
+it would be better to have only one logger:
+
+```{r, eval=FALSE}
+subSubTask <- function() {
+  # do something
+}
+
+subTask <- function() {
+  # do something
+  subSubTask()
+}
+
+mainTask <- function() {
+  addDefaultFileLogger("log.txt")
+  # do something
+  subTask()
+}
+```
+
+Also, as a courtesy to the user, please clean up the logger after the function is finished. By using `on.exit`, we can ensure the logger is always closed, even when the function stops unexpectedly (e.g. due to an error):
+
+```{r, eval=FALSE}
+mainTask <- function() {
+  addDefaultFileLogger("log.txt")
+  on.exit(unregisterLogger("DEFAULT_FILE_LOGGER"))
+  # do something
+}
 ```
 
 # Shiny log viewer

@@ -44,3 +44,11 @@ reference:
       - excludeFromList 
       - matchInList 
       - selectFromList 
+
+navbar:
+  structure:
+    right: [methodsLibrary, github]
+  components:
+    methodsLibrary:
+      text: Methods Library
+      href: https://ohdsi.github.io/MethodsLibrary

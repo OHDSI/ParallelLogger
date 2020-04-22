@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Log a message at the FATAL level — logFatal • ParallelLogger</title>
+<title>Add the default error report logger — addDefaultErrorReportLogger • ParallelLogger</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Log a message at the FATAL level — logFatal" />
-<meta property="og:description" content="Log a message at the FATAL level" />
+<meta property="og:title" content="Add the default error report logger — addDefaultErrorReportLogger" />
+<meta property="og:description" content="Add the default error report logger" />
 
 
 
@@ -129,32 +129,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Log a message at the FATAL level</h1>
-    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Logging.R'><code>R/Logging.R</code></a></small>
-    <div class="hidden name"><code>logFatal.Rd</code></div>
+    <h1>Add the default error report logger</h1>
+    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Loggers.R'><code>R/Loggers.R</code></a></small>
+    <div class="hidden name"><code>addDefaultErrorReportLogger.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Log a message at the FATAL level</p>
+    <p>Add the default error report logger</p>
     </div>
 
-    <pre class="usage"><span class='fu'>logFatal</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>addDefaultErrorReportLogger</span>(<span class='kw'>fileName</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='st'>"errorReportR.txt"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>Zero or more objects which can be coerced to character (and which are pasted together
-with no separator).</p></td>
+      <th>fileName</th>
+      <td><p>The name of the file to write to.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Log a message at the specified level. The message will be sent to all the registered loggers. This
-function is be automatically called when an error occurs, and should not be called directly. Use
-<code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code> instead.</p>
+    <p>Creates a logger named 'DEFAULT_ERRORREPORT_LOGGER' that writes to a file using the "FATAL" threshold and the
+<code><a href='layoutErrorReport.html'>layoutErrorReport</a></code> layout. The file will be overwritten if it is 
+older than 60 seconds. The user will be notified that the error report has been
+created, and where to find it.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

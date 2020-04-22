@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Log a message at the FATAL level — logFatal • ParallelLogger</title>
+<title>Logging layout for error report — layoutErrorReport • ParallelLogger</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Log a message at the FATAL level — logFatal" />
-<meta property="og:description" content="Log a message at the FATAL level" />
+<meta property="og:title" content="Logging layout for error report — layoutErrorReport" />
+<meta property="og:description" content="A layout function to be used with an appender. This layout creates a more elaborate error message, for
+sharing with the developer. If an error occurs in the main thread a summary of the system info will
+be included." />
 
 
 
@@ -129,32 +131,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Log a message at the FATAL level</h1>
-    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Logging.R'><code>R/Logging.R</code></a></small>
-    <div class="hidden name"><code>logFatal.Rd</code></div>
+    <h1>Logging layout for error report</h1>
+    <small class="dont-index">Source: <a href='https://github.com/OHDSI/ParallelLogger/blob/master/R/Layouts.R'><code>R/Layouts.R</code></a></small>
+    <div class="hidden name"><code>layoutErrorReport.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Log a message at the FATAL level</p>
+    <p>A layout function to be used with an appender. This layout creates a more elaborate error message, for
+sharing with the developer. If an error occurs in the main thread a summary of the system info will
+be included.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>logFatal</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>layoutErrorReport</span>(<span class='no'>level</span>, <span class='no'>message</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>Zero or more objects which can be coerced to character (and which are pasted together
-with no separator).</p></td>
+      <th>level</th>
+      <td><p>The level of the message (e.g. "INFO")</p></td>
+    </tr>
+    <tr>
+      <th>message</th>
+      <td><p>The message to layout.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Log a message at the specified level. The message will be sent to all the registered loggers. This
-function is be automatically called when an error occurs, and should not be called directly. Use
-<code><a href='https://rdrr.io/r/base/stop.html'>stop()</a></code> instead.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -10,13 +10,13 @@ ParallelLogger is part of the [OHDSI Methods Library](https://ohdsi.github.io/Me
 
 Introduction
 ============
-An R package with tools to be used in the other OHDSI R packages
+Support for parallel computation with progress bar, and option to stop or proceed on errors. Also provides logging to console and disk, and the logging persists in the parallel threads. Additional functions support function call automation with delayed execution (e.g. for executing functions in parallel).
 
 Features
 ========
-- Functions for parallel computation
-- Functions for logging
-- Functions used for automating analyses
+- Functions for parallel computation.
+- Functions for logging, including automated logging for errors and warnings.
+- Functions used for automating analyses.
 
 Examples
 ========
@@ -52,19 +52,25 @@ In R, to install the latest stable version, install from CRAN:
 install.packages("ParallelLogger")
 ```
   
-To install the latest development version, install from GitHub:
+To install the latest development version, install from the develop branch in GitHub:
 
 ```r
 install.packages("devtools")
-devtools::install_github("ohdsi/ParallelLogger")
+devtools::install_github("ohdsi/ParallelLogger", ref = "develop")
 ```
 
 User Documentation
 ==================
+Documentation can be found on the [package website](https://ohdsi.github.io/ParallelLogger).
+
+PDF versions of the documentation is also available:
 * Vignette: [Logging using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/inst/doc/Logging.pdf)
 * Vignette: [Parallel execution using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/inst/doc/Parallel.pdf)
 * Package manual: [ParallelLogger.pdf](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/extras/ParallelLogger.pdf)
 
+Contributing
+============
+Read [here](https://ohdsi.github.io/MethodsLibrary/contribute.html) how you can contribute to this package.
 
 Support
 =======
