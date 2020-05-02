@@ -259,6 +259,9 @@ matchInList <- function(x, toMatch) {
 }
 
 convertAttrToMember <- function(object) {
+  if (is.function(object)) {
+    return(list(serialized_code = as.character(serialize(object, NULL))))
+  } else
   if (is.list(object)) {
     if (length(object) > 0) {
       for (i in 1:length(object)) {
@@ -279,6 +282,11 @@ convertAttrToMember <- function(object) {
 convertMemberToAttr <- function(object) {
   if (is.list(object)) {
     if (length(object) > 0) {
+      if (length(object) == 1 && names(object) == "serialized_code") {
+        return(unserialize(
+          as.raw(sapply(object$serialized_code, strtoi, base = 16L))
+          ))
+      }
       for (i in 1:length(object)) {
         if (!is.null(object[[i]])) {
           object[[i]] <- convertMemberToAttr(object[[i]])

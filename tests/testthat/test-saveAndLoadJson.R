@@ -24,3 +24,12 @@ test_that("list with empty vectors", {
   expect_equal(class(settings$y), class(settings2$y))
   expect_equivalent(settings, settings2)
 })
+
+test_that("object with member function", {
+  fileName <- tempfile()
+  obj <- list(fun = function(x) { 2 * x })
+  saveSettingsToJson(obj, fileName)
+  obj2 <- loadSettingsFromJson(fileName)
+  unlink(fileName)
+  expect_equal(obj$fun(10), obj2$fun(10))  
+})
