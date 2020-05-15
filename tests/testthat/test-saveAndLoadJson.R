@@ -33,3 +33,15 @@ test_that("object with member function", {
   unlink(fileName)
   expect_equal(obj$fun(10), obj2$fun(10))  
 })
+
+test_that("list with object with member function", {
+  fileName <- tempfile()
+  obj <- list(fun = function(x) { 2 * x })
+  objList <- list(obj)
+  saveSettingsToJson(objList, fileName)
+  
+  objList2 <- loadSettingsFromJson(fileName)
+  unlink(fileName)
+  
+  expect_equal(obj$fun(10), objList2[[1]]$fun(10))  
+})

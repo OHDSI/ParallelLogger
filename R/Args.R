@@ -282,7 +282,7 @@ convertAttrToMember <- function(object) {
 convertMemberToAttr <- function(object) {
   if (is.list(object)) {
     if (length(object) > 0) {
-      if (length(object) == 1 && names(object) == "serialized_code") {
+      if (length(object) == 1 && !is.null(names(object)) && names(object) == "serialized_code") {
         return(unserialize(
           as.raw(sapply(object$serialized_code, strtoi, base = 16L))
           ))
