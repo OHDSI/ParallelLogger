@@ -1,5 +1,12 @@
+ParallelLogger 1.2.1
+====================
+
+Changes
+
+1. Simplifying argument functions.
+
 ParallelLogger 1.2.0
-=====================
+====================
 
 Changes
 
@@ -23,7 +30,7 @@ Bugfixes
 
 
 ParallelLogger 1.1.2
-=====================
+====================
 
 Bugfixes
 
@@ -31,7 +38,7 @@ Bugfixes
 
 
 ParallelLogger 1.1.1
-=====================
+====================
 
 Bugfixes
 
@@ -39,7 +46,7 @@ Bugfixes
 
 
 ParallelLogger 1.1.0
-=====================
+====================
 
 Changes
 
@@ -47,7 +54,7 @@ Changes
 
 
 ParallelLogger 1.0.1
-=====================
+====================
 
 Changes
 
@@ -57,6 +64,6 @@ Changes
 
 
 ParallelLogger 1.0.0
-=====================
+====================
 
 initial submission to CRAN

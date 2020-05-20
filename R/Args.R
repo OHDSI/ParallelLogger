@@ -120,17 +120,9 @@ createArgFunction <- function(functionName,
 
     rCode <- c(rCode, paste(start, argInfo$name[i], end, sep = ""))
   }
-  rCode <- c(rCode, "  # First: get default values:")
   rCode <- c(rCode, "  analysis <- list()")
   rCode <- c(rCode, paste0("  for (name in names(formals(", createFunArgsName, "))) {"))
   rCode <- c(rCode, "    analysis[[name]] <- get(name)")
-  rCode <- c(rCode, "  }")
-  rCode <- c(rCode, "  # Second: overwrite defaults with actual values:")
-  rCode <- c(rCode,
-             "  values <- lapply(as.list(match.call())[-1], function(x) eval(x, envir = sys.frame(-3)))")
-  rCode <- c(rCode, "  for (name in names(values)) {")
-  rCode <- c(rCode, "    if (name %in% names(analysis))")
-  rCode <- c(rCode, "      analysis[[name]] <- values[[name]]")
   rCode <- c(rCode, "  }")
   rCode <- c(rCode, "  class(analysis) <- \"args\"")
   rCode <- c(rCode, "  return(analysis)")
