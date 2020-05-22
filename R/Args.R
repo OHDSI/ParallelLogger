@@ -75,7 +75,7 @@ createArgFunction <- function(functionName,
   parameterHelp <- iconv(unlist(parameterHelp), from = "UTF-8", to = "ASCII")
   argInfo$help <- ""
   for (i in 1:(length(parameterHelp)/2)) {
-    argInfo$help[argInfo$name == parameterHelp[i * 2 - 1]] <- gsub("\n", "", parameterHelp[i * 2])
+    argInfo$help[argInfo$name == parameterHelp[i * 2 - 1]] <- gsub("\n", " ", parameterHelp[i * 2])
   }
 
   if (length(rCode) != 0) {
