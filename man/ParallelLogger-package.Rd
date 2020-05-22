@@ -6,7 +6,7 @@
 \alias{ParallelLogger-package}
 \title{ParallelLogger: Support for Parallel Computation, Logging, and Function Automation}
 \description{
-Support for parallel computation with progress bar, and option to stop or proceed on errors. Also provides logging to console and disk, 
+Support for parallel computation with progress bar, and option to stop or proceed on errors. Also provides logging to console and disk,
   and the logging persists in the parallel threads. Additional functions support function call automation with delayed execution (e.g. for executing functions in
   parallel).
 }

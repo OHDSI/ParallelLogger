@@ -5,6 +5,13 @@ Changes
 
 1. Simplifying argument functions.
 
+2. Dropping support for ff in favor of Andromeda.
+
+Bugfixes
+
+1. Fixing missing spaces in argument function documentation.
+
+
 ParallelLogger 1.2.0
 ====================
 

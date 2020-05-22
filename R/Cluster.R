@@ -16,41 +16,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.computeFfMemPerCluster <- function(nClusters) {
-  # memory.limit is windows specific
-  if (.Platform$OS.type == "windows") {
-    if (getRversion() >= "2.6.0")
-      ffmaxbytes <- 0.5 * memory.limit() * (1024^2) else ffmaxbytes <- 0.5 * memory.limit()
-  } else {
-    # some magic constant (2GB)
-    ffmaxbytes <- 2 * 1024^3
-  }
-  ffmaxbytes <- ffmaxbytes/nClusters
-  # Limit size on machines with a lot of memory to prevent integer overflows in ff:
-  ffmaxbytes <- min(ffmaxbytes, .Machine$integer.max * 12)
-  
-  ffbatchbytes <- ffmaxbytes/50
-  return(c(round(ffmaxbytes), round(ffbatchbytes)))
-}
-
-setFfMem <- function(values) {
-  options(ffmaxbytes = values[1])
-  options(ffbatchbytes = values[2])
-  return(c(getOption("ffmaxbytes"), getOption("ffbatchbytes")))
-}
-
-setFfDir <- function(fftempdir) {
-  options(fftempdir = fftempdir)
+setAndromedaTempFolder <- function(andromedaTempFolder) {
+  options(andromedaTempFolder = andromedaTempFolder)
 }
 
 #' Create a cluster of nodes for parallel computation
 #'
-#' @param numberOfThreads      Number of parallel threads.
-#' @param singleThreadToMain   If \code{numberOfThreads} is 1, should we fall back to running the
-#'                             process in the main thread?
-#' @param divideFfMemory       When TRUE, the memory available for processing ff and ffdf objects will
-#'                             be equally divided over the threads.
-#' @param setFfTempDir         When TRUE, the ffTempDir option will be copied to each thread.
+#' @param numberOfThreads        Number of parallel threads.
+#' @param singleThreadToMain     If \code{numberOfThreads} is 1, should we fall back to running the
+#'                               process in the main thread?
+#' @param setAndromedaTempFolder When TRUE, the andromedaTempFolder option will be copied to each thread.
 #'
 #' @return
 #' An object representing the cluster.
@@ -60,8 +35,7 @@ setFfDir <- function(fftempdir) {
 #' @export
 makeCluster <- function(numberOfThreads,
                         singleThreadToMain = TRUE,
-                        divideFfMemory = TRUE,
-                        setFfTempDir = TRUE) {
+                        setAndromedaTempFolder = TRUE) {
   if (numberOfThreads == 1 && singleThreadToMain) {
     cluster <- list()
     class(cluster) <- "noCluster"
@@ -89,19 +63,9 @@ makeCluster <- function(numberOfThreads,
     for (i in 1:length(cluster)) {
       snow::recvOneResult(cluster)
     }
-    if (divideFfMemory) {
-      values <- .computeFfMemPerCluster(length(cluster))
+    if (setAndromedaTempFolder) {
       for (i in 1:length(cluster)) {
-        snow::sendCall(cluster[[i]], setFfMem, list(values = values))
-      }
-      for (i in 1:length(cluster)) {
-        if (min(snow::recvOneResult(cluster)$value == values) == 0)
-          warning("Unable to set ffmaxbytes and/or ffbatchbytes on worker")
-      }
-    }
-    if (setFfTempDir) {
-      for (i in 1:length(cluster)) {
-        snow::sendCall(cluster[[i]], setFfDir, list(fftempdir = options("fftempdir")$fftempdir))
+        snow::sendCall(cluster[[i]], setAndromedaTempFolder, list(andromedaTempFolder = options("andromedaTempFolder")$andromedaTempFolder))
       }
       for (i in 1:length(cluster)) {
         snow::recvOneResult(cluster)
