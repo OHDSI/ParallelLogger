@@ -16,8 +16,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-setAndromedaTempFolder <- function(andromedaTempFolder) {
+doSetAndromedaTempFolder <- function(andromedaTempFolder) {
   options(andromedaTempFolder = andromedaTempFolder)
+  ParallelLogger::logTrace("AndromedateTempFolder set to ", andromedaTempFolder)
 }
 
 #' Create a cluster of nodes for parallel computation
@@ -64,11 +65,13 @@ makeCluster <- function(numberOfThreads,
       snow::recvOneResult(cluster)
     }
     if (setAndromedaTempFolder) {
-      for (i in 1:length(cluster)) {
-        snow::sendCall(cluster[[i]], setAndromedaTempFolder, list(andromedaTempFolder = options("andromedaTempFolder")$andromedaTempFolder))
-      }
-      for (i in 1:length(cluster)) {
-        snow::recvOneResult(cluster)
+      if (!is.null(getOption("andromedaTempFolder"))) {
+        for (i in 1:length(cluster)) {
+          snow::sendCall(cluster[[i]], doSetAndromedaTempFolder, list(andromedaTempFolder = getOption("andromedaTempFolder")))
+        }
+        for (i in 1:length(cluster)) {
+          snow::recvOneResult(cluster)
+        }
       }
     }
   }
