@@ -6,7 +6,7 @@ ParallelLogger
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
 [![CRAN_Status_Badge](http://cranlogs.r-pkg.org/badges/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
 
-ParallelLogger is part of the [OHDSI Methods Library](https://ohdsi.github.io/MethodsLibrary).
+ParallelLogger is part of [HADES](https://ohdsi.github.io/Hades).
 
 Introduction
 ============
@@ -76,6 +76,10 @@ Support
 =======
 * Developer questions/comments/feedback: <a href="http://forums.ohdsi.org/c/developers">OHDSI Forum</a>
 * We use the <a href="https://github.com/OHDSI/ParallelLogger/issues">GitHub issue tracker</a> for all bugs/issues/enhancements
+
+Contributing
+============
+Read [here](https://ohdsi.github.io/Hades/contribute.html) how you can contribute to this package.
 
 License
 =======

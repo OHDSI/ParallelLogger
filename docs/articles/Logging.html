@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -67,7 +67,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://ohdsi.github.io/MethodsLibrary">Methods Library</a>
+  <a href="https://ohdsi.github.io/Hades"><img src='https://ohdsi.github.io/Hades/images/hadesMini.png' width=80 height=17 style='vertical-align: top;'></a>
 </li>
 <li>
   <a href="https://github.com/OHDSI/ParallelLogger/">
@@ -91,7 +91,7 @@
       <h1 data-toc-skip>Logging using ParallelLogger</h1>
                         <h4 class="author">Martijn J. Schuemie</h4>
             
-            <h4 class="date">2020-04-22</h4>
+            <h4 class="date">2020-06-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/OHDSI/ParallelLogger/blob/master/vignettes/Logging.Rmd"><code>vignettes/Logging.Rmd</code></a></small>
       <div class="hidden name"><code>Logging.Rmd</code></div>
@@ -171,7 +171,7 @@
 
 <span class="fu"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</pre></body></html></div>
 <pre><code>#&gt; Hello world
-#&gt; 2020-04-22 03:08:11  Hello world</code></pre>
+#&gt; 2020-06-03 06:50:47  Hello world</code></pre>
 <p>Note that the message is displayed twice. This is because there is a default logger that uses the simple layout and threshold = “INFO”, and writes to console. We can remove this logger before registering our logger to avoid duplication:</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span>()
 
@@ -182,7 +182,7 @@
 <span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span>(<span class="no">logger</span>)
 
 <span class="fu"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</pre></body></html></div>
-<pre><code>#&gt; 2020-04-22 03:08:11  Hello world</code></pre>
+<pre><code>#&gt; 2020-06-03 06:50:47  Hello world</code></pre>
 <div id="shorthand" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shorthand" class="anchor"></a>Shorthand</h2>
@@ -210,12 +210,12 @@
 <span class="fu"><a href="../reference/logDebug.html">logDebug</a></span>(<span class="st">"There are "</span>,  <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="fu"><a href="../reference/getLoggers.html">getLoggers</a></span>()), <span class="st">" loggers"</span>)
 
 <span class="fu"><a href="../reference/logInfo.html">logInfo</a></span>(<span class="st">"Hello world"</span>)</pre></body></html></div>
-<pre><code>#&gt; 2020-04-22 03:08:12  Hello world</code></pre>
+<pre><code>#&gt; 2020-06-03 06:50:47  Hello world</code></pre>
 <p>We can read the log file:</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(<span class="no">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html">file.info</a></span>(<span class="no">logFileName</span>)$<span class="no">size</span>))</pre></body></html></div>
-<pre><code>#&gt; 2020-04-22 03:08:12  [Main thread]   TRACE   evaluate    timing_fn   Executed this line
-#&gt; 2020-04-22 03:08:12  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers
-#&gt; 2020-04-22 03:08:12  [Main thread]   INFO    evaluate    timing_fn   Hello world</code></pre>
+<pre><code>#&gt; 2020-06-03 06:50:47  [Main thread]   TRACE   evaluate    timing_fn   Executed this line
+#&gt; 2020-06-03 06:50:47  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers
+#&gt; 2020-06-03 06:50:47  [Main thread]   INFO    evaluate    timing_fn   Hello world</code></pre>
 <p>And clean it up when we’re done:</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html">unlink</a></span>(<span class="no">logFileName</span>)</pre></body></html></div>
 <div id="shorthand-1" class="section level2">
@@ -301,9 +301,9 @@
 <span class="no">a</span> <span class="kw">&lt;-</span> <span class="no">b</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(<span class="no">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html">file.info</a></span>(<span class="no">logFileName</span>)$<span class="no">size</span>))</pre></body></html></div>
-<pre><code>#&gt; 2020-04-22 03:08:12  [Main thread]   WARN    evaluate    timing_fn   Danger!
-#&gt; 2020-04-22 03:08:12  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion
-#&gt; 2020-04-22 03:08:12  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</code></pre>
+<pre><code>#&gt; 2020-06-03 06:50:47  [Main thread]   WARN    evaluate    timing_fn   Danger!
+#&gt; 2020-06-03 06:50:47  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion
+#&gt; 2020-06-03 06:50:47  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</code></pre>
 </div>
 <div id="logging-when-parallel-processing" class="section level1">
 <h1 class="hasAnchor">
@@ -329,22 +329,25 @@
 <span class="fu"><a href="../reference/stopCluster.html">stopCluster</a></span>(<span class="no">cluster</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/writeLines.html">writeLines</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readChar.html">readChar</a></span>(<span class="no">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html">file.info</a></span>(<span class="no">logFileName</span>)$<span class="no">size</span>))</pre></body></html></div>
-<pre><code>#&gt; 2020-04-22 03:08:12  [Main thread]   TRACE   evaluate    timing_fn   Initiating cluster with 3 threads
-#&gt; 2020-04-22 03:08:13  [Thread 1]  TRACE           Thread 1 initiated
-#&gt; 2020-04-22 03:08:13  [Thread 2]  TRACE           Thread 2 initiated
-#&gt; 2020-04-22 03:08:13  [Thread 3]  TRACE           Thread 3 initiated
-#&gt; 2020-04-22 03:08:13  [Thread 1]  INFO            The value of x is 1
-#&gt; 2020-04-22 03:08:13  [Thread 3]  INFO            The value of x is 3
-#&gt; 2020-04-22 03:08:13  [Thread 2]  INFO            The value of x is 2
-#&gt; 2020-04-22 03:08:13  [Thread 1]  INFO            The value of x is 4
-#&gt; 2020-04-22 03:08:13  [Thread 2]  INFO            The value of x is 5
-#&gt; 2020-04-22 03:08:13  [Thread 1]  INFO            The value of x is 7
-#&gt; 2020-04-22 03:08:13  [Thread 2]  INFO            The value of x is 8
-#&gt; 2020-04-22 03:08:13  [Thread 1]  INFO            The value of x is 9
-#&gt; 2020-04-22 03:08:13  [Thread 2]  INFO            The value of x is 10
-#&gt; 2020-04-22 03:08:13  [Main thread]   TRACE   evaluate    timing_fn   Stopping cluster
-#&gt; 2020-04-22 03:08:13  [Thread 1]  TRACE           Thread 1 terminated
-#&gt; 2020-04-22 03:08:13  [Thread 3]  TRACE           Thread 3 terminated</code></pre>
+<pre><code>#&gt; 2020-06-03 06:50:48  [Main thread]   TRACE   evaluate    timing_fn   Initiating cluster with 3 threads
+#&gt; 2020-06-03 06:50:49  [Thread 1]  TRACE           Thread 1 initiated
+#&gt; 2020-06-03 06:50:49  [Thread 2]  TRACE           Thread 2 initiated
+#&gt; 2020-06-03 06:50:49  [Thread 3]  TRACE           Thread 3 initiated
+#&gt; 2020-06-03 06:50:49  [Thread 1]  INFO            The value of x is 1
+#&gt; 2020-06-03 06:50:49  [Thread 3]  INFO            The value of x is 3
+#&gt; 2020-06-03 06:50:49  [Thread 2]  INFO            The value of x is 2
+#&gt; 2020-06-03 06:50:49  [Thread 1]  INFO            The value of x is 4
+#&gt; 2020-06-03 06:50:49  [Thread 2]  INFO            The value of x is 5
+#&gt; 2020-06-03 06:50:49  [Thread 3]  INFO            The value of x is 6
+#&gt; 2020-06-03 06:50:49  [Thread 1]  INFO            The value of x is 7
+#&gt; 2020-06-03 06:50:49  [Thread 3]  DEBUG           X equals 6
+#&gt; 2020-06-03 06:50:49  [Thread 2]  INFO            The value of x is 8
+#&gt; 2020-06-03 06:50:49  [Thread 1]  INFO            The value of x is 9
+#&gt; 2020-06-03 06:50:49  [Thread 3]  INFO            The value of x is 10
+#&gt; 2020-06-03 06:50:49  [Main thread]   TRACE   evaluate    timing_fn   Stopping cluster
+#&gt; 2020-06-03 06:50:49  [Thread 3]  TRACE           Thread 3 terminated
+#&gt; 2020-06-03 06:50:49  [Thread 1]  TRACE           Thread 1 terminated
+#&gt; 2020-06-03 06:50:49  [Thread 2]  TRACE           Thread 2 terminated</code></pre>
 </div>
 <div id="creating-loggers-in-functions" class="section level1">
 <h1 class="hasAnchor">

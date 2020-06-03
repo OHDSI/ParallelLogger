@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.3.0</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://ohdsi.github.io/MethodsLibrary">Methods Library</a>
+  <a href="https://ohdsi.github.io/Hades"><img src='https://ohdsi.github.io/Hades/images/hadesMini.png' width=80 height=17 style='vertical-align: top;'></a>
 </li>
 <li>
   <a href="https://github.com/OHDSI/ParallelLogger/">
@@ -141,8 +141,7 @@
     <pre class="usage"><span class='fu'>makeCluster</span>(
   <span class='no'>numberOfThreads</span>,
   <span class='kw'>singleThreadToMain</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>divideFfMemory</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>setFfTempDir</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  <span class='kw'>setAndromedaTempFolder</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -158,13 +157,8 @@
 process in the main thread?</p></td>
     </tr>
     <tr>
-      <th>divideFfMemory</th>
-      <td><p>When TRUE, the memory available for processing ff and ffdf objects will
-be equally divided over the threads.</p></td>
-    </tr>
-    <tr>
-      <th>setFfTempDir</th>
-      <td><p>When TRUE, the ffTempDir option will be copied to each thread.</p></td>
+      <th>setAndromedaTempFolder</th>
+      <td><p>When TRUE, the andromedaTempFolder option will be copied to each thread.</p></td>
     </tr>
     </table>
 
@@ -178,7 +172,7 @@ be equally divided over the threads.</p></td>
 }
 
 <span class='no'>cluster</span> <span class='kw'>&lt;-</span> <span class='fu'>makeCluster</span>(<span class='kw'>numberOfThreads</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='fu'><a href='clusterApply.html'>clusterApply</a></span>(<span class='no'>cluster</span>, <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='no'>fun</span>)</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%  |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%  |                                                                              |=================================================                     |  70%  |                                                                              |========================================================              |  80%  |                                                                              |===============================================================       |  90%  |                                                                              |======================================================================| 100%</div><div class='output co'>#&gt; [[1]]
+<span class='fu'><a href='clusterApply.html'>clusterApply</a></span>(<span class='no'>cluster</span>, <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='no'>fun</span>)</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%  |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%  |                                                                              |=================================================                     |  70%  |                                                                              |========================================================              |  80%  |                                                                              |===============================================================       |  90%  |                                                                              |======================================================================| 100%</div><div class='output co'>#&gt; [[1]]
 #&gt; [1] 1
 #&gt; 
 #&gt; [[2]]

@@ -26,7 +26,6 @@ devtools::spell_check()
 unlink("extras/ParallelLogger.pdf")
 shell("R CMD Rd2pdf ./ --output=extras/ParallelLogger.pdf")
 
-
 rmarkdown::render("vignettes/Logging.Rmd",
                   output_file = "../inst/doc/Logging.pdf",
                   rmarkdown::pdf_document(latex_engine = "pdflatex",
@@ -42,6 +41,7 @@ rmarkdown::render("vignettes/Parallel.Rmd",
 unlink("inst/doc/Parallel.tex")
 
 pkgdown::build_site(preview = FALSE)
+OhdsiRTools::fixHadesLogo()
 
 # Release package -----------------------------------------------------
 devtools::check_win_devel()

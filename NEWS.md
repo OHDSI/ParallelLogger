@@ -1,4 +1,4 @@
-ParallelLogger 1.2.1
+ParallelLogger 1.3.0
 ====================
 
 Changes
@@ -10,6 +10,8 @@ Changes
 Bugfixes
 
 1. Fixing missing spaces in argument function documentation.
+
+2. More gracefully handling unnamed lists when saving and loading from JSON.
 
 
 ParallelLogger 1.2.0
