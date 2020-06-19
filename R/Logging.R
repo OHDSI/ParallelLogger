@@ -246,10 +246,12 @@ logInfo <- function(...) {
 #'
 #' @param ...   Zero or more objects which can be coerced to character (and which are pasted together
 #'              with no separator).
+#' @param warn  (Logical) Should the warning be printed to the R console? Default is FALSE.
 #' 
 #' @export
-logWarn <- function(...) {
+logWarn <- function(..., warn = FALSE) {
   log(level = "WARN", ...)
+  if (warn) warning(.makeMessage(...))
 }
 
 #' Log a message at the ERROR level
@@ -259,10 +261,12 @@ logWarn <- function(...) {
 #'
 #' @param ...   Zero or more objects which can be coerced to character (and which are pasted together
 #'              with no separator).
+#' @stop        (Logical) Should execution be stopped because of the error? Default is FALSE.
 #'
 #' @export
-logError <- function(...) {
+logError <- function(..., stop = FALSE) {
   log(level = "ERROR", ...)
+  if(stop) stop(.makeMessage(...))
 }
 
 #' Log a message at the FATAL level
