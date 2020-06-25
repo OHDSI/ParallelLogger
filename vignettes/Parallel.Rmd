@@ -17,11 +17,6 @@ vignette: >
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(ParallelLogger)
-knitr::opts_chunk$set(
-  cache=FALSE,
-  comment = "#>",
-  error = FALSE,
-  tidy = FALSE)
 ```
 # Introduction
 
@@ -54,7 +49,7 @@ Any code that we want to execute needs to be implemented in an R function, for e
 
 ```{r}
 fun <- function(x, constant) {
-     return (x * constant)
+     return(x * constant)
 }
 ```
 
@@ -71,7 +66,7 @@ The function `clusterApply` executes the function across the nodes over all valu
 
 **Important**: `clusterApply` does not guarantee that the results are returned in the same sequence as `x`.
 
-**Important**:  The context in which a function is created is also transmitted to the worker node. If a function is defined inside another function, and that outer function is called with a large argument, that argument will be transmitted to the worker node each time the function is executed, causing substantial (probably unnecessary) overhead. It can therefore make sense to define the function to be called at the package level rather than inside a function, to save overhead. So for example, in the code below every time the function `doTinyJon` is called, the `largeVector` argument is passed to the worker node:
+**Important**:  The context in which a function is created is also transmitted to the worker node. If a function is defined inside another function, and that outer function is called with a large argument, that argument will be transmitted to the worker node each time the function is executed, causing substantial (probably unnecessary) overhead. It can therefore make sense to define the function to be called at the package level rather than inside a function, to save overhead. So for example, in the code below every time the function `doTinyJob` is called, the `largeVector` argument is passed to the worker node:
 
 ```{r}
 doBigJob <- function(largeVector) {
@@ -115,7 +110,7 @@ The *Logging using ParallelLogger* vignette explains how logging can be used to 
 
 By default, an error thrown by a node does not cause the execution in the other nodes to stop. Instead, when an error is thrown the execution continues over the other values, and not until those are complete is an error thrown in the main thread. The rationale for this is that it might be informative to see all errors instead of just the first. However, this behavior can be changed by setting `stopOnError = TRUE` when calling `clusterApply`.
 
-# Support for ff objects
+# Support for Andromeda objects
 
-The `ff` package allows the user to work with data objects that are too large to fit in memory, by performing memory mapping to a file on disc. When calling `makeCluster`, the `fftempdir` option is copied from the main thread to all worker nodes, Also, the `ffmaxbytes` and `ffbatchbytes` options are set to divide the available memory across the nodes.
+The `Andromeda` package allows the user to work with data objects that are too large to fit in memory, by storing the data on disk. When calling `makeCluster`, the `andromedaTempFolder` option is copied from the main thread to all worker nodes. Note that it is not possible to pass Andromeda objects to nodes. A workaround could be to pass the file name of an Andromeda object instead.
 

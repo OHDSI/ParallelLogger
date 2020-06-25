@@ -17,11 +17,6 @@ vignette: >
   
   ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(ParallelLogger)
-knitr::opts_chunk$set(
-cache = FALSE,
-comment = "#>",
-error = FALSE,
-tidy = FALSE)
 ```
 # Introduction
 
@@ -39,9 +34,9 @@ This vignette describes how you can use the `ParallelLogger` package to perform 
   * `ERROR`: Events indicating something went wrong.
   * `FATAL`: Events indicating something went wrong, causing the analysis to terminate.
 * **Appender**: An object that writes to a destination, for example the console or a file. An appender uses a **layout** to format its messages. There currently are three types of appenders:
-* **Console appender**: Writes to the console, created using the `createConsoleAppender` function.
-* **File appender**: Writes to a file, created using the `createFileAppender` function.
-* **E-mail appender**: Sends an e-mail, created using the `createEmailAppender` function.
+  * **Console appender**: Writes to the console, created using the `createConsoleAppender` function.
+  * **File appender**: Writes to a file, created using the `createFileAppender` function.
+  * **E-mail appender**: Sends an e-mail, created using the `createEmailAppender` function.
 * **Layout**: Objects specifying the format in which the log will be created. The following layouts are available:
   * `layoutSimple`: Only outputs the message. 
   * `layoutTimestamp`: Adds the current time and date to the message.
@@ -262,11 +257,11 @@ addDefaultFileLogger(logFileName)
 cluster <- makeCluster(3)
 
 fun <- function(x) {
-ParallelLogger::logInfo("The value of x is ", x)
-# Do something
-if (x == 6)
-ParallelLogger::logDebug("X equals 6")
-return(NULL)
+  ParallelLogger::logInfo("The value of x is ", x)
+  # Do something
+  if (x == 6)
+    ParallelLogger::logDebug("X equals 6")
+  return(NULL)
 }
 
 dummy <- clusterApply(cluster, 1:10, fun, progressBar = FALSE)
