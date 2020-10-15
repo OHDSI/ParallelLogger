@@ -50,3 +50,7 @@ logger <- createLogger(name = "EMAIL",
                        appenders = list(createEmailAppender(mailSettings = mailSettings, 
                                                             layout = layoutEmail,
                                                             test = TRUE)))
+
+# Test arg function code -------------------------------------------
+writeLines(createArgFunction("createArgFunction"))
+

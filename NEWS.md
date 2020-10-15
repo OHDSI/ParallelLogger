@@ -1,3 +1,11 @@
+ParallelLogger 2.0.1
+====================
+
+Changes
+
+1. Changed dependency from XML to xml2 to avoid trouble installing dependencies.
+
+
 ParallelLogger 2.0.0
 ====================
 

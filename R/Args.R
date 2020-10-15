@@ -69,10 +69,10 @@ createArgFunction <- function(functionName,
     argInfo$default[argInfo$name == names(args)[[i]]] <- args[[i]]
   }
   html <- capture.output(tools::Rd2HTML(.getHelpFile(help(functionName))))
-  parameterHelp <- XML::xpathApply(XML::htmlParse(html),
-                                   "//table[@summary=\"R argblock\"]//tr//td",
-                                   XML::xmlValue)
-  parameterHelp <- iconv(unlist(parameterHelp), from = "UTF-8", to = "ASCII")
+  xml <- xml2::read_html(paste(html, collapse = "\n"))
+  parameterHelp <- xml2::xml_find_all(xml, "//table[@summary=\"R argblock\"]//tr//td")
+  parameterHelp <- xml2::xml_text(parameterHelp)
+  parameterHelp <- iconv(parameterHelp, from = "UTF-8", to = "ASCII")
   argInfo$help <- ""
   for (i in 1:(length(parameterHelp)/2)) {
     argInfo$help[argInfo$name == parameterHelp[i * 2 - 1]] <- gsub("\n", " ", parameterHelp[i * 2])
