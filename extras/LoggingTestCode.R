@@ -106,3 +106,29 @@ warning ("test", x)
 
 stop("Test")
 
+# rlang messaging ----------------------------------------------------------------
+
+registerDefaultHandlers()
+registerLogger(createLogger(threshold = "INFO",
+                            appenders = list(createConsoleAppender(layout = layoutParallel))))
+
+unlink("c:/temp/logFile.txt")
+addDefaultFileLogger("c:/temp/logFile.txt")
+
+unlink("c:/temp/errorLog.txt")
+addDefaultErrorReportLogger("c:/temp/errorLog.txt")
+
+
+
+f <- function() rlang::warn("Hello")
+f <- function() rlang::abort("Hello")
+f <- function() stop("Hello")
+registerDefaultHandlers()
+summary(f())
+
+cluster <- makeCluster(2)
+clusterApply(cluster, f(), summary)
+stopCluster(cluster)
+
+writeLines(SqlRender::readSql("c:/temp/logFile.txt"))
+writeLines(SqlRender::readSql("c:/temp/errorLog.txt"))

@@ -39,16 +39,19 @@ registerDefaultHandlers <- function() {
     for (i in 1:sys.nframe()) {
       frame <- sys.call(-i)
       if (!is.null(frame) && length(frame) > 1) {
-        if (is.language(frame[[1]]) && as.character(frame[[1]]) == "warning") {
-          ParallelLogger::logWarn(evaluate(frame[[2]], -i - 1))
-          break
-        } else if (as.character(frame[[1]]) == ".signalSimpleWarning") {
-          ParallelLogger::logWarn(frame[[2]])
-          break
-        } else if (as.character(frame[[1]]) == ".Deprecated") {
-          ParallelLogger::logWarn("This function is deprecated. Use '", frame[[2]], "' instead.")
-          break
-        } 
+        name <- as.character(frame[[1]])
+        if (length(name) == 1) {
+          if (is.language(frame[[1]]) && name == "warning") {
+            ParallelLogger::logWarn(evaluate(frame[[2]], -i - 1))
+            break
+          } else if (name == ".signalSimpleWarning") {
+            ParallelLogger::logWarn(frame[[2]])
+            break
+          } else if (name == ".Deprecated") {
+            ParallelLogger::logWarn("This function is deprecated. Use '", frame[[2]], "' instead.")
+            break
+          } 
+        }
       }
     }})
   )

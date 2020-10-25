@@ -74,8 +74,7 @@ layoutParallel <- function(level, message) {
   if (sys.nframe() > 4) {
     for (i in 4:sys.nframe()) {
       packageName <- utils::packageName(env = sys.frame(-i))
-      if (length(packageName) != 0 && packageName != "base" && packageName != "snow" && packageName !=
-          "ParallelLogger") {
+      if (length(packageName) != 0 && !packageName %in% c("base", "snow", "ParallelLogger", "rlang")) {
         if (class(sys.call(-i)[[1]]) == "function") {
           # Using do.call without quotes means the function name is lost
           functionName <- ""

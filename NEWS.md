@@ -5,6 +5,10 @@ Changes
 
 1. Changed dependency from XML to xml2 to avoid trouble installing dependencies.
 
+BugFixes
+
+1. Correct function attribution in log when using rlang `warn` or `abort`.
+
 
 ParallelLogger 2.0.0
 ====================
