@@ -1,3 +1,11 @@
+ParallelLogger 3.0.0
+====================
+
+Changes
+
+1. Using new globalCallingHandlers functionality introduced in R 4.0.0 to capture warnings, errors and messages.
+
+
 ParallelLogger 2.0.1
 ====================
 

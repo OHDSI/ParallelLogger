@@ -12,6 +12,7 @@ logInfo("Hello world")
 # We can replace this with a fancier logger, for example with threshold = "DEBUG":
 
 clearLoggers()
+addDefaultConsoleLogger()
 
 registerLogger(createLogger(threshold = "INFO",
                             appenders = list(createConsoleAppender(layout = layoutSimple))))
@@ -112,6 +113,9 @@ registerDefaultHandlers()
 registerLogger(createLogger(threshold = "INFO",
                             appenders = list(createConsoleAppender(layout = layoutParallel))))
 
+
+clearLoggers()
+
 unlink("c:/temp/logFile.txt")
 addDefaultFileLogger("c:/temp/logFile.txt")
 
@@ -123,8 +127,8 @@ addDefaultErrorReportLogger("c:/temp/errorLog.txt")
 f <- function() rlang::warn("Hello")
 f <- function() rlang::abort("Hello")
 f <- function() stop("Hello")
-registerDefaultHandlers()
 summary(f())
+CohortMethod::plotPs(NULL)
 
 cluster <- makeCluster(2)
 clusterApply(cluster, f(), summary)
@@ -132,3 +136,28 @@ stopCluster(cluster)
 
 writeLines(SqlRender::readSql("c:/temp/logFile.txt"))
 writeLines(SqlRender::readSql("c:/temp/errorLog.txt"))
+
+myPrint <- function(message) {
+  print(message)
+}
+
+conditionHandler <- function(condition, ...) {
+  print(condition$message)
+  print(class(condition))
+  print(is(condition, "warning"))
+  writeLines(condition$message, con = stdout())
+}
+
+globalCallingHandlers(condition = conditionHandler)
+
+
+stop("test2")
+rlang::abort("test2")
+warning("test")
+rlang::warn("test")
+message("test3")
+rlang::inform("test3")
+
+globalCallingHandlers(NULL)
+
+

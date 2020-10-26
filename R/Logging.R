@@ -16,45 +16,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+conditionHandler <- function(condition) {
+  if (is(condition, "error")) {
+    logFatal(condition$message)
+  } else if (is(condition, "warning")) {
+    logWarn(condition$message)
+  } else if (is(condition, "message")) {
+    logInfo(condition$message)
+  } 
+}
+
+handlerRegistered <- function() {
+   handlers <- globalCallingHandlers()
+   if (length(handlers) == 0) {
+     return(FALSE)
+   } else {
+     return(any(sapply(handlers, function(x) isTRUE(all.equal(x, conditionHandler)))))
+   }
+}
+
 registerDefaultHandlers <- function() {
-  logBaseError <- function() {
-    logFatal(gsub("\n", " ", geterrmessage()))
-  }
-  options(error = logBaseError)
-  
-  options(warning.expression = quote({
-    evaluate <- function(message, frameIndex) {
-      if (frameIndex < -20) {
-        return(as.character(force(message)))
-      } else {
-        text <- tryCatch(as.character(eval(message, envir = sys.frame(frameIndex))), error = function(x) "error")
-        if (text == "error") {
-          return(evaluate(message, frameIndex - 2))
-        } else {
-          return(text)
-        }
-      }
-    }
-    
-    for (i in 1:sys.nframe()) {
-      frame <- sys.call(-i)
-      if (!is.null(frame) && length(frame) > 1) {
-        name <- as.character(frame[[1]])
-        if (length(name) == 1) {
-          if (is.language(frame[[1]]) && name == "warning") {
-            ParallelLogger::logWarn(evaluate(frame[[2]], -i - 1))
-            break
-          } else if (name == ".signalSimpleWarning") {
-            ParallelLogger::logWarn(frame[[2]])
-            break
-          } else if (name == ".Deprecated") {
-            ParallelLogger::logWarn("This function is deprecated. Use '", frame[[2]], "' instead.")
-            break
-          } 
-        }
-      }
-    }})
-  )
+  globalCallingHandlers(condition = conditionHandler)
 }
 
 getDefaultLoggerSettings <- function() {
@@ -66,7 +48,7 @@ getLoggerSettings <- function() {
   if (is.null(settings)) {
     settings <- getDefaultLoggerSettings()
   }
-  if (is.null(getOption("warning.expression"))) {
+  if (!handlerRegistered()) {
     registerDefaultHandlers()
   }
   return(settings)
