@@ -4,7 +4,10 @@
 \alias{addDefaultConsoleLogger}
 \title{Add the default console logger}
 \usage{
-addDefaultConsoleLogger()
+addDefaultConsoleLogger(name = "DEFAULT_CONSOLE_LOGGER")
+}
+\arguments{
+\item{name}{A name for the logger.}
 }
 \description{
 Add the default console logger

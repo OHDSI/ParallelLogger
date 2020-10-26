@@ -4,16 +4,21 @@
 \alias{addDefaultErrorReportLogger}
 \title{Add the default error report logger}
 \usage{
-addDefaultErrorReportLogger(fileName = file.path(getwd(), "errorReportR.txt"))
+addDefaultErrorReportLogger(
+  fileName = file.path(getwd(), "errorReportR.txt"),
+  name = "DEFAULT_ERRORREPORT_LOGGER"
+)
 }
 \arguments{
 \item{fileName}{The name of the file to write to.}
+
+\item{name}{A name for the logger.}
 }
 \description{
 Add the default error report logger
 }
 \details{
-Creates a logger named 'DEFAULT_ERRORREPORT_LOGGER' that writes to a file using the "FATAL" threshold and the
+Creates a logger that writes to a file using the "FATAL" threshold and the
 \code{\link{layoutErrorReport}} layout. The file will be overwritten if it is 
 older than 60 seconds. The user will be notified that the error report has been
 created, and where to find it.

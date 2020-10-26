@@ -2,7 +2,7 @@ Package: ParallelLogger
 Type: Package
 Title: Support for Parallel Computation, Logging, and Function Automation
 Version: 2.0.1
-Date: 2020-010-15
+Date: 2020-10-26
 Authors@R: c(
   person("Martijn", "Schuemie", email = "schuemie@ohdsi.org", role = c("aut", "cre")),
   person("Marc", "Suchard", role = c("aut")),

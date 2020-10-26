@@ -5,6 +5,8 @@ Changes
 
 1. Changed dependency from XML to xml2 to avoid trouble installing dependencies.
 
+2. Allow override of name of default loggers.
+
 BugFixes
 
 1. Correct function attribution in log when using rlang `warn` or `abort`.

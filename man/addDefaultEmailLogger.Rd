@@ -7,6 +7,7 @@
 addDefaultEmailLogger(
   mailSettings,
   label = Sys.info()["nodename"],
+  name = "DEFAULT_EMAIL_LOGGER",
   test = FALSE
 )
 }
@@ -17,13 +18,15 @@ subject and body).}
 \item{label}{A label to be used in the e-mail subject to identify a run. By default the
 name of the computer is used.}
 
+\item{name}{A name for the logger.}
+
 \item{test}{If TRUE, a message will be displayed on the console instead of sending an e-mail.}
 }
 \description{
 Add the default e-mail logger
 }
 \details{
-Creates a logger names 'DEFAULT_EMAIL_LOGGER' that writes to e-mail using the "FATAL" threshold and the
+Creates a logger that writes to e-mail using the "FATAL" threshold and the
 \code{\link{layoutEmail}} layout. This function uses the \code{mailR} package. Please
 make sure your e-mail settings are correct by using the mailR package before using those settings here. 
 ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
