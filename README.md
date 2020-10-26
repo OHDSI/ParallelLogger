@@ -55,8 +55,9 @@ install.packages("ParallelLogger")
 To install the latest development version, install from the develop branch in GitHub:
 
 ```r
-install.packages("devtools")
-devtools::install_github("ohdsi/ParallelLogger", ref = "develop")
+install.packages("remotes")
+library(remotes)
+install_github("ohdsi/ParallelLogger", ref = "develop")
 ```
 
 User Documentation

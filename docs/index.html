@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -113,18 +113,19 @@
 <div id="examples" class="section level1">
 <h1 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h1>
-<div class="sourceCode" id="cb1"><pre class="r"><span class="co"># Run a function in parallel:</span>
-<span class="no">fun</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/function.html">return</a></span> (<span class="no">x</span>^<span class="fl">2</span>)
-}
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="co"># Run a function in parallel:</span>
+<span class="va">fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span> <span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
+<span class="op">}</span>
 
-<span class="no">cluster</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/makeCluster.html">makeCluster</a></span>(<span class="kw">numberOfThreads</span> <span class="kw">=</span> <span class="fl">3</span>)
-<span class="no">result</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/clusterApply.html">clusterApply</a></span>(<span class="no">cluster</span>, <span class="fl">1</span>:<span class="fl">10</span>, <span class="no">fun</span>)
-<span class="fu"><a href="reference/stopCluster.html">stopCluster</a></span>(<span class="no">cluster</span>)
+<span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/makeCluster.html">makeCluster</a></span><span class="op">(</span>numberOfThreads <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">fun</span><span class="op">)</span>
+<span class="fu"><a href="reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span>
 
 <span class="co"># Create a file logger:</span>
-<span class="fu"><a href="reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span>(<span class="st">"log.txt"</span>)
-<span class="fu"><a href="reference/logTrace.html">logTrace</a></span>(<span class="st">"Hello world"</span>)</pre></div>
+<span class="fu"><a href="reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"log.txt"</span><span class="op">)</span>
+<span class="fu"><a href="reference/logTrace.html">logTrace</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></pre></div>
 </div>
 <div id="technology" class="section level1">
 <h1 class="hasAnchor">
@@ -140,10 +141,13 @@
 <h1 class="hasAnchor">
 <a href="#getting-started" class="anchor"></a>Getting Started</h1>
 <p>In R, to install the latest stable version, install from CRAN:</p>
-<div class="sourceCode" id="cb2"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"ParallelLogger"</span>)</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"ParallelLogger"</span><span class="op">)</span></pre></div>
 <p>To install the latest development version, install from the develop branch in GitHub:</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"ohdsi/ParallelLogger"</span>, <span class="kw">ref</span> <span class="kw">=</span> <span class="st">"develop"</span>)</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org">remotes</a></span><span class="op">)</span>
+<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"ohdsi/ParallelLogger"</span>, ref <span class="op">=</span> <span class="st">"develop"</span><span class="op">)</span></pre></div>
 </div>
 <div id="user-documentation" class="section level1">
 <h1 class="hasAnchor">
@@ -162,7 +166,7 @@
 <div id="contributing" class="section level1">
 <h1 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h1>
-<p>Read <a href="https://ohdsi.github.io/MethodsLibrary/contribute.html">here</a> how you can contribute to this package.</p>
+<p>Read <a href="https://ohdsi.github.io/Hades/contribute.html">here</a> how you can contribute to this package.</p>
 </div>
 <div id="support" class="section level1">
 <h1 class="hasAnchor">
@@ -250,7 +254,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

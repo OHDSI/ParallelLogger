@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@
     <p>Select variables from a list of objects of the same type</p>
     </div>
 
-    <pre class="usage"><span class='fu'>selectFromList</span>(<span class='no'>x</span>, <span class='no'>select</span>)</pre>
+    <pre class="usage"><span class='fu'>selectFromList</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>select</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,9 +156,10 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"John"</span>, <span class='kw'>age</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>gender</span> <span class='kw'>=</span> <span class='st'>"M"</span>),
-          <span class='kw'>b</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Mary"</span>, <span class='kw'>age</span> <span class='kw'>=</span> <span class='fl'>24</span>, <span class='kw'>gender</span> <span class='kw'>=</span> <span class='st'>"F"</span>))
-<span class='fu'>selectFromList</span>(<span class='no'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"name"</span>, <span class='st'>"age"</span>))</div><div class='output co'>#&gt; $a
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>a <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"John"</span>, age <span class='op'>=</span> <span class='fl'>25</span>, gender <span class='op'>=</span> <span class='st'>"M"</span><span class='op'>)</span>,
+          b <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"Mary"</span>, age <span class='op'>=</span> <span class='fl'>24</span>, gender <span class='op'>=</span> <span class='st'>"F"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>selectFromList</span><span class='op'>(</span><span class='va'>x</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"name"</span>, <span class='st'>"age"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $a
 #&gt; $a$name
 #&gt; [1] "John"
 #&gt; 
@@ -174,20 +175,20 @@
 #&gt; [1] 24
 #&gt; 
 #&gt; </div><div class='input'>
-# $a
-# $a$name
-# [1] "John"
-# 
-# $a$age
-# [1] 25
-# 
-# 
-# $b
-# $b$name
-# [1] "Mary"
-# 
-# $b$age
-# [1] 24
+<span class='co'># $a</span>
+<span class='co'># $a$name</span>
+<span class='co'># [1] "John"</span>
+<span class='co'># </span>
+<span class='co'># $a$age</span>
+<span class='co'># [1] 25</span>
+<span class='co'># </span>
+<span class='co'># </span>
+<span class='co'># $b</span>
+<span class='co'># $b$name</span>
+<span class='co'># [1] "Mary"</span>
+<span class='co'># </span>
+<span class='co'># $b$age</span>
+<span class='co'># [1] 24</span>
 
 </div></pre>
   </div>
@@ -205,7 +206,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

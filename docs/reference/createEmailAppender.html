@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.1</span>
       </span>
     </div>
 
@@ -138,12 +138,12 @@
     <p>Create e-mail appender</p>
     </div>
 
-    <pre class="usage"><span class='fu'>createEmailAppender</span>(
-  <span class='kw'>layout</span> <span class='kw'>=</span> <span class='no'>layoutEmail</span>,
-  <span class='no'>mailSettings</span>,
-  <span class='kw'>label</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.info.html'>Sys.info</a></span>()[<span class='st'>"nodename"</span>],
-  <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>createEmailAppender</span><span class='op'>(</span>
+  layout <span class='op'>=</span> <span class='va'>layoutEmail</span>,
+  <span class='va'>mailSettings</span>,
+  label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.info.html'>Sys.info</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span><span class='st'>"nodename"</span><span class='op'>]</span>,
+  test <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,40 +164,40 @@ name of the computer is used.</p></td>
     </tr>
     <tr>
       <th>test</th>
-      <td><p>If TRUE, a message will be displayed on the console instead of sending an e-mail.</p></td>
+      <td><p>If TRUE, a message will be displayed on the console instead of sending an
+e-mail.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Creates an appender that will send log events to an e-mail address using the <code>mailR</code> package. Please
-make sure your settings are correct by using the mailR package before using those settings here. 
-ParallelLogger will not display any messages if something goes wrong when sending the e-mail.</p>
+    <p>Creates an appender that will send log events to an e-mail address using the <code>mailR</code> package.
+Please make sure your settings are correct by using the mailR package before using those settings
+here. ParallelLogger will not display any messages if something goes wrong when sending the e-mail.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>mailSettings</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='st'>"someone@gmail.com"</span>,
-                     <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"someone_else@gmail.com"</span>),
-                     <span class='kw'>smtp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>host.name</span> <span class='kw'>=</span> <span class='st'>"smtp.gmail.com"</span>,
-                                 <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>465</span>,
-                                 <span class='kw'>user.name</span> <span class='kw'>=</span> <span class='st'>"someone@gmail.com"</span>,
-                                 <span class='kw'>passwd</span> <span class='kw'>=</span> <span class='st'>"super_secret!"</span>,
-                                 <span class='kw'>ssl</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
-                     <span class='kw'>authenticate</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-                     <span class='kw'>send</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='va'>mailSettings</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>from <span class='op'>=</span> <span class='st'>"someone@gmail.com"</span>,
+                     to <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"someone_else@gmail.com"</span><span class='op'>)</span>,
+                     smtp <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>host.name <span class='op'>=</span> <span class='st'>"smtp.gmail.com"</span>,
+                                 port <span class='op'>=</span> <span class='fl'>465</span>,
+                                 user.name <span class='op'>=</span> <span class='st'>"someone@gmail.com"</span>,
+                                 passwd <span class='op'>=</span> <span class='st'>"super_secret!"</span>,
+                                 ssl <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>,
+                     authenticate <span class='op'>=</span> <span class='cn'>TRUE</span>,
+                     send <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># Setting test to TRUE in this example so we don't really send an e-mail:</span>
-<span class='no'>appender</span> <span class='kw'>&lt;-</span> <span class='fu'>createEmailAppender</span>(<span class='kw'>layout</span> <span class='kw'>=</span> <span class='no'>layoutEmail</span>,
-                                <span class='kw'>mailSettings</span> <span class='kw'>=</span> <span class='no'>mailSettings</span>,
-                                <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"My R session"</span>,
-                                <span class='kw'>test</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='va'>appender</span> <span class='op'>&lt;-</span> <span class='fu'>createEmailAppender</span><span class='op'>(</span>layout <span class='op'>=</span> <span class='va'>layoutEmail</span>,
+                                mailSettings <span class='op'>=</span> <span class='va'>mailSettings</span>,
+                                label <span class='op'>=</span> <span class='st'>"My R session"</span>,
+                                test <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='no'>logger</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='createLogger.html'>createLogger</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"EMAIL"</span>,
-                       <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='st'>"FATAL"</span>,
-                       <span class='kw'>appenders</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>appender</span>))
-<span class='fu'><a href='registerLogger.html'>registerLogger</a></span>(<span class='no'>logger</span>)
+<span class='va'>logger</span> <span class='op'>&lt;-</span> <span class='fu'><a href='createLogger.html'>createLogger</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='st'>"EMAIL"</span>, threshold <span class='op'>=</span> <span class='st'>"FATAL"</span>, appenders <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>appender</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='registerLogger.html'>registerLogger</a></span><span class='op'>(</span><span class='va'>logger</span><span class='op'>)</span>
 
-<span class='fu'><a href='logFatal.html'>logFatal</a></span>(<span class='st'>"Something bad"</span>)
+<span class='fu'><a href='logFatal.html'>logFatal</a></span><span class='op'>(</span><span class='st'>"Something bad"</span><span class='op'>)</span>
 
-<span class='fu'><a href='unregisterLogger.html'>unregisterLogger</a></span>(<span class='st'>"EMAIL"</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='unregisterLogger.html'>unregisterLogger</a></span><span class='op'>(</span><span class='st'>"EMAIL"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -214,7 +214,7 @@ ParallelLogger will not display any messages if something goes wrong when sendin
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

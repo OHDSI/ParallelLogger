@@ -86,7 +86,7 @@ addDefaultConsoleLogger()
 is equivalent to
 
 ```{r, eval=FALSE}
-registerLogger(createLogger(name = "SIMPLE",
+registerLogger(createLogger(name = "DEFAULT_CONSOLE_LOGGER",
                             threshold = "INFO", 
                             appenders = list(createConsoleAppender(layout = layoutSimple))))
 ```

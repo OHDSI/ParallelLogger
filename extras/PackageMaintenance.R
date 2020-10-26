@@ -40,7 +40,7 @@ rmarkdown::render("vignettes/Parallel.Rmd",
                                           number_sections = TRUE))
 unlink("inst/doc/Parallel.tex")
 
-pkgdown::build_site(preview = FALSE)
+pkgdown::build_site()
 OhdsiRTools::fixHadesLogo()
 
 # Release package -----------------------------------------------------
