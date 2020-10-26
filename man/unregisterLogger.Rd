@@ -7,8 +7,8 @@
 unregisterLogger(x, silent = FALSE)
 }
 \arguments{
-\item{x}{Can either be an integer (e.g. 2 to remove the second logger), the name of the logger, or
-the logger object itself.}
+\item{x}{Can either be an integer (e.g. 2 to remove the second logger), the name of the
+logger, or the logger object itself.}
 
 \item{silent}{If TRUE, no warning will be issued if the logger is not found.}
 }

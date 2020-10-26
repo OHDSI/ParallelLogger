@@ -27,11 +27,19 @@ x <- list(a = list(name = "John", age = 25, gender = "M"),
 
 matchInList(x, list(name = "Mary"))
 
-# [[1]]
-# [[1]]$name
+# $a
+# $a$name
+# [1] "John"
+# 
+# $a$age
+# [1] 25
+# 
+# 
+# $b
+# $b$name
 # [1] "Mary"
 # 
-# [[1]]$age
+# $b$age
 # [1] 24
 
 }

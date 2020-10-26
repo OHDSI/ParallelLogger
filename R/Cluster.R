@@ -23,20 +23,19 @@ doSetAndromedaTempFolder <- function(andromedaTempFolder) {
 
 #' Create a cluster of nodes for parallel computation
 #'
-#' @param numberOfThreads        Number of parallel threads.
-#' @param singleThreadToMain     If \code{numberOfThreads} is 1, should we fall back to running the
-#'                               process in the main thread?
-#' @param setAndromedaTempFolder When TRUE, the andromedaTempFolder option will be copied to each thread.
+#' @param numberOfThreads          Number of parallel threads.
+#' @param singleThreadToMain       If \code{numberOfThreads} is 1, should we fall back to running the
+#'                                 process in the main thread?
+#' @param setAndromedaTempFolder   When TRUE, the andromedaTempFolder option will be copied to each
+#'                                 thread.
 #'
 #' @return
 #' An object representing the cluster.
-#' 
+#'
 #' @template ClusterExample
 #'
 #' @export
-makeCluster <- function(numberOfThreads,
-                        singleThreadToMain = TRUE,
-                        setAndromedaTempFolder = TRUE) {
+makeCluster <- function(numberOfThreads, singleThreadToMain = TRUE, setAndromedaTempFolder = TRUE) {
   if (numberOfThreads == 1 && singleThreadToMain) {
     cluster <- list()
     class(cluster) <- "noCluster"
@@ -49,7 +48,7 @@ makeCluster <- function(numberOfThreads,
       for (logger in loggers) {
         ParallelLogger::registerLogger(logger)
       }
-      options("threadNumber" = threadNumber)
+      options(threadNumber = threadNumber)
       ParallelLogger::logTrace("Thread ", threadNumber, " initiated")
       finalize <- function(env) {
         ParallelLogger::logTrace("Thread ", threadNumber, " terminated")
@@ -67,7 +66,9 @@ makeCluster <- function(numberOfThreads,
     if (setAndromedaTempFolder) {
       if (!is.null(getOption("andromedaTempFolder"))) {
         for (i in 1:length(cluster)) {
-          snow::sendCall(cluster[[i]], doSetAndromedaTempFolder, list(andromedaTempFolder = getOption("andromedaTempFolder")))
+          snow::sendCall(cluster[[i]],
+                         doSetAndromedaTempFolder,
+                         list(andromedaTempFolder = getOption("andromedaTempFolder")))
         }
         for (i in 1:length(cluster)) {
           snow::recvOneResult(cluster)
@@ -79,8 +80,8 @@ makeCluster <- function(numberOfThreads,
 }
 
 #' Require a package in the cluster
-#' 
-#' @description 
+#'
+#' @description
 #' Calls the \code{require} function in each node of the cluster.
 #'
 #' @param cluster   The cluster object.
@@ -106,7 +107,7 @@ clusterRequire <- function(cluster, package) {
 #' Stop the cluster
 #'
 #' @param cluster   The cluster to stop
-#' 
+#'
 #' @template ClusterExample
 #'
 #' @export
@@ -128,7 +129,7 @@ functionWrapper <- function(..., fun = fun) {
     ParallelLogger::logFatal(conditionMessage(e))
     stop(e)
   }
-  withCallingHandlers(docall(fun , list(...)), error = handler)
+  withCallingHandlers(docall(fun, list(...)), error = handler)
 }
 
 #' Apply a function to a list using the cluster
@@ -154,7 +155,7 @@ functionWrapper <- function(..., fun = fun) {
 #'
 #' @return
 #' A list with the result of the function on each item in x.
-#' 
+#'
 #' @template ClusterExample
 #'
 #' @export
@@ -167,11 +168,13 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
     if (n > 0 && p > 0) {
       if (progressBar)
         pb <- txtProgressBar(style = 3)
-      
+
       for (i in 1:min(n, p)) {
-        snow::sendCall(cluster[[i]], functionWrapper, c(list(x[[i]]), list(...), list(fun = fun)), tag = i)
+        snow::sendCall(cluster[[i]], functionWrapper, c(list(x[[i]]),
+                                                        list(...),
+                                                        list(fun = fun)), tag = i)
       }
-      
+
       val <- vector("list", n)
       hasError <- FALSE
       formatError <- function(threadNumber, error, args) {
@@ -186,10 +189,10 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
           val[d$tag] <- NULL
           errorMessage <- formatError(d$node, d$value, c(list(x[[d$tag]]), list(...)))
           if (stopOnError) {
-            stop(errorMessage)
+          stop(errorMessage)
           } else {
-            ParallelLogger::logError(errorMessage)
-            hasError <- TRUE
+          ParallelLogger::logError(errorMessage)
+          hasError <- TRUE
           }
         }
         if (progressBar)

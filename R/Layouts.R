@@ -23,7 +23,7 @@
 #'
 #' @param level     The level of the message (e.g. "INFO")
 #' @param message   The message to layout.
-#' 
+#'
 #' @export
 layoutSimple <- function(level, message) {
   # Avoid check notes about non-used parameters:
@@ -42,7 +42,7 @@ layoutSimple <- function(level, message) {
 #' @param message   The message to layout.
 #'
 #' @template LoggingExample
-#' 
+#'
 #' @export
 layoutTimestamp <- function(level, message) {
   # Avoid check notes about non-used parameters:
@@ -74,7 +74,10 @@ layoutParallel <- function(level, message) {
   if (sys.nframe() > 4) {
     for (i in 4:sys.nframe()) {
       packageName <- utils::packageName(env = sys.frame(-i))
-      if (length(packageName) != 0 && !packageName %in% c("base", "snow", "ParallelLogger", "rlang")) {
+      if (length(packageName) != 0 && !packageName %in% c("base",
+                                                          "snow",
+                                                          "ParallelLogger",
+                                                          "rlang")) {
         if (class(sys.call(-i)[[1]]) == "function") {
           # Using do.call without quotes means the function name is lost
           functionName <- ""
@@ -119,14 +122,14 @@ layoutStackTrace <- function(level, message) {
                     trace,
                     collapse = "\n"))
   return(output)
-  
+
 }
 
 #' Logging layout for e-mail
 #'
 #' @description
-#' A layout function to be used with an e-mail appender. This layout creates a short summary e-mail message on the event, 
-#' including stack trace.
+#' A layout function to be used with an e-mail appender. This layout creates a short summary e-mail
+#' message on the event, including stack trace.
 #'
 #' @param level     The level of the message (e.g. "INFO")
 #' @param message   The message to layout.
@@ -146,9 +149,9 @@ layoutEmail <- function(level, message) {
 #' Logging layout for error report
 #'
 #' @description
-#' A layout function to be used with an appender. This layout creates a more elaborate error message, for
-#' sharing with the developer. If an error occurs in the main thread a summary of the system info will
-#' be included.
+#' A layout function to be used with an appender. This layout creates a more elaborate error message,
+#' for sharing with the developer. If an error occurs in the main thread a summary of the system info
+#' will be included.
 #'
 #' @param level     The level of the message (e.g. "INFO")
 #' @param message   The message to layout.

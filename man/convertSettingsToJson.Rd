@@ -16,6 +16,6 @@ A JSON string representing the R object.
 Convert a settings object to a JSON string
 }
 \details{
-Convert a settings object to a JSON string, using pretty formatting and preserving object classes and
-attributes.
+Convert a settings object to a JSON string, using pretty formatting and preserving object classes
+and attributes.
 }

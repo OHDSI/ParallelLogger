@@ -20,15 +20,16 @@ name of the computer is used.}
 
 \item{name}{A name for the logger.}
 
-\item{test}{If TRUE, a message will be displayed on the console instead of sending an e-mail.}
+\item{test}{If TRUE, a message will be displayed on the console instead of sending an
+e-mail.}
 }
 \description{
 Add the default e-mail logger
 }
 \details{
 Creates a logger that writes to e-mail using the "FATAL" threshold and the
-\code{\link{layoutEmail}} layout. This function uses the \code{mailR} package. Please
-make sure your e-mail settings are correct by using the mailR package before using those settings here. 
+\code{\link{layoutEmail}} layout. This function uses the \code{mailR} package. Please make sure
+your e-mail settings are correct by using the mailR package before using those settings here.
 ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
 }
 \examples{
@@ -41,7 +42,7 @@ mailSettings <- list(from = "someone@gmail.com",
                                  ssl = TRUE),
                      authenticate = TRUE,
                      send = TRUE)
-                     
+
 # Setting test to TRUE in this example so we don't really send an e-mail:
 addDefaultEmailLogger(mailSettings, "My R session", test = TRUE)
 logFatal("Something bad")

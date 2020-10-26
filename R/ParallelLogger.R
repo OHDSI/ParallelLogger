@@ -20,7 +20,6 @@
 "_PACKAGE"
 
 #' @importFrom methods getFunction is
-#' @importFrom utils installed.packages install.packages menu capture.output 
-#'             help memory.limit setTxtProgressBar txtProgressBar limitedLabels 
-#'             sessionInfo
+#' @importFrom utils installed.packages install.packages menu capture.output help memory.limit
+#' setTxtProgressBar txtProgressBar limitedLabels sessionInfo
 NULL

@@ -12,6 +12,6 @@ layoutEmail(level, message)
 \item{message}{The message to layout.}
 }
 \description{
-A layout function to be used with an e-mail appender. This layout creates a short summary e-mail message on the event, 
-including stack trace.
+A layout function to be used with an e-mail appender. This layout creates a short summary e-mail
+message on the event, including stack trace.
 }

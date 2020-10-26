@@ -31,7 +31,7 @@
 #'
 #' @return
 #' An object of type \code{Logger}, to be used with the \code{\link{registerLogger}} function.
-#' 
+#'
 #' @template LoggingExample
 #'
 #' @export
@@ -56,18 +56,18 @@ createLogger <- function(name = "SIMPLE",
 
 #' Add the default console logger
 #'
-#' @param name        A name for the logger.
-#' 
+#' @param name   A name for the logger.
+#'
 #' @details
 #' Creates a logger that writes to the console using the "INFO" threshold and the
 #' \code{\link{layoutSimple}} layout.
 #'
-#' @examples 
+#' @examples
 #' logger <- addDefaultConsoleLogger()
 #' logTrace("This event is below the threshold (INFO)")
-#' logInfo("Hello world")                       
-#' unregisterLogger(logger)  
-#' 
+#' logInfo("Hello world")
+#' unregisterLogger(logger)
+#'
 #' @export
 addDefaultConsoleLogger <- function(name = "DEFAULT_CONSOLE_LOGGER") {
   logger <- createLogger(name = name)
@@ -83,7 +83,7 @@ addDefaultConsoleLogger <- function(name = "DEFAULT_CONSOLE_LOGGER") {
 #' be started using \code{\link{launchLogViewer}}.
 #'
 #' @param fileName   The name of the file to write to.
-#' @param name        A name for the logger.
+#' @param name       A name for the logger.
 #'
 #' @export
 addDefaultFileLogger <- function(fileName, name = "DEFAULT_FILE_LOGGER") {
@@ -97,17 +97,18 @@ addDefaultFileLogger <- function(fileName, name = "DEFAULT_FILE_LOGGER") {
 #'
 #' @details
 #' Creates a logger that writes to e-mail using the "FATAL" threshold and the
-#' \code{\link{layoutEmail}} layout. This function uses the \code{mailR} package. Please
-#' make sure your e-mail settings are correct by using the mailR package before using those settings here. 
+#' \code{\link{layoutEmail}} layout. This function uses the \code{mailR} package. Please make sure
+#' your e-mail settings are correct by using the mailR package before using those settings here.
 #' ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
 #'
-#' @param mailSettings    Arguments to be passed to the send.mail function in the mailR package (except
-#'                        subject and body).
-#' @param label           A label to be used in the e-mail subject to identify a run. By default the
-#'                        name of the computer is used.
-#' @param name            A name for the logger.
-#' @param test            If TRUE, a message will be displayed on the console instead of sending an e-mail.
-#' 
+#' @param mailSettings   Arguments to be passed to the send.mail function in the mailR package (except
+#'                       subject and body).
+#' @param label          A label to be used in the e-mail subject to identify a run. By default the
+#'                       name of the computer is used.
+#' @param name           A name for the logger.
+#' @param test           If TRUE, a message will be displayed on the console instead of sending an
+#'                       e-mail.
+#'
 #' @examples
 #' mailSettings <- list(from = "someone@gmail.com",
 #'                      to = c("someone_else@gmail.com"),
@@ -118,15 +119,18 @@ addDefaultFileLogger <- function(fileName, name = "DEFAULT_FILE_LOGGER") {
 #'                                  ssl = TRUE),
 #'                      authenticate = TRUE,
 #'                      send = TRUE)
-#'                      
+#'
 #' # Setting test to TRUE in this example so we don't really send an e-mail:
 #' addDefaultEmailLogger(mailSettings, "My R session", test = TRUE)
 #' logFatal("Something bad")
-#' 
+#'
 #' unregisterLogger("DEFAULT")
 #'
 #' @export
-addDefaultEmailLogger <- function(mailSettings, label = Sys.info()["nodename"], name = "DEFAULT_EMAIL_LOGGER", test = FALSE) {
+addDefaultEmailLogger <- function(mailSettings,
+                                  label = Sys.info()["nodename"],
+                                  name = "DEFAULT_EMAIL_LOGGER",
+                                  test = FALSE) {
   registerLogger(createLogger(name = name,
                               threshold = "FATAL",
                               appenders = list(createEmailAppender(layout = layoutEmail,
@@ -139,19 +143,19 @@ addDefaultEmailLogger <- function(mailSettings, label = Sys.info()["nodename"], 
 #'
 #' @details
 #' Creates a logger that writes to a file using the "FATAL" threshold and the
-#' \code{\link{layoutErrorReport}} layout. The file will be overwritten if it is 
-#' older than 60 seconds. The user will be notified that the error report has been
-#' created, and where to find it.
+#' \code{\link{layoutErrorReport}} layout. The file will be overwritten if it is older than 60
+#' seconds. The user will be notified that the error report has been created, and where to find it.
 #'
 #' @param fileName   The name of the file to write to.
 #' @param name       A name for the logger.
 #'
 #' @export
-addDefaultErrorReportLogger <- function(fileName = file.path(getwd(), "errorReportR.txt"), name = "DEFAULT_ERRORREPORT_LOGGER") {
+addDefaultErrorReportLogger <- function(fileName = file.path(getwd(), "errorReportR.txt"),
+                                        name = "DEFAULT_ERRORREPORT_LOGGER") {
   registerLogger(createLogger(name = name,
                               threshold = "FATAL",
                               appenders = list(createFileAppender(layout = layoutErrorReport,
                                                                   fileName = fileName,
                                                                   overwrite = TRUE,
-                                                                  expirationTime = 60)))) 
+                                                                  expirationTime = 60))))
 }

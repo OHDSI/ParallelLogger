@@ -25,7 +25,7 @@
 #' @param layout   The layout to be used by the appender.
 #'
 #' @template LoggingExample
-#' 
+#'
 #' @export
 createConsoleAppender <- function(layout = layoutSimple) {
   appendFunction <- function(this, level, message) {
@@ -48,22 +48,27 @@ createConsoleAppender <- function(layout = layoutSimple) {
 #' @details
 #' Creates an appender that will write to a file.
 #'
-#' @param layout         The layout to be used by the appender.
-#' @param fileName       The name of the file to write to.
-#' @param overwrite      Overwrite the file if it is older than the expiration time?
-#' @param expirationTime Expiration time in seconds 
+#' @param layout           The layout to be used by the appender.
+#' @param fileName         The name of the file to write to.
+#' @param overwrite        Overwrite the file if it is older than the expiration time?
+#' @param expirationTime   Expiration time in seconds
 #'
 #' @export
-createFileAppender <- function(layout = layoutParallel, fileName, overwrite = FALSE, expirationTime = 60) {
+createFileAppender <- function(layout = layoutParallel,
+                               fileName,
+                               overwrite = FALSE,
+                               expirationTime = 60) {
   appendFunction <- function(this, level, message) {
     # Avoid note in check:
     missing(level)
     tryCatch({
       suppressWarnings({
-        if (overwrite && file.exists(fileName) && difftime(Sys.time(), file.mtime(fileName), units = "secs") > expirationTime) {
+        if (overwrite && file.exists(fileName) && difftime(Sys.time(),
+                                                           file.mtime(fileName),
+                                                           units = "secs") > expirationTime) {
           open <- "wt"
         } else {
-          open <- "at" 
+          open <- "at"
         }
         con <- file(fileName, open = open, blocking = FALSE)
         writeLines(text = message, con = con)
@@ -83,13 +88,21 @@ createFileAppender <- function(layout = layoutParallel, fileName, overwrite = FA
         }
       }
       setLoggerSettings(settings)
-      warning("Error '", e$message, "' when writing log to file '", fileName, ". Removing file appender from logger.")
+      warning("Error '",
+              e$message,
+              "' when writing log to file '",
+              fileName,
+              ". Removing file appender from logger.")
     })
     if (is.null(getOption("threadNumber")) && identical(layout, layoutErrorReport)) {
       writeLines(paste("An error report has been created at ", fileName))
     }
   }
-  appender <- list(appendFunction = appendFunction, layout = layout, fileName = fileName, overwrite = overwrite, expirationTime = expirationTime)
+  appender <- list(appendFunction = appendFunction,
+                   layout = layout,
+                   fileName = fileName,
+                   overwrite = overwrite,
+                   expirationTime = expirationTime)
   class(appender) <- "Appender"
   return(appender)
 }
@@ -97,16 +110,17 @@ createFileAppender <- function(layout = layoutParallel, fileName, overwrite = FA
 #' Create e-mail appender
 #'
 #' @details
-#' Creates an appender that will send log events to an e-mail address using the \code{mailR} package. Please
-#' make sure your settings are correct by using the mailR package before using those settings here. 
-#' ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
+#' Creates an appender that will send log events to an e-mail address using the \code{mailR} package.
+#' Please make sure your settings are correct by using the mailR package before using those settings
+#' here. ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
 #'
-#' @param layout          The layout to be used by the appender.
-#' @param mailSettings    Arguments to be passed to the send.mail function in the mailR package (except
-#'                        subject and body).
-#' @param label           A label to be used in the e-mail subject to identify a run. By default the
-#'                        name of the computer is used.
-#' @param test            If TRUE, a message will be displayed on the console instead of sending an e-mail.
+#' @param layout         The layout to be used by the appender.
+#' @param mailSettings   Arguments to be passed to the send.mail function in the mailR package (except
+#'                       subject and body).
+#' @param label          A label to be used in the e-mail subject to identify a run. By default the
+#'                       name of the computer is used.
+#' @param test           If TRUE, a message will be displayed on the console instead of sending an
+#'                       e-mail.
 #'
 #' @examples
 #' mailSettings <- list(from = "someone@gmail.com",
@@ -120,21 +134,22 @@ createFileAppender <- function(layout = layoutParallel, fileName, overwrite = FA
 #'                      send = TRUE)
 #' # Setting test to TRUE in this example so we don't really send an e-mail:
 #' appender <- createEmailAppender(layout = layoutEmail,
-#'                                 mailSettings = mailSettings, 
-#'                                 label = "My R session", 
+#'                                 mailSettings = mailSettings,
+#'                                 label = "My R session",
 #'                                 test = TRUE)
-#' 
-#' logger <- createLogger(name = "EMAIL",
-#'                        threshold = "FATAL",
-#'                        appenders = list(appender))
+#'
+#' logger <- createLogger(name = "EMAIL", threshold = "FATAL", appenders = list(appender))
 #' registerLogger(logger)
-#' 
+#'
 #' logFatal("Something bad")
-#' 
+#'
 #' unregisterLogger("EMAIL")
-#' 
+#'
 #' @export
-createEmailAppender <- function(layout = layoutEmail, mailSettings, label = Sys.info()["nodename"], test = FALSE) {
+createEmailAppender <- function(layout = layoutEmail,
+                                mailSettings,
+                                label = Sys.info()["nodename"],
+                                test = FALSE) {
   ensure_installed("mailR")
   
   appendFunction <- function(this, level, message) {
@@ -160,8 +175,11 @@ createEmailAppender <- function(layout = layoutEmail, mailSettings, label = Sys.
       myfun <- get("send.mail", asNamespace("mailR"))
     }
     try(do.call(myfun, mailSettings), silent = TRUE)
-  } 
-  appender <- list(appendFunction = appendFunction, layout = layout, mailSettings = mailSettings, label = label)
+  }
+  appender <- list(appendFunction = appendFunction,
+                   layout = layout,
+                   mailSettings = mailSettings,
+                   label = label)
   class(appender) <- "Appender"
   return(appender)
 }
@@ -175,5 +193,5 @@ testSendMail <- function(to, subject, body, ...) {
   writeLines(subject)
   writeLines("")
   writeLines("Body:")
-  writeLines(body)           
+  writeLines(body)
 }

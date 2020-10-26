@@ -21,13 +21,14 @@ registerDefaultHandlers <- function() {
     logFatal(gsub("\n", " ", geterrmessage()))
   }
   options(error = logBaseError)
-  
+
   options(warning.expression = quote({
     evaluate <- function(message, frameIndex) {
       if (frameIndex < -20) {
         return(as.character(force(message)))
       } else {
-        text <- tryCatch(as.character(eval(message, envir = sys.frame(frameIndex))), error = function(x) "error")
+        text <- tryCatch(as.character(eval(message, envir = sys.frame(frameIndex))),
+                         error = function(x) "error")
         if (text == "error") {
           return(evaluate(message, frameIndex - 2))
         } else {
@@ -35,26 +36,26 @@ registerDefaultHandlers <- function() {
         }
       }
     }
-    
+
     for (i in 1:sys.nframe()) {
       frame <- sys.call(-i)
       if (!is.null(frame) && length(frame) > 1) {
         name <- as.character(frame[[1]])
         if (length(name) == 1) {
           if (is.language(frame[[1]]) && name == "warning") {
-            ParallelLogger::logWarn(evaluate(frame[[2]], -i - 1))
-            break
+          ParallelLogger::logWarn(evaluate(frame[[2]], -i - 1))
+          break
           } else if (name == ".signalSimpleWarning") {
-            ParallelLogger::logWarn(frame[[2]])
-            break
+          ParallelLogger::logWarn(frame[[2]])
+          break
           } else if (name == ".Deprecated") {
-            ParallelLogger::logWarn("This function is deprecated. Use '", frame[[2]], "' instead.")
-            break
-          } 
+          ParallelLogger::logWarn("This function is deprecated. Use '", frame[[2]], "' instead.")
+          break
+          }
         }
       }
-    }})
-  )
+    }
+  }))
 }
 
 getDefaultLoggerSettings <- function() {
@@ -83,7 +84,7 @@ setLoggerSettings <- function(settings) {
 #'
 #' @param logger   An object of type \code{Logger} as created using the \code{\link{createLogger}}
 #'                 function.
-#'                 
+#'
 #' @template LoggingExample
 #'
 #' @export
@@ -101,13 +102,13 @@ registerLogger <- function(logger) {
 #' @details
 #' Unregisters a logger from the logging system.
 #'
-#' @param x       Can either be an integer (e.g. 2 to remove the second logger), the name of the logger, or
-#'                the logger object itself.
-#' @param silent  If TRUE, no warning will be issued if the logger is not found.
+#' @param x        Can either be an integer (e.g. 2 to remove the second logger), the name of the
+#'                 logger, or the logger object itself.
+#' @param silent   If TRUE, no warning will be issued if the logger is not found.
 #'
 #' @return
 #' Returns TRUE if the logger was removed.
-#' 
+#'
 #' @template LoggingExample
 #'
 #' @export
@@ -204,7 +205,7 @@ log <- function(level, ...) {
 #'
 #' @param ...   Zero or more objects which can be coerced to character (and which are pasted together
 #'              with no separator).
-#'              
+#'
 #' @template LoggingExample
 #'
 #' @export
@@ -249,7 +250,7 @@ logInfo <- function(...) {
 #'
 #' @param ...   Zero or more objects which can be coerced to character (and which are pasted together
 #'              with no separator).
-#' 
+#'
 #' @export
 logWarn <- function(...) {
   log(level = "WARN", ...)
