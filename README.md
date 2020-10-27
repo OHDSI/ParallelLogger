@@ -6,7 +6,7 @@ ParallelLogger
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
 [![CRAN_Status_Badge](http://cranlogs.r-pkg.org/badges/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
 
-ParallelLogger is part of [HADES](https://ohdsi.github.io/Hades).
+ParallelLogger is part of [HADES](https://ohdsi.github.io/Hades/).
 
 Introduction
 ============
