@@ -1,3 +1,11 @@
+ParallelLogger 2.0.2
+====================
+
+Changes
+
+1. Log file viewer uses chunking to allow viewing of huge log files.
+
+
 ParallelLogger 2.0.1
 ====================
 
