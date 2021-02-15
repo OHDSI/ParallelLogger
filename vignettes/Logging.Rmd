@@ -97,7 +97,7 @@ registerLogger(createLogger(name = "DEFAULT_CONSOLE_LOGGER",
 Probably more useful is a file logger. In the code below, we instantiate a logger that writes to file, using a threshold of `TRACE` (so including all events), and using the layout for parallel processing.
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-logFileName <- tempfile()
+logFileName <- tempfile(fileext = ".txt")
 ```
 ```{r, eval=FALSE}
 logFileName <- "log.txt"
