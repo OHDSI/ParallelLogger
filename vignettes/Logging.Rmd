@@ -237,19 +237,23 @@ writeLines(readChar(logFileName, file.info(logFileName)$size))
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
 # knitr seems to use the same hook to capture warnings and errors, so minor cheat here:
 clearLoggers()
+logFileName <- tempfile(fileext = ".txt")
 addDefaultFileLogger(logFileName)
 logWarn("Danger!")
 logWarn("Warning: NAs introduced by coercion")
 logFatal("Error: object a not found")
 writeLines(readChar(logFileName, file.info(logFileName)$size))
+unlink(logFileName)
 ```
 
 # Logging when parallel processing
 
 The logging functions are designed to work with the parallel processing functions included in this package. The `layoutParallel` records thread identifiers, making it possible to later untangle the various threads. Below is a simple example:
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+logFileName <- tempfile(fileext = ".txt")
+```
 ```{r}
-unlink(logFileName) # Clean up log file from the previous example
 clearLoggers() # Clean up the loggers from the previous example
 
 addDefaultFileLogger(logFileName)
@@ -269,6 +273,9 @@ dummy <- clusterApply(cluster, 1:10, fun, progressBar = FALSE)
 stopCluster(cluster)
 
 writeLines(readChar(logFileName, file.info(logFileName)$size))
+```
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+unlink(logFileName)
 ```
 
 # Creating loggers in functions
@@ -334,7 +341,3 @@ launchLogViewer(logFileName)
 to launch the viewer shown in Figure 1.
 
 ![Shiny log viewer app](shinyApp.png)
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-unlink(logFileName)
-```
