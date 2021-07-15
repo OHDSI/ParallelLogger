@@ -62,7 +62,7 @@ install_github("ohdsi/ParallelLogger", ref = "develop")
 
 User Documentation
 ==================
-Documentation can be found on the [package website](https://ohdsi.github.io/ParallelLogger).
+Documentation can be found on the [package website](https://ohdsi.github.io/ParallelLogger/).
 
 PDF versions of the documentation is also available:
 * Vignette: [Logging using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/inst/doc/Logging.pdf)
