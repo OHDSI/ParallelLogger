@@ -184,7 +184,14 @@ createEmailAppender <- function(layout = layoutEmail,
   return(appender)
 }
 
+isValidEmail <- function(x) {
+  grepl("\\<[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\>", as.character(x), ignore.case=TRUE)
+}
+
 testSendMail <- function(to, subject, body, ...) {
+  if (!isValidEmail(to)) {
+    stop(paste("The email address:", to, "is invalid"))
+  }
   writeLines("You've got mail:")
   writeLines("To:")
   writeLines(to)
