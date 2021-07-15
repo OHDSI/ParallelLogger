@@ -29,8 +29,13 @@ registerDefaultHandlers <- function() {
     message("Either in Rmd Check or a unit test (or both). Not capturing errors and warnings in ParallelLogger")
     return(NULL)
   }
+  previousErrorHandler <- getOption("error")
+  
   logBaseError <- function() {
     logFatal(gsub("\n", " ", geterrmessage()))
+    if (!is.null(previousErrorHandler)) {
+      eval(previousErrorHandler)
+    }
   }
   options(error = logBaseError)
 
