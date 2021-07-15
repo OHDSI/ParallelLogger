@@ -201,9 +201,9 @@ layoutErrorReport <- function(level, message) {
 
 .tidyStackTrace <- function(trace) {
   if (is.null(getOption("threadNumber"))) {
-    trace <- trace[1:(length(trace) - 5)]
+    trace <- trace[1:(length(trace) - 3)]
   } else {
-    trace <- trace[23:(length(trace) - 5)]
+    trace <- trace[23:(length(trace) - 3)]
   }
   trace <- paste(1:length(trace), trace, sep = ": ")
   trace <- rev(trace)

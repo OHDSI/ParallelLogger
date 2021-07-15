@@ -163,7 +163,7 @@ createEmailAppender <- function(layout = layoutEmail,
     }
     
     # Only main thread gets to send e-mails:
-    if (is.null(getOption("threadNumber"))) {
+    if (!is.null(getOption("threadNumber"))) {
       return()
     }
     
