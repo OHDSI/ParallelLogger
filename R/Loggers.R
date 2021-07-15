@@ -124,7 +124,7 @@ addDefaultFileLogger <- function(fileName, name = "DEFAULT_FILE_LOGGER") {
 #' addDefaultEmailLogger(mailSettings, "My R session", test = TRUE)
 #' logFatal("Something bad")
 #'
-#' unregisterLogger("DEFAULT")
+#' unregisterLogger("DEFAULT_EMAIL_LOGGER")
 #'
 #' @export
 addDefaultEmailLogger <- function(mailSettings,
