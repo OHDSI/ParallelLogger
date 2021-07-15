@@ -47,6 +47,6 @@ mailSettings <- list(from = "someone@gmail.com",
 addDefaultEmailLogger(mailSettings, "My R session", test = TRUE)
 logFatal("Something bad")
 
-unregisterLogger("DEFAULT")
+unregisterLogger("DEFAULT_EMAIL_LOGGER")
 
 }
