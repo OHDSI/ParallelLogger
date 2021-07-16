@@ -184,7 +184,15 @@ createEmailAppender <- function(layout = layoutEmail,
   return(appender)
 }
 
+#source: https://www.r-bloggers.com/2012/07/validating-email-adresses-in-r/
+isValidEmail <- function(x) {
+  grepl("\\<[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\>", as.character(x), ignore.case=TRUE)
+}
+
 testSendMail <- function(to, subject, body, ...) {
+  if (!isValidEmail(to)) {
+    stop(paste("The email address:", to, "is invalid"))
+  }
   writeLines("You've got mail:")
   writeLines("To:")
   writeLines(to)

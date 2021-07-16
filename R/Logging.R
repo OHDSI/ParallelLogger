@@ -203,6 +203,7 @@ levelToInt <- function(level) {
     return(5)
   if (level == "FATAL")
     return(6)
+  else (stop(paste(level, "is an invalid level")))
 }
 
 log <- function(level, ...) {
