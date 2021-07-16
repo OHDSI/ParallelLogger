@@ -16,7 +16,7 @@ test_that("Computation across 3 threads", {
 
 test_that("Create a cluster of nodes for parallel computation", {
   f <- function() { "test" }
-  ParallelLogger::registerDefaultHandlers()
+  ParallelLogger:::registerDefaultHandlers()
   
   summary(f())
   

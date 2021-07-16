@@ -1,5 +1,5 @@
 library("testthat")
-# source("./R/Logging.R")
+
 test_that("Logging to file", {
   logFile <- tempfile()
   registerLogger(createLogger(name = "TEST",
@@ -12,6 +12,7 @@ test_that("Logging to file", {
   expect_true(unregisterLogger("TEST"))
   unlink(logFile)
 })
+ParallelLogger::clearLoggers()
 
 test_that("Logging to file when log folder is deleted", {
   logFolder <- file.path(tempdir(), "logFolder")
@@ -24,12 +25,14 @@ test_that("Logging to file when log folder is deleted", {
   logInfo("Hello world")
   unlink(logFolder, recursive = TRUE)
   expect_warning(logInfo("Hello world"))
-  expect_warning(expect_false(unregisterLogger("TEST")))
+  expect_error(unregisterLogger("TEST"))
 })
+ParallelLogger::clearLoggers()
 
 test_that("logging with bad logger", {
   expect_error(registerLogger("not a logger"))
 })
+ParallelLogger::clearLoggers()
 
 
 test_that("unregistering logger", {
@@ -53,7 +56,6 @@ test_that("unregistering logger", {
   unregisterLogger(2)
   expect_identical(getLoggers()[[2]]$name, "TEST3")
   expect_true(unregisterLogger(1))
-  # expect_error(unregisterLogger(c(1, "a")))
   loggerItself <- createLogger(name = "TEST3",
                               threshold = "TRACE",
                               appenders = list(createFileAppender(layout = layoutParallel,
@@ -64,6 +66,7 @@ test_that("unregistering logger", {
   expect_warning(unregisterLogger(list(1,2,"a")))
   expect_false(unregisterLogger(list(1,2,"a"), silent = T))
 })
+ParallelLogger::clearLoggers()
 
 test_that("testing level to int",{
   expect_equal(levelToInt("TRACE"),1)
