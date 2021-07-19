@@ -1,5 +1,4 @@
 library("testthat")
-library("stringr")
 
 test_that("Computation across 3 threads", {
   fun <- function(x) {
@@ -86,3 +85,4 @@ test_that("Check andromedaTempFolder", {
   testthat::expect_true(!is.null(getOption("andromedaTempFolder")))
   testthat::expect_equal(getOption("andromedaTempFolder"), check)
 })
+
