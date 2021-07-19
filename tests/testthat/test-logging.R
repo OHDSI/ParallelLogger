@@ -83,8 +83,8 @@ test_that("different logLevel functions",{
   registerLogger(createLogger(name = "TEST",
                               threshold = "TRACE",
                               appenders = list(createFileAppender(layout = layoutParallel,
-                                                                  fileName = logFile))))
-
+                                                                 fileName = logFile))))
+  
   logTrace("this is a TRACE")
   logDebug("this is a DEBUG")
   logInfo("this is an INFO")
@@ -92,10 +92,10 @@ test_that("different logLevel functions",{
   logError("this is an ERROR")
   logFatal("this is FATAL")
   log <- readChar(logFile, file.info(logFile)$size)
-  expect_equal(stringr::str_count(log, "TRACE"), 2)
-  expect_equal(stringr::str_count(log, "DEBUG"), 2)
-  expect_equal(stringr::str_count(log, "INFO"), 2)
-  expect_equal(stringr::str_count(log, "WARN"), 2)
-  expect_equal(stringr::str_count(log, "ERROR"), 2)
-  expect_equal(stringr::str_count(log, "FATAL"), 2)
+  expect_true(grepl("this is a TRACE", log))
+  expect_true(grepl("this is a DEBUG", log))
+  expect_true(grepl("this is an INFO", log))
+  expect_true(grepl("this is a WARN", log))
+  expect_true(grepl("this is an ERROR", log))
+  expect_true(grepl("this is FATAL", log))
 })
