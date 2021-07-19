@@ -99,19 +99,3 @@ test_that("different logLevel functions",{
   expect_equal(stringr::str_count(log, "ERROR"), 2)
   expect_equal(stringr::str_count(log, "FATAL"), 2)
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

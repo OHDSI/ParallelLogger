@@ -59,4 +59,3 @@ test_that("test default error logger",{
   expect_true(grepl("ERRORERRORERROR", log))
   unregisterLogger("temp default error")
 })
-

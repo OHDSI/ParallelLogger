@@ -301,4 +301,3 @@ logError <- function(...) {
 logFatal <- function(...) {
   log(level = "FATAL", ...)
 }
-
