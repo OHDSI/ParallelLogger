@@ -1,6 +1,6 @@
 # @file Args.R
 #
-# Copyright 2020 Observational Health Data Sciences and Informatics
+# Copyright 2021 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 # 
@@ -173,12 +173,12 @@ fetchRdDB <- function(filebase, key = NULL) {
 #' @param x        A list of objects of the same type.
 #' @param select   A character vector of names of variables to select.
 #'
-#' @examples 
-#' 
+#' @examples
+#'
 #' x <- list(a = list(name = "John", age = 25, gender = "M"),
 #'           b = list(name = "Mary", age = 24, gender = "F"))
 #' selectFromList(x, c("name", "age"))
-#' 
+#'
 #' # $a
 #' # $a$name
 #' # [1] "John"
@@ -224,18 +224,26 @@ excludeFromList <- function(x, exclude) {
 #'
 #' @return
 #' A list of objects that match the \code{toMatch} object.
-#' 
-#' @examples 
+#'
+#' @examples
 #' x <- list(a = list(name = "John", age = 25, gender = "M"),
 #'           b = list(name = "Mary", age = 24, gender = "F"))
-#' 
+#'
 #' matchInList(x, list(name = "Mary"))
-#' 
-#' # [[1]]
-#' # [[1]]$name
+#'
+#' # $a
+#' # $a$name
+#' # [1] "John"
+#' # 
+#' # $a$age
+#' # [1] 25
+#' # 
+#' # 
+#' # $b
+#' # $b$name
 #' # [1] "Mary"
 #' # 
-#' # [[1]]$age
+#' # $b$age
 #' # [1] 24
 #'
 #' @export
@@ -253,8 +261,7 @@ matchInList <- function(x, toMatch) {
 convertAttrToMember <- function(object) {
   if (is.function(object)) {
     return(list(serialized_code = as.character(serialize(object, NULL))))
-  } else
-  if (is.list(object)) {
+  } else if (is.list(object)) {
     if (length(object) > 0) {
       for (i in 1:length(object)) {
         if (!is.null(object[[i]])) {
@@ -275,9 +282,7 @@ convertMemberToAttr <- function(object) {
   if (is.list(object)) {
     if (length(object) > 0) {
       if (length(object) == 1 && !is.null(names(object)) && names(object) == "serialized_code") {
-        return(unserialize(
-          as.raw(sapply(object$serialized_code, strtoi, base = 16L))
-          ))
+        return(unserialize(as.raw(sapply(object$serialized_code, strtoi, base = 16L))))
       }
       for (i in 1:length(object)) {
         if (!is.null(object[[i]])) {
@@ -302,12 +307,13 @@ convertMemberToAttr <- function(object) {
 #' Convert a settings object to a JSON string
 #'
 #' @details
-#' Convert a settings object to a JSON string, using pretty formatting and preserving object classes and
-#' attributes.
+#' Convert a settings object to a JSON string, using pretty formatting and preserving object classes
+#' and attributes.
 #'
-#' @param object     R object to be converted.
-#' 
-#' @return A JSON string representing the R object.
+#' @param object   R object to be converted.
+#'
+#' @return
+#' A JSON string representing the R object.
 #'
 #' @export
 convertSettingsToJson <- function(object) {
@@ -335,7 +341,8 @@ saveSettingsToJson <- function(object, fileName) {
 #' Converts a JSON string to a settings object
 #'
 #' @details
-#' Converts a JSON string generated using the \code{\link{convertSettingsToJson}} function to a settings object, restoring object classes and attributes.
+#' Converts a JSON string generated using the \code{\link{convertSettingsToJson}} function to a
+#' settings object, restoring object classes and attributes.
 #'
 #' @param json   A JSON string.
 #'

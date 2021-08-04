@@ -16,5 +16,6 @@ An R object as specified by the JSON.
 Converts a JSON string to a settings object
 }
 \details{
-Converts a JSON string generated using the \code{\link{convertSettingsToJson}} function to a settings object, restoring object classes and attributes.
+Converts a JSON string generated using the \code{\link{convertSettingsToJson}} function to a
+settings object, restoring object classes and attributes.
 }

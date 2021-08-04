@@ -1,6 +1,6 @@
 # @file ShinyApps.R
 #
-# Copyright 2020 Observational Health Data Sciences and Informatics
+# Copyright 2021 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 # 
@@ -23,18 +23,18 @@
 #' @details
 #' Launches a Shiny app that allows the user to view a log file created using the default file logger.
 #' Use \code{\link{addDefaultFileLogger}} to start the default file logger.
-#' 
-#' @examples 
+#'
+#' @examples
 #' # Create a log file:
 #' logFile <- file.path(tempdir(), "log.txt")
 #' addDefaultFileLogger(logFile)
 #' logInfo("Hello world")
-#' 
+#'
 #' # Launch the log file viewer (only if in interactive mode):
 #' if (interactive()) {
 #'   launchLogViewer(logFile)
 #' }
-#' 
+#'
 #' # Delete the log file:
 #' unlink(logFile)
 #'

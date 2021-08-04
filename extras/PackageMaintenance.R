@@ -1,6 +1,6 @@
 # @file PackageMaintentance.R
 #
-# Copyright 2020 Observational Health Data Sciences and Informatics
+# Copyright 2021 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 #
@@ -40,7 +40,7 @@ rmarkdown::render("vignettes/Parallel.Rmd",
                                           number_sections = TRUE))
 unlink("inst/doc/Parallel.tex")
 
-pkgdown::build_site(preview = FALSE)
+pkgdown::build_site()
 OhdsiRTools::fixHadesLogo()
 
 # Release package -----------------------------------------------------

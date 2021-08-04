@@ -6,6 +6,19 @@ Changes
 1. Using new globalCallingHandlers functionality introduced in R 4.0.0 to capture warnings, errors and messages.
 
 
+ParallelLogger 2.0.2
+====================
+
+Changes
+
+1. Log file viewer uses chunking to allow viewing of huge log files.
+
+Bugfixes
+
+1. Disabling capturing of errors and warnings during R Check and unit testing so R Check fails if an error occurs during testing.
+>>>>>>> develop
+
+
 ParallelLogger 2.0.1
 ====================
 
@@ -13,7 +26,9 @@ Changes
 
 1. Changed dependency from XML to xml2 to avoid trouble installing dependencies.
 
-BugFixes
+2. Allow override of name of default loggers.
+
+Bugfixes
 
 1. Correct function attribution in log when using rlang `warn` or `abort`.
 

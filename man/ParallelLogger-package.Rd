@@ -13,7 +13,7 @@ Support for parallel computation with progress bar, and option to stop or procee
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://ohdsi.github.io/ParallelLogger}
+  \item \url{https://ohdsi.github.io/ParallelLogger/}
   \item \url{https://github.com/OHDSI/ParallelLogger}
   \item Report bugs at \url{https://github.com/OHDSI/ParallelLogger/issues}
 }

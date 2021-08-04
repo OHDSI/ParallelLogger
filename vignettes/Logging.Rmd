@@ -14,10 +14,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-  
-  ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-library(ParallelLogger)
-```
+
 # Introduction
 
 This vignette describes how you can use the `ParallelLogger` package to perform logging. Logging is the activity of recording events that occur during an analysis in a log. The log can be used for example for for debugging, profiling (understanding performance bottlenecks), and audits.
@@ -49,7 +46,7 @@ This vignette describes how you can use the `ParallelLogger` package to perform 
 
 The code below demonstrates how one would create a logger that writes  all events at level `INFO` or greater to the console using a layout with time stamp:
 
-```{r}
+```{r, eval=FALSE}
 logger <- createLogger(name = "SIMPLE",
                        threshold = "INFO",
                        appenders = list(createConsoleAppender(layout = layoutTimestamp)))
@@ -60,10 +57,16 @@ logTrace("This event is below the threshold (INFO)")
 
 logInfo("Hello world")
 ```
+```{r, echo=FALSE}
+out <- "Hello world
+2021-02-23 09:04:06 Hello world"
+writeLines(out)
+```
+
 
 Note that the message is displayed twice. This is because there is a default logger that uses the simple layout and threshold = "INFO", and writes to console. We can remove this logger before registering our logger to avoid duplication:
 
-```{r}
+```{r, eval=FALSE}
 clearLoggers()
 
 logger <- createLogger(name = "SIMPLE",
@@ -73,6 +76,9 @@ logger <- createLogger(name = "SIMPLE",
 registerLogger(logger)
 
 logInfo("Hello world")
+```
+```{r, echo=FALSE}
+writeLines("2021-02-23 09:04:06 Hello world")
 ```
 
 ## Shorthand 
@@ -86,7 +92,7 @@ addDefaultConsoleLogger()
 is equivalent to
 
 ```{r, eval=FALSE}
-registerLogger(createLogger(name = "SIMPLE",
+registerLogger(createLogger(name = "DEFAULT_CONSOLE_LOGGER",
                             threshold = "INFO", 
                             appenders = list(createConsoleAppender(layout = layoutSimple))))
 ```
@@ -96,13 +102,9 @@ registerLogger(createLogger(name = "SIMPLE",
 
 Probably more useful is a file logger. In the code below, we instantiate a logger that writes to file, using a threshold of `TRACE` (so including all events), and using the layout for parallel processing.
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-logFileName <- tempfile()
-```
 ```{r, eval=FALSE}
 logFileName <- "log.txt"
-```
-```{r}
+
 logger <- createLogger(name = "PARALLEL",
                        threshold = "TRACE",
                        appenders = list(createFileAppender(layout = layoutParallel,
@@ -115,16 +117,26 @@ logDebug("There are ",  length(getLoggers()), " loggers")
 
 logInfo("Hello world")
 ```
+```{r, echo=FALSE}
+writeLines("2021-02-23 09:04:06 Hello world")
+```
 
 We can read the log file:
 
-```{r}
+```{r, eval=FALSE}
 writeLines(readChar(logFileName, file.info(logFileName)$size))
 ```
+```{r echo=FALSE}
+out <- "2021-02-23 09:04:06\t[Main thread]\tTRACE\tevaluate\ttiming_fn\tExecuted this line
+2021-02-23 09:04:06\t[Main thread]\tDEBUG\tevaluate\ttiming_fn\tThere are 2 loggers
+2021-02-23 09:04:06\t[Main thread]\tINFO\tevaluate\ttiming_fn\tHello world"
+writeLines(out)
+```
+
 
 And clean it up when we're done:
 
-```{r}
+```{r, eval=FALSE}
 unlink(logFileName)
 ```
 
@@ -234,22 +246,18 @@ a <- b
 
 writeLines(readChar(logFileName, file.info(logFileName)$size))
 ```
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-# knitr seems to use the same hook to capture warnings and errors, so minor cheat here:
-clearLoggers()
-addDefaultFileLogger(logFileName)
-logWarn("Danger!")
-logWarn("Warning: NAs introduced by coercion")
-logFatal("Error: object a not found")
-writeLines(readChar(logFileName, file.info(logFileName)$size))
+```{r echo=FALSE}
+out <- "2021-02-23 09:04:09\t[Main thread]\tWARN\tevaluate\ttiming_fn\tDanger!
+2021-02-23 09:04:09\t[Main thread]\tWARN\tevaluate\ttiming_fn\tWarning: NAs introduced by coercion
+2021-02-23 09:04:09\t[Main thread]\tFATAL\tevaluate\ttiming_fn\tError: object a not found"
+writeLines(out)
 ```
 
 # Logging when parallel processing
 
 The logging functions are designed to work with the parallel processing functions included in this package. The `layoutParallel` records thread identifiers, making it possible to later untangle the various threads. Below is a simple example:
 
-```{r}
-unlink(logFileName) # Clean up log file from the previous example
+```{r, eval=FALSE}
 clearLoggers() # Clean up the loggers from the previous example
 
 addDefaultFileLogger(logFileName)
@@ -269,6 +277,26 @@ dummy <- clusterApply(cluster, 1:10, fun, progressBar = FALSE)
 stopCluster(cluster)
 
 writeLines(readChar(logFileName, file.info(logFileName)$size))
+```
+```{r echo=FALSE}
+out <- "2021-02-23 09:04:09\t[Main thread]\tTRACE\tevaluate timing_fn Initiating cluster with 3 threads
+2021-02-23 09:04:13\t[Thread 1]\tTRACE\t\tThread 1 initiated
+2021-02-23 09:04:13\t[Thread 2]\tTRACE\t\tThread 2 initiated
+2021-02-23 09:04:13\t[Thread 3]\tTRACE\t\tThread 3 initiated
+2021-02-23 09:04:13\t[Thread 1]\tINFO\t\tThe value of x is 1
+2021-02-23 09:04:13\t[Thread 2]\tINFO\t\tThe value of x is 2
+2021-02-23 09:04:13\t[Thread 1]\tINFO\t\tThe value of x is 4
+2021-02-23 09:04:13\t[Thread 2]\tINFO\t\tThe value of x is 5
+2021-02-23 09:04:13\t[Thread 3]\tINFO\t\tThe value of x is 6
+2021-02-23 09:04:13\t[Thread 1]\tINFO\t\tThe value of x is 7
+2021-02-23 09:04:13\t[Thread 2]\tINFO\t\tThe value of x is 8
+2021-02-23 09:04:13\t[Thread 1]\tINFO\t\tThe value of x is 9
+2021-02-23 09:04:13\t[Thread 2]\tINFO\t\tThe value of x is 10
+2021-02-23 09:04:13\t[Main thread]\tTRACE\tevaluate\ttiming_fn Stopping cluster
+2021-02-23 09:04:13\t[Thread 1]\tTRACE\t\tThread 1 terminated
+2021-02-23 09:04:13\t[Thread 3]\tTRACE\t\tThread 3 terminated
+2021-02-23 09:04:13\t[Thread 2]\tTRACE\t\tThread 2 terminated"
+writeLines(out)
 ```
 
 # Creating loggers in functions
@@ -334,7 +362,3 @@ launchLogViewer(logFileName)
 to launch the viewer shown in Figure 1.
 
 ![Shiny log viewer app](shinyApp.png)
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
-unlink(logFileName)
-```

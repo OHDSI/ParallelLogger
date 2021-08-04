@@ -1,6 +1,6 @@
 # @file ParallelLogger.R
 #
-# Copyright 2020 Observational Health Data Sciences and Informatics
+# Copyright 2021 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 #
@@ -20,7 +20,6 @@
 "_PACKAGE"
 
 #' @importFrom methods getFunction is
-#' @importFrom utils installed.packages install.packages menu capture.output 
-#'             help memory.limit setTxtProgressBar txtProgressBar limitedLabels 
-#'             sessionInfo
+#' @importFrom utils installed.packages install.packages menu capture.output help memory.limit
+#' setTxtProgressBar txtProgressBar limitedLabels sessionInfo
 NULL

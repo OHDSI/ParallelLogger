@@ -4,16 +4,18 @@
 \alias{addDefaultFileLogger}
 \title{Add the default file logger}
 \usage{
-addDefaultFileLogger(fileName)
+addDefaultFileLogger(fileName, name = "DEFAULT_FILE_LOGGER")
 }
 \arguments{
 \item{fileName}{The name of the file to write to.}
+
+\item{name}{A name for the logger.}
 }
 \description{
 Add the default file logger
 }
 \details{
-Creates a logger named 'DEFAULT_FILE_LOGGER' that writes to a file using the "TRACE" threshold and the
+Creates a logger that writes to a file using the "TRACE" threshold and the
 \code{\link{layoutParallel}} layout. The output can be viewed with the built-in log viewer that can
 be started using \code{\link{launchLogViewer}}.
 }

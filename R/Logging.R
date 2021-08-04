@@ -1,6 +1,6 @@
 # @file Logging.R
 #
-# Copyright 2020 Observational Health Data Sciences and Informatics
+# Copyright 2021 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 # 
@@ -16,6 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+isRmdCheck <- function() {
+  # return(Sys.getenv("_R_CHECK_PACKAGE_NAME_", "") != "")
+  return(Sys.getenv("NOT_CRAN", "") != "")
+}
+
+isUnitTest <- function() {
+  return(tolower(Sys.getenv("TESTTHAT", "")) == "true")
+}
+
 conditionHandler <- function(condition) {
   if (is(condition, "error")) {
     logFatal(condition$message)
@@ -27,16 +36,32 @@ conditionHandler <- function(condition) {
 }
 
 handlerRegistered <- function() {
-   handlers <- globalCallingHandlers()
-   if (length(handlers) == 0) {
-     return(FALSE)
-   } else {
-     return(any(sapply(handlers, function(x) isTRUE(all.equal(x, conditionHandler)))))
-   }
+  handlers <- globalCallingHandlers()
+  if (length(handlers) == 0) {
+    return(FALSE)
+  } else {
+    return(any(sapply(handlers, function(x) isTRUE(all.equal(x, conditionHandler)))))
+  }
 }
 
 registerDefaultHandlers <- function() {
-  globalCallingHandlers(condition = conditionHandler)
+  if (isRmdCheck() || isUnitTest()) {
+    message("Either in Rmd Check or a unit test (or both). Not capturing errors and warnings in ParallelLogger")
+    return(NULL)
+  }
+  # names <- c()
+  # for (i in 2:sys.nframe()) {
+  #   if (class(sys.call(-i)[[1]]) == "function") {
+  #     names <- c(names, as.character(sys.call(-i)[[1]]))
+  #   }
+  # }
+  # saveRDS(Sys.getenv (), "s:/temp/names.rds")
+  # tryCatch({
+    globalCallingHandlers(condition = conditionHandler)
+  # },
+  # error = function(e) {
+  #   writeLines("Error registering ParallelLogger handlers. Errors, warnings, and messages will not be logged automatically.")
+  # })
 }
 
 getDefaultLoggerSettings <- function() {
@@ -65,7 +90,7 @@ setLoggerSettings <- function(settings) {
 #'
 #' @param logger   An object of type \code{Logger} as created using the \code{\link{createLogger}}
 #'                 function.
-#'                 
+#'
 #' @template LoggingExample
 #'
 #' @export
@@ -83,13 +108,13 @@ registerLogger <- function(logger) {
 #' @details
 #' Unregisters a logger from the logging system.
 #'
-#' @param x       Can either be an integer (e.g. 2 to remove the second logger), the name of the logger, or
-#'                the logger object itself.
-#' @param silent  If TRUE, no warning will be issued if the logger is not found.
+#' @param x        Can either be an integer (e.g. 2 to remove the second logger), the name of the
+#'                 logger, or the logger object itself.
+#' @param silent   If TRUE, no warning will be issued if the logger is not found.
 #'
 #' @return
 #' Returns TRUE if the logger was removed.
-#' 
+#'
 #' @template LoggingExample
 #'
 #' @export
@@ -167,6 +192,7 @@ levelToInt <- function(level) {
     return(5)
   if (level == "FATAL")
     return(6)
+  else (stop(paste(level, "is an invalid level")))
 }
 
 log <- function(level, ...) {
@@ -186,7 +212,7 @@ log <- function(level, ...) {
 #'
 #' @param ...   Zero or more objects which can be coerced to character (and which are pasted together
 #'              with no separator).
-#'              
+#'
 #' @template LoggingExample
 #'
 #' @export
@@ -231,7 +257,7 @@ logInfo <- function(...) {
 #'
 #' @param ...   Zero or more objects which can be coerced to character (and which are pasted together
 #'              with no separator).
-#' 
+#'
 #' @export
 logWarn <- function(...) {
   log(level = "WARN", ...)
@@ -264,4 +290,3 @@ logError <- function(...) {
 logFatal <- function(...) {
   log(level = "FATAL", ...)
 }
-

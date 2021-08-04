@@ -1,12 +1,12 @@
 ParallelLogger
 ==============
 
-[![Build Status](https://travis-ci.org/OHDSI/ParallelLogger.svg?branch=master)](https://travis-ci.org/OHDSI/ParallelLogger)
+[![Build Status](https://github.com/OHDSI/ParallelLogger/workflows/R-CMD-check/badge.svg)](https://github.com/OHDSI/ParallelLogger/actions?query=workflow%3AR-CMD-check)
 [![codecov.io](https://codecov.io/github/OHDSI/ParallelLogger/coverage.svg?branch=master)](https://codecov.io/github/OHDSI/ParallelLogger?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
 [![CRAN_Status_Badge](http://cranlogs.r-pkg.org/badges/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
 
-ParallelLogger is part of [HADES](https://ohdsi.github.io/Hades).
+ParallelLogger is part of [HADES](https://ohdsi.github.io/Hades/).
 
 Introduction
 ============
@@ -55,13 +55,14 @@ install.packages("ParallelLogger")
 To install the latest development version, install from the develop branch in GitHub:
 
 ```r
-install.packages("devtools")
-devtools::install_github("ohdsi/ParallelLogger", ref = "develop")
+install.packages("remotes")
+library(remotes)
+install_github("ohdsi/ParallelLogger", ref = "develop")
 ```
 
 User Documentation
 ==================
-Documentation can be found on the [package website](https://ohdsi.github.io/ParallelLogger).
+Documentation can be found on the [package website](https://ohdsi.github.io/ParallelLogger/).
 
 PDF versions of the documentation is also available:
 * Vignette: [Logging using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/inst/doc/Logging.pdf)

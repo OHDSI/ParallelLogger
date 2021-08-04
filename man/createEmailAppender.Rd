@@ -20,15 +20,16 @@ subject and body).}
 \item{label}{A label to be used in the e-mail subject to identify a run. By default the
 name of the computer is used.}
 
-\item{test}{If TRUE, a message will be displayed on the console instead of sending an e-mail.}
+\item{test}{If TRUE, a message will be displayed on the console instead of sending an
+e-mail.}
 }
 \description{
 Create e-mail appender
 }
 \details{
-Creates an appender that will send log events to an e-mail address using the \code{mailR} package. Please
-make sure your settings are correct by using the mailR package before using those settings here. 
-ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
+Creates an appender that will send log events to an e-mail address using the \code{mailR} package.
+Please make sure your settings are correct by using the mailR package before using those settings
+here. ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
 }
 \examples{
 mailSettings <- list(from = "someone@gmail.com",
@@ -42,13 +43,11 @@ mailSettings <- list(from = "someone@gmail.com",
                      send = TRUE)
 # Setting test to TRUE in this example so we don't really send an e-mail:
 appender <- createEmailAppender(layout = layoutEmail,
-                                mailSettings = mailSettings, 
-                                label = "My R session", 
+                                mailSettings = mailSettings,
+                                label = "My R session",
                                 test = TRUE)
 
-logger <- createLogger(name = "EMAIL",
-                       threshold = "FATAL",
-                       appenders = list(appender))
+logger <- createLogger(name = "EMAIL", threshold = "FATAL", appenders = list(appender))
 registerLogger(logger)
 
 logFatal("Something bad")

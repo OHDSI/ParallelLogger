@@ -3,7 +3,7 @@
 .gitattributes
 extras
 man-roxygen
-.travis.yml
+.github
 deploy.sh
 compare_versions
 ^cran-comments.md$

@@ -16,7 +16,8 @@ makeCluster(
 \item{singleThreadToMain}{If \code{numberOfThreads} is 1, should we fall back to running the
 process in the main thread?}
 
-\item{setAndromedaTempFolder}{When TRUE, the andromedaTempFolder option will be copied to each thread.}
+\item{setAndromedaTempFolder}{When TRUE, the andromedaTempFolder option will be copied to each
+thread.}
 }
 \value{
 An object representing the cluster.
