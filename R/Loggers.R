@@ -40,10 +40,10 @@ createLogger <- function(name = "SIMPLE",
                          appenders = list(createConsoleAppender())) {
   for (appender in appenders) if (!is(appender, "Appender"))
     stop("All appenders must be of class 'Appender'")
-  logFunction <- function(this, level, message) {
+  logFunction <- function(this, level, message, echoToConsole) {
     for (appender in this$appenders) {
       formatted <- appender$layout(level, message)
-      appender$appendFunction(appender, level, formatted)
+      appender$appendFunction(appender, level, formatted, echoToConsole)
     }
   }
   logger <- list(name = name,

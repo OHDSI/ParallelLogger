@@ -27,11 +27,11 @@ isUnitTest <- function() {
 
 conditionHandler <- function(condition) {
   if (is(condition, "error")) {
-    logFatal(condition$message)
+    log("FATAL", condition$message, echoToConsole = FALSE)
   } else if (is(condition, "warning")) {
-    logWarn(condition$message)
+    log("WARN", condition$message, echoToConsole = FALSE)
   } else if (is(condition, "message")) {
-    logInfo(condition$message)
+    log("INFO", condition$message, echoToConsole = FALSE)
   } 
 }
 
@@ -195,12 +195,12 @@ levelToInt <- function(level) {
   else (stop(paste(level, "is an invalid level")))
 }
 
-log <- function(level, ...) {
+log <- function(level, ..., echoToConsole = TRUE) {
   message <- .makeMessage(...)
   settings <- getLoggerSettings()
   for (logger in settings$loggers) {
     if (levelToInt(level) >= levelToInt(logger$threshold)) {
-      logger$logFunction(this = logger, level = level, message = message)
+      logger$logFunction(this = logger, level = level, message = message, echoToConsole = echoToConsole)
     }
   }
 }

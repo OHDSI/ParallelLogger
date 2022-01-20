@@ -28,14 +28,15 @@
 #'
 #' @export
 createConsoleAppender <- function(layout = layoutSimple) {
-  appendFunction <- function(this, level, message) {
+  appendFunction <- function(this, level, message, echoToConsole) {
     # Avoid note in check:
     missing(this)
-    if (level == "WARN" || level == "ERROR") {
-      writeLines(message, con = stderr())
-    } else if (level != "FATAL") {
-      # Note: Fatal messages should originate from stop(), which will print its own message.
-      writeLines(message, con = stdout())
+    if (echoToConsole) {
+      if (level == "WARN" || level == "ERROR" || level == "FATAL") {
+        writeLines(message, con = stderr())
+      } else {
+        writeLines(message, con = stdout())
+      }
     }
   }
   appender <- list(appendFunction = appendFunction, layout = layout)
@@ -58,7 +59,7 @@ createFileAppender <- function(layout = layoutParallel,
                                fileName,
                                overwrite = FALSE,
                                expirationTime = 60) {
-  appendFunction <- function(this, level, message) {
+  appendFunction <- function(this, level, message, echoToConsole) {
     # Avoid note in check:
     missing(level)
     tryCatch({
@@ -152,7 +153,7 @@ createEmailAppender <- function(layout = layoutEmail,
                                 test = FALSE) {
   ensure_installed("mailR")
   
-  appendFunction <- function(this, level, message) {
+  appendFunction <- function(this, level, message, echoToConsole) {
     # Avoid note in check:
     missing(this)
     
