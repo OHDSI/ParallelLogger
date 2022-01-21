@@ -2,7 +2,7 @@ ParallelLogger
 ==============
 
 [![Build Status](https://github.com/OHDSI/ParallelLogger/workflows/R-CMD-check/badge.svg)](https://github.com/OHDSI/ParallelLogger/actions?query=workflow%3AR-CMD-check)
-[![codecov.io](https://codecov.io/github/OHDSI/ParallelLogger/coverage.svg?branch=master)](https://codecov.io/github/OHDSI/ParallelLogger?branch=master)
+[![codecov.io](https://codecov.io/github/OHDSI/ParallelLogger/coverage.svg?branch=main)](https://codecov.io/github/OHDSI/ParallelLogger?branch=main)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
 [![CRAN_Status_Badge](http://cranlogs.r-pkg.org/badges/ParallelLogger)](https://cran.r-project.org/package=ParallelLogger)
 
@@ -65,9 +65,9 @@ User Documentation
 Documentation can be found on the [package website](https://ohdsi.github.io/ParallelLogger/).
 
 PDF versions of the documentation is also available:
-* Vignette: [Logging using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/inst/doc/Logging.pdf)
-* Vignette: [Parallel execution using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/inst/doc/Parallel.pdf)
-* Package manual: [ParallelLogger.pdf](https://raw.githubusercontent.com/OHDSI/ParallelLogger/master/extras/ParallelLogger.pdf)
+* Vignette: [Logging using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/main/inst/doc/Logging.pdf)
+* Vignette: [Parallel execution using ParallelLogger](https://raw.githubusercontent.com/OHDSI/ParallelLogger/main/inst/doc/Parallel.pdf)
+* Package manual: [ParallelLogger.pdf](https://raw.githubusercontent.com/OHDSI/ParallelLogger/main/extras/ParallelLogger.pdf)
 
 Contributing
 ============
