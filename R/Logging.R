@@ -45,8 +45,6 @@ registerDefaultHandlers <- function() {
             "ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger."))
     return()
   }
-  x <- sys.status()
-  saveRDS(x, "s:/temp/sysStatus.rds")
   globalCallingHandlers(condition = conditionHandler)
 }
 
