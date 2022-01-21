@@ -14,7 +14,8 @@ with no separator).}
 Log a message at the INFO level
 }
 \details{
-Log a message at the specified level. The message will be sent to all the registered loggers.
+Log a message at the specified level. The message will be sent to all the registered loggers. This 
+is equivalent to calling R's native \code{message()} function.
 }
 \examples{
 appender <- createConsoleAppender(layout = layoutTimestamp)

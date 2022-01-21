@@ -228,13 +228,15 @@ appenders = list(createEmailAppender(layout = layoutEmail,
 mailSettings = mailSettings))))
 ```
 
-# Warnings and fatal errors
+# Messages, warnings and fatal errors
 
 All R warnings and errors are automatically logged, and therefore do not require explicit logging. For example:
 
 ```{r, eval=FALSE}
 clearLoggers()
 addDefaultFileLogger(logFileName)
+
+message("Hello")
 
 warning("Danger!")
 
@@ -247,7 +249,8 @@ a <- b
 writeLines(readChar(logFileName, file.info(logFileName)$size))
 ```
 ```{r echo=FALSE}
-out <- "2021-02-23 09:04:09\t[Main thread]\tWARN\tevaluate\ttiming_fn\tDanger!
+out <- "2021-02-23 09:04:09\t[Main thread]\tWARN\tevaluate\ttiming_fn\tHello
+2021-02-23 09:04:09\t[Main thread]\tWARN\tevaluate\ttiming_fn\tDanger!
 2021-02-23 09:04:09\t[Main thread]\tWARN\tevaluate\ttiming_fn\tWarning: NAs introduced by coercion
 2021-02-23 09:04:09\t[Main thread]\tFATAL\tevaluate\ttiming_fn\tError: object a not found"
 writeLines(out)

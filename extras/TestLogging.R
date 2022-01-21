@@ -14,13 +14,19 @@ stop("Hello again")
 
 rlang::inform("Alpha")
 rlang::warn("Beta")
-rlang::abort("Delta")
+rlang::abort("Gamma")
 
 log <- readChar(logFile, file.info(logFile)$size)
 writeLines(log)
 expect_true(grepl("Hi!", log))
 expect_true(grepl("Hello world", log))
 expect_true(grepl("Hello again", log))
+expect_true(grepl("Alpha", log))
+expect_true(grepl("Beta", log))
+expect_true(grepl("Gamma", log))
+
+launchLogViewer(logFile)
+
 
 unlink(logFile)
 expect_true(unregisterLogger("TEST"))

@@ -16,13 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-isRmdCheck <- function() {
-  # return(Sys.getenv("_R_CHECK_PACKAGE_NAME_", "") != "")
-  return(Sys.getenv("NOT_CRAN", "") != "")
-}
-
-isUnitTest <- function() {
-  return(tolower(Sys.getenv("TESTTHAT", "")) == "true")
+inTryCatchOrWithCallingHandlers <- function() {
+  return(any(grepl("(^tryCatch)|(^withCallingHandlers)", as.character(sys.status()$sys.calls))))
 }
 
 conditionHandler <- function(condition) {
@@ -45,23 +40,14 @@ handlerRegistered <- function() {
 }
 
 registerDefaultHandlers <- function() {
-  if (isRmdCheck() || isUnitTest()) {
-    message("Either in Rmd Check or a unit test (or both). Not capturing errors and warnings in ParallelLogger")
-    return(NULL)
+  if (inTryCatchOrWithCallingHandlers()) {
+    message(paste("Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers.",
+            "ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger."))
+    return()
   }
-  # names <- c()
-  # for (i in 2:sys.nframe()) {
-  #   if (class(sys.call(-i)[[1]]) == "function") {
-  #     names <- c(names, as.character(sys.call(-i)[[1]]))
-  #   }
-  # }
-  # saveRDS(Sys.getenv (), "s:/temp/names.rds")
-  # tryCatch({
-    globalCallingHandlers(condition = conditionHandler)
-  # },
-  # error = function(e) {
-  #   writeLines("Error registering ParallelLogger handlers. Errors, warnings, and messages will not be logged automatically.")
-  # })
+  x <- sys.status()
+  saveRDS(x, "s:/temp/sysStatus.rds")
+  globalCallingHandlers(condition = conditionHandler)
 }
 
 getDefaultLoggerSettings <- function() {
@@ -236,7 +222,8 @@ logDebug <- function(...) {
 #' Log a message at the INFO level
 #'
 #' @details
-#' Log a message at the specified level. The message will be sent to all the registered loggers.
+#' Log a message at the specified level. The message will be sent to all the registered loggers. This 
+#' is equivalent to calling R's native \code{message()} function.
 #'
 #' @param ...   Zero or more objects which can be coerced to character (and which are pasted together
 #'              with no separator).
