@@ -107,57 +107,31 @@ warning ("test", x)
 
 stop("Test")
 
-# rlang messaging ----------------------------------------------------------------
-
-registerDefaultHandlers()
-registerLogger(createLogger(threshold = "INFO",
-                            appenders = list(createConsoleAppender(layout = layoutParallel))))
-
-
-clearLoggers()
-
-unlink("c:/temp/logFile.txt")
-addDefaultFileLogger("c:/temp/logFile.txt")
-
-unlink("c:/temp/errorLog.txt")
-addDefaultErrorReportLogger("c:/temp/errorLog.txt")
+# Logging in threads -----------------------------------
+library(ParallelLogger)
+fileName <- "s:/temp/logFile.txt"
+addDefaultFileLogger(fileName)
 
 
-
-f <- function() rlang::warn("Hello")
-f <- function() rlang::abort("Hello")
-f <- function() stop("Hello")
-summary(f())
-CohortMethod::plotPs(NULL)
-
-cluster <- makeCluster(2)
-clusterApply(cluster, f(), summary)
+cluster <- makeCluster(3)
+fun <- function(x) {
+  ParallelLogger::logInfo(paste("Hello", x))
+  message(paste("Hi", x))
+  warning("There")
+  if (x == 10) 
+    stop("Halt!")
+  return()
+}
+dummy <- clusterApply(cluster, 1:10, fun)
 stopCluster(cluster)
 
-writeLines(SqlRender::readSql("c:/temp/logFile.txt"))
-writeLines(SqlRender::readSql("c:/temp/errorLog.txt"))
 
-myPrint <- function(message) {
-  print(message)
-}
-
-conditionHandler <- function(condition, ...) {
-  print(condition$message)
-  print(class(condition))
-  print(is(condition, "warning"))
-  writeLines(condition$message, con = stdout())
-}
-
-globalCallingHandlers(condition = conditionHandler)
+log <- readChar(fileName, file.info(fileName)$size)
+writeLines(log)
 
 
-stop("test2")
-rlang::abort("test2")
-warning("test")
-rlang::warn("test")
-message("test3")
-rlang::inform("test3")
 
-globalCallingHandlers(NULL)
+unlink(fileName)
+unregisterLogger("DEFAULT_FILE_LOGGER")
 
-
+sysStatus <- readRDS("S:/temp/sysStatus.rds")

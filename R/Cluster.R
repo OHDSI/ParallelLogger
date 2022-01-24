@@ -125,11 +125,20 @@ docall <- function(fun, args) {
 }
 
 functionWrapper <- function(..., fun = fun) {
-  handler <- function(e) {
-    ParallelLogger::logFatal(conditionMessage(e))
-    stop(e)
-  }
-  withCallingHandlers(docall(fun, list(...)), error = handler)
+  # globalCallingHandlers() doesn't work in thread because of surrounding
+  # tryCatch(). Using withCallingHandlers() instead:
+  withCallingHandlers(
+    docall(fun, list(...)), 
+    message = function(e) {
+      ParallelLogger::logInfo(conditionMessage(e))
+    },
+    warning = function(e) {
+      ParallelLogger::logWarn(conditionMessage(e))
+    },
+    error = function(e) {
+      ParallelLogger::logFatal(conditionMessage(e))
+      stop(e)
+    })
 }
 
 #' Apply a function to a list using the cluster
@@ -168,13 +177,13 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
     if (n > 0 && p > 0) {
       if (progressBar)
         pb <- txtProgressBar(style = 3)
-
+      
       for (i in 1:min(n, p)) {
         snow::sendCall(cluster[[i]], functionWrapper, c(list(x[[i]]),
                                                         list(...),
                                                         list(fun = fun)), tag = i)
       }
-
+      
       val <- vector("list", n)
       hasError <- FALSE
       formatError <- function(threadNumber, error, args) {
@@ -189,17 +198,22 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
           val[d$tag] <- NULL
           errorMessage <- formatError(d$node, d$value, c(list(x[[d$tag]]), list(...)))
           if (stopOnError) {
-          stop(errorMessage)
+            stop(errorMessage)
           } else {
-          ParallelLogger::logError(errorMessage)
-          hasError <- TRUE
+            ParallelLogger::logError(errorMessage)
+            hasError <- TRUE
           }
         }
         if (progressBar)
           setTxtProgressBar(pb, i/n)
         j <- i + min(n, p)
         if (j <= n) {
-          snow::sendCall(cluster[[d$node]], fun, c(list(x[[j]]), list(...)), tag = j)
+          snow::sendCall(cluster[[d$node]], functionWrapper, c(list(x[[j]]),
+                                                               list(...),
+                                                               list(fun = fun)), tag = j)
+          
+          
+          # snow::sendCall(cluster[[d$node]], fun, c(list(x[[j]]), list(...)), tag = j)
         }
         val[d$tag] <- list(d$value)
       }

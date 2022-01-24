@@ -30,7 +30,7 @@ conditionHandler <- function(condition) {
   } 
 }
 
-handlerRegistered <- function() {
+handlersRegistered <- function() {
   handlers <- globalCallingHandlers()
   if (length(handlers) == 0) {
     return(FALSE)
@@ -40,9 +40,12 @@ handlerRegistered <- function() {
 }
 
 registerDefaultHandlers <- function() {
+  if (!is.null(getOption("threadNumber")) || handlersRegistered()) {
+    return()
+  }
   if (inTryCatchOrWithCallingHandlers()) {
     message(paste("Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers.",
-            "ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger."))
+                  "ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger."))
     return()
   }
   globalCallingHandlers(condition = conditionHandler)
@@ -57,9 +60,7 @@ getLoggerSettings <- function() {
   if (is.null(settings)) {
     settings <- getDefaultLoggerSettings()
   }
-  if (!handlerRegistered()) {
-    registerDefaultHandlers()
-  }
+  registerDefaultHandlers()
   return(settings)
 }
 
