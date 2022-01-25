@@ -42,7 +42,7 @@ ParallelLogger is an R package.
 
 System Requirements
 ============
-Requires R (version 3.1.0 or higher)
+Requires R (version 4.0.0 or higher)
 
 Getting Started
 ===============
