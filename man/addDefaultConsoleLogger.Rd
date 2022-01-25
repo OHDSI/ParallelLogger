@@ -21,5 +21,4 @@ logger <- addDefaultConsoleLogger()
 logTrace("This event is below the threshold (INFO)")
 logInfo("Hello world")
 unregisterLogger(logger)
-
 }

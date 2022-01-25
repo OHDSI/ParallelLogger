@@ -1,15 +1,15 @@
 # @file Loggers.R
 #
-# Copyright 2021 Observational Health Data Sciences and Informatics
+# Copyright 2022 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,18 +38,23 @@
 createLogger <- function(name = "SIMPLE",
                          threshold = "INFO",
                          appenders = list(createConsoleAppender())) {
-  for (appender in appenders) if (!is(appender, "Appender"))
-    stop("All appenders must be of class 'Appender'")
+  for (appender in appenders) {
+    if (!is(appender, "Appender")) {
+      stop("All appenders must be of class 'Appender'")
+    }
+  }
   logFunction <- function(this, level, message, echoToConsole) {
     for (appender in this$appenders) {
       formatted <- appender$layout(level, message)
       appender$appendFunction(appender, level, formatted, echoToConsole)
     }
   }
-  logger <- list(name = name,
-                 logFunction = logFunction,
-                 threshold = threshold,
-                 appenders = appenders)
+  logger <- list(
+    name = name,
+    logFunction = logFunction,
+    threshold = threshold,
+    appenders = appenders
+  )
   class(logger) <- "Logger"
   return(logger)
 }
@@ -67,7 +72,6 @@ createLogger <- function(name = "SIMPLE",
 #' logTrace("This event is below the threshold (INFO)")
 #' logInfo("Hello world")
 #' unregisterLogger(logger)
-#'
 #' @export
 addDefaultConsoleLogger <- function(name = "DEFAULT_CONSOLE_LOGGER") {
   logger <- createLogger(name = name)
@@ -87,10 +91,14 @@ addDefaultConsoleLogger <- function(name = "DEFAULT_CONSOLE_LOGGER") {
 #'
 #' @export
 addDefaultFileLogger <- function(fileName, name = "DEFAULT_FILE_LOGGER") {
-  registerLogger(createLogger(name = name,
-                              threshold = "TRACE",
-                              appenders = list(createFileAppender(layout = layoutParallel,
-                                                                  fileName = fileName))))
+  registerLogger(createLogger(
+    name = name,
+    threshold = "TRACE",
+    appenders = list(createFileAppender(
+      layout = layoutParallel,
+      fileName = fileName
+    ))
+  ))
 }
 
 #' Add the default e-mail logger
@@ -110,33 +118,40 @@ addDefaultFileLogger <- function(fileName, name = "DEFAULT_FILE_LOGGER") {
 #'                       e-mail.
 #'
 #' @examples
-#' mailSettings <- list(from = "someone@gmail.com",
-#'                      to = c("someone_else@gmail.com"),
-#'                      smtp = list(host.name = "smtp.gmail.com",
-#'                                  port = 465,
-#'                                  user.name = "someone@gmail.com",
-#'                                  passwd = "super_secret!",
-#'                                  ssl = TRUE),
-#'                      authenticate = TRUE,
-#'                      send = TRUE)
+#' mailSettings <- list(
+#'   from = "someone@gmail.com",
+#'   to = c("someone_else@gmail.com"),
+#'   smtp = list(
+#'     host.name = "smtp.gmail.com",
+#'     port = 465,
+#'     user.name = "someone@gmail.com",
+#'     passwd = "super_secret!",
+#'     ssl = TRUE
+#'   ),
+#'   authenticate = TRUE,
+#'   send = TRUE
+#' )
 #'
 #' # Setting test to TRUE in this example so we don't really send an e-mail:
 #' addDefaultEmailLogger(mailSettings, "My R session", test = TRUE)
 #' logFatal("Something bad")
 #'
 #' unregisterLogger("DEFAULT_EMAIL_LOGGER")
-#'
 #' @export
 addDefaultEmailLogger <- function(mailSettings,
                                   label = Sys.info()["nodename"],
                                   name = "DEFAULT_EMAIL_LOGGER",
                                   test = FALSE) {
-  registerLogger(createLogger(name = name,
-                              threshold = "FATAL",
-                              appenders = list(createEmailAppender(layout = layoutEmail,
-                                                                   mailSettings = mailSettings,
-                                                                   label = label,
-                                                                   test = test))))
+  registerLogger(createLogger(
+    name = name,
+    threshold = "FATAL",
+    appenders = list(createEmailAppender(
+      layout = layoutEmail,
+      mailSettings = mailSettings,
+      label = label,
+      test = test
+    ))
+  ))
 }
 
 #' Add the default error report logger
@@ -152,10 +167,14 @@ addDefaultEmailLogger <- function(mailSettings,
 #' @export
 addDefaultErrorReportLogger <- function(fileName = file.path(getwd(), "errorReportR.txt"),
                                         name = "DEFAULT_ERRORREPORT_LOGGER") {
-  registerLogger(createLogger(name = name,
-                              threshold = "FATAL",
-                              appenders = list(createFileAppender(layout = layoutErrorReport,
-                                                                  fileName = fileName,
-                                                                  overwrite = TRUE,
-                                                                  expirationTime = 60))))
+  registerLogger(createLogger(
+    name = name,
+    threshold = "FATAL",
+    appenders = list(createFileAppender(
+      layout = layoutErrorReport,
+      fileName = fileName,
+      overwrite = TRUE,
+      expirationTime = 60
+    ))
+  ))
 }

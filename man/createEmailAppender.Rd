@@ -32,20 +32,26 @@ Please make sure your settings are correct by using the mailR package before usi
 here. ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
 }
 \examples{
-mailSettings <- list(from = "someone@gmail.com",
-                     to = c("someone_else@gmail.com"),
-                     smtp = list(host.name = "smtp.gmail.com",
-                                 port = 465,
-                                 user.name = "someone@gmail.com",
-                                 passwd = "super_secret!",
-                                 ssl = TRUE),
-                     authenticate = TRUE,
-                     send = TRUE)
+mailSettings <- list(
+  from = "someone@gmail.com",
+  to = c("someone_else@gmail.com"),
+  smtp = list(
+    host.name = "smtp.gmail.com",
+    port = 465,
+    user.name = "someone@gmail.com",
+    passwd = "super_secret!",
+    ssl = TRUE
+  ),
+  authenticate = TRUE,
+  send = TRUE
+)
 # Setting test to TRUE in this example so we don't really send an e-mail:
-appender <- createEmailAppender(layout = layoutEmail,
-                                mailSettings = mailSettings,
-                                label = "My R session",
-                                test = TRUE)
+appender <- createEmailAppender(
+  layout = layoutEmail,
+  mailSettings = mailSettings,
+  label = "My R session",
+  test = TRUE
+)
 
 logger <- createLogger(name = "EMAIL", threshold = "FATAL", appenders = list(appender))
 registerLogger(logger)
@@ -53,5 +59,4 @@ registerLogger(logger)
 logFatal("Something bad")
 
 unregisterLogger("EMAIL")
-
 }

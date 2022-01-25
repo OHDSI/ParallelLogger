@@ -1,15 +1,15 @@
 # @file Cluster.R
 #
-# Copyright 2021 Observational Health Data Sciences and Informatics
+# Copyright 2022 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,9 +66,11 @@ makeCluster <- function(numberOfThreads, singleThreadToMain = TRUE, setAndromeda
     if (setAndromedaTempFolder) {
       if (!is.null(getOption("andromedaTempFolder"))) {
         for (i in 1:length(cluster)) {
-          snow::sendCall(cluster[[i]],
-                         doSetAndromedaTempFolder,
-                         list(andromedaTempFolder = getOption("andromedaTempFolder")))
+          snow::sendCall(
+            cluster[[i]],
+            doSetAndromedaTempFolder,
+            list(andromedaTempFolder = getOption("andromedaTempFolder"))
+          )
         }
         for (i in 1:length(cluster)) {
           snow::recvOneResult(cluster)
@@ -119,8 +121,9 @@ stopCluster <- function(cluster) {
 }
 
 docall <- function(fun, args) {
-  if ((is.character(fun) && length(fun) == 1) || is.name(fun))
+  if ((is.character(fun) && length(fun) == 1) || is.name(fun)) {
     fun <- get(as.character(fun), envir = .GlobalEnv, mode = "function")
+  }
   do.call("fun", lapply(args, enquote))
 }
 
@@ -128,7 +131,7 @@ functionWrapper <- function(..., fun = fun) {
   # globalCallingHandlers() doesn't work in thread because of surrounding
   # tryCatch(). Using withCallingHandlers() instead:
   withCallingHandlers(
-    docall(fun, list(...)), 
+    docall(fun, list(...)),
     message = function(e) {
       ParallelLogger::logInfo(conditionMessage(e))
     },
@@ -138,7 +141,8 @@ functionWrapper <- function(..., fun = fun) {
     error = function(e) {
       ParallelLogger::logFatal(conditionMessage(e))
       stop(e)
-    })
+    }
+  )
 }
 
 #' Apply a function to a list using the cluster
@@ -175,22 +179,27 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
     n <- length(x)
     p <- length(cluster)
     if (n > 0 && p > 0) {
-      if (progressBar)
+      if (progressBar) {
         pb <- txtProgressBar(style = 3)
-      
-      for (i in 1:min(n, p)) {
-        snow::sendCall(cluster[[i]], functionWrapper, c(list(x[[i]]),
-                                                        list(...),
-                                                        list(fun = fun)), tag = i)
       }
-      
+
+      for (i in 1:min(n, p)) {
+        snow::sendCall(cluster[[i]], functionWrapper, c(
+          list(x[[i]]),
+          list(...),
+          list(fun = fun)
+        ), tag = i)
+      }
+
       val <- vector("list", n)
       hasError <- FALSE
       formatError <- function(threadNumber, error, args) {
-        sprintf("Thread %s returns error: \"%s\" when using argument(s): %s",
-                threadNumber,
-                gsub("\n", "\\n", gsub("\t", "\\t", error)),
-                gsub("\n", "\\n", gsub("\t", "\\t", paste(args, collapse = ","))))
+        sprintf(
+          "Thread %s returns error: \"%s\" when using argument(s): %s",
+          threadNumber,
+          gsub("\n", "\\n", gsub("\t", "\\t", error)),
+          gsub("\n", "\\n", gsub("\t", "\\t", paste(args, collapse = ",")))
+        )
       }
       for (i in 1:n) {
         d <- snow::recvOneResult(cluster)
@@ -204,15 +213,18 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
             hasError <- TRUE
           }
         }
-        if (progressBar)
-          setTxtProgressBar(pb, i/n)
+        if (progressBar) {
+          setTxtProgressBar(pb, i / n)
+        }
         j <- i + min(n, p)
         if (j <= n) {
-          snow::sendCall(cluster[[d$node]], functionWrapper, c(list(x[[j]]),
-                                                               list(...),
-                                                               list(fun = fun)), tag = j)
-          
-          
+          snow::sendCall(cluster[[d$node]], functionWrapper, c(
+            list(x[[j]]),
+            list(...),
+            list(fun = fun)
+          ), tag = j)
+
+
           # snow::sendCall(cluster[[d$node]], fun, c(list(x[[j]]), list(...)), tag = j)
         }
         val[d$tag] <- list(d$value)
@@ -221,9 +233,11 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
         close(pb)
       }
       if (hasError) {
-        message <- paste0("Error(s) when calling function '",
-                          substitute(fun, parent.frame(1)),
-                          "', see earlier messages for details")
+        message <- paste0(
+          "Error(s) when calling function '",
+          substitute(fun, parent.frame(1)),
+          "', see earlier messages for details"
+        )
         stop(message)
       }
       return(val)

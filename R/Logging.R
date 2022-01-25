@@ -1,15 +1,15 @@
 # @file Logging.R
 #
-# Copyright 2021 Observational Health Data Sciences and Informatics
+# Copyright 2022 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,7 +27,7 @@ conditionHandler <- function(condition) {
     log("WARN", conditionMessage(condition), echoToConsole = FALSE)
   } else if (is(condition, "message")) {
     log("INFO", conditionMessage(condition), echoToConsole = FALSE)
-  } 
+  }
 }
 
 handlersRegistered <- function() {
@@ -44,8 +44,10 @@ registerDefaultHandlers <- function() {
     return()
   }
   if (inTryCatchOrWithCallingHandlers()) {
-    message(paste("Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers.",
-                  "ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger."))
+    message(paste(
+      "Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers.",
+      "ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger."
+    ))
     return()
   }
   globalCallingHandlers(condition = conditionHandler)
@@ -80,8 +82,9 @@ setLoggerSettings <- function(settings) {
 #'
 #' @export
 registerLogger <- function(logger) {
-  if (!is(logger, "Logger"))
+  if (!is(logger, "Logger")) {
     stop("Logger must be of class 'Logger'")
+  }
   settings <- getLoggerSettings()
   settings$loggers[[length(settings$loggers) + 1]] <- logger
   setLoggerSettings(settings)
@@ -165,19 +168,26 @@ clearLoggers <- function() {
 
 
 levelToInt <- function(level) {
-  if (level == "TRACE")
+  if (level == "TRACE") {
     return(1)
-  if (level == "DEBUG")
+  }
+  if (level == "DEBUG") {
     return(2)
-  if (level == "INFO")
+  }
+  if (level == "INFO") {
     return(3)
-  if (level == "WARN")
+  }
+  if (level == "WARN") {
     return(4)
-  if (level == "ERROR")
+  }
+  if (level == "ERROR") {
     return(5)
-  if (level == "FATAL")
+  }
+  if (level == "FATAL") {
     return(6)
-  else (stop(paste(level, "is an invalid level")))
+  } else {
+    (stop(paste(level, "is an invalid level")))
+  }
 }
 
 log <- function(level, ..., echoToConsole = TRUE) {
@@ -221,7 +231,7 @@ logDebug <- function(...) {
 #' Log a message at the INFO level
 #'
 #' @details
-#' Log a message at the specified level. The message will be sent to all the registered loggers. This 
+#' Log a message at the specified level. The message will be sent to all the registered loggers. This
 #' is equivalent to calling R's native \code{message()} function.
 #'
 #' @param ...   Zero or more objects which can be coerced to character (and which are pasted together

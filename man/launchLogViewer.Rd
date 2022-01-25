@@ -29,5 +29,4 @@ if (interactive()) {
 
 # Delete the log file:
 unlink(logFile)
-
 }

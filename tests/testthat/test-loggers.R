@@ -1,16 +1,22 @@
 library("testthat")
 
 test_that("Creating a logger", {
-  expect_error(createLogger(name = "TEST",
-                            threshold = "TRACE",
-                            appenders = "list()"))
+  expect_error(createLogger(
+    name = "TEST",
+    threshold = "TRACE",
+    appenders = "list()"
+  ))
   logFile <- tempfile()
-  logger <- createLogger(name = "TEST",
-                              threshold = "TRACE",
-                              appenders = list(createFileAppender(layout = layoutParallel,
-                                                                  fileName = logFile)))
+  logger <- createLogger(
+    name = "TEST",
+    threshold = "TRACE",
+    appenders = list(createFileAppender(
+      layout = layoutParallel,
+      fileName = logFile
+    ))
+  )
   expect_s3_class(logger, "Logger")
-  expect_identical(logger$name, 'TEST')
+  expect_identical(logger$name, "TEST")
 })
 
 test_that("create default console logger", {
@@ -20,7 +26,7 @@ test_that("create default console logger", {
   expect_true(unregisterLogger("defaultTest"))
 })
 
-test_that("test def file logger",{
+test_that("test def file logger", {
   logFile <- tempfile()
   tempFileDefLog <- addDefaultFileLogger(name = "defaultFileTest", fileName = logFile)
   logTrace("Hello world")
@@ -31,15 +37,19 @@ test_that("test def file logger",{
 })
 
 test_that("test the default email logger", {
-  mailSettings <- list(from = "someone@gmail.com",
-                       to = c("someone_else@gmail.com"),
-                       smtp = list(host.name = "smtp.gmail.com",
-                                   port = 465,
-                                   user.name = "someone@gmail.com",
-                                   passwd = "super_secret!",
-                                   ssl = TRUE),
-                       authenticate = TRUE,
-                       send = TRUE)
+  mailSettings <- list(
+    from = "someone@gmail.com",
+    to = c("someone_else@gmail.com"),
+    smtp = list(
+      host.name = "smtp.gmail.com",
+      port = 465,
+      user.name = "someone@gmail.com",
+      passwd = "super_secret!",
+      ssl = TRUE
+    ),
+    authenticate = TRUE,
+    send = TRUE
+  )
 
   # Setting test to TRUE in this example so we don't really send an e-mail:
   addDefaultEmailLogger(mailSettings, "My R session", test = TRUE)
@@ -48,7 +58,7 @@ test_that("test the default email logger", {
   expect_true(unregisterLogger("DEFAULT_EMAIL_LOGGER"))
 })
 
-test_that("test default error report logger",{
+test_that("test default error report logger", {
   logFile <- tempfile()
   addDefaultErrorReportLogger(fileName = logFile, name = "temp default error")
   logInfo("Hello World")

@@ -1,4 +1,4 @@
-#test nonsense email address
+# test nonsense email address
 test_that("testsendmail correct", {
   to <- "bla"
   subject <- "testing this mail"
@@ -6,7 +6,7 @@ test_that("testsendmail correct", {
   expect_error(testSendMail(to, subject, body))
 })
 
-#test if output is produced
+# test if output is produced
 test_that("testsendmail correct", {
   to <- "johndoe@gmail.com"
   subject <- "testing this mail"

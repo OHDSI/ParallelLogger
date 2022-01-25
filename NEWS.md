@@ -3,7 +3,9 @@ ParallelLogger 3.0.0
 
 Changes
 
-1. Using new globalCallingHandlers functionality introduced in R 4.0.0 to capture warnings, errors and messages. This should be more stable than the legacy code. All `message()` calls are now logged automatically (at the 'INFO' level)
+1. Using new `globalCallingHandlers` functionality introduced in R 4.0.0 to capture warnings, errors and messages. This should be more stable than the legacy code. 
+
+2. All `message()` calls are now logged automatically (at the 'INFO' level)
 
 
 ParallelLogger 2.0.2

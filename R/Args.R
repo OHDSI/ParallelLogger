@@ -1,15 +1,15 @@
 # @file Args.R
 #
-# Copyright 2021 Observational Health Data Sciences and Informatics
+# Copyright 2022 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,7 +37,6 @@
 #'
 #' @examples
 #' createArgFunction("read.csv", addArgs = list(exposureId = "exposureId"))
-#'
 #' @export
 createArgFunction <- function(functionName,
                               excludeArgs = c(),
@@ -74,7 +73,7 @@ createArgFunction <- function(functionName,
   parameterHelp <- xml2::xml_text(parameterHelp)
   parameterHelp <- iconv(parameterHelp, from = "UTF-8", to = "ASCII")
   argInfo$help <- ""
-  for (i in 1:(length(parameterHelp)/2)) {
+  for (i in 1:(length(parameterHelp) / 2)) {
     argInfo$help[argInfo$name == parameterHelp[i * 2 - 1]] <- gsub("\n", " ", parameterHelp[i * 2])
   }
 
@@ -93,10 +92,11 @@ createArgFunction <- function(functionName,
   rCode <- c(rCode, "#' @export")
   if (missing(newName)) {
     createFunArgsName <- paste("create",
-                               toupper(substr(functionName, 1, 1)),
-                               substr(functionName, 2, nchar(functionName)),
-                               "Args",
-                               sep = "")
+      toupper(substr(functionName, 1, 1)),
+      substr(functionName, 2, nchar(functionName)),
+      "Args",
+      sep = ""
+    )
   } else {
     createFunArgsName <- newName
   }
@@ -134,13 +134,17 @@ createArgFunction <- function(functionName,
 .getHelpFile <- function(file) {
   path <- dirname(file)
   dirpath <- dirname(path)
-  if (!file.exists(dirpath))
+  if (!file.exists(dirpath)) {
     stop(gettextf("invalid %s argument", sQuote("file")), domain = NA)
+  }
   pkgname <- basename(dirpath)
   RdDB <- file.path(path, pkgname)
-  if (!file.exists(paste0(RdDB, ".rdx")))
-    stop(gettextf("package %s exists but was not installed under R >= 2.10.0 so help cannot be accessed",
-                  sQuote(pkgname)), domain = NA)
+  if (!file.exists(paste0(RdDB, ".rdx"))) {
+    stop(gettextf(
+      "package %s exists but was not installed under R >= 2.10.0 so help cannot be accessed",
+      sQuote(pkgname)
+    ), domain = NA)
+  }
   fetchRdDB(RdDB, basename(file))
 }
 
@@ -154,8 +158,9 @@ fetchRdDB <- function(filebase, key = NULL) {
     envhook <- db$envhook
     fetch <- function(key) lazyLoadDBfetch(vals[key][[1L]], datafile, compressed, envhook)
     if (length(key)) {
-      if (!key %in% vars)
+      if (!key %in% vars) {
         stop(gettextf("No help on %s found in RdDB %s", sQuote(key), sQuote(filebase)), domain = NA)
+      }
       fetch(key)
     } else {
       res <- lapply(vars, fetch)
@@ -164,8 +169,11 @@ fetchRdDB <- function(filebase, key = NULL) {
     }
   }
   res <- lazyLoadDBexec(filebase, fun)
-  if (length(key))
-    res else invisible(res)
+  if (length(key)) {
+    res
+  } else {
+    invisible(res)
+  }
 }
 
 #' Select variables from a list of objects of the same type
@@ -175,25 +183,26 @@ fetchRdDB <- function(filebase, key = NULL) {
 #'
 #' @examples
 #'
-#' x <- list(a = list(name = "John", age = 25, gender = "M"),
-#'           b = list(name = "Mary", age = 24, gender = "F"))
+#' x <- list(
+#'   a = list(name = "John", age = 25, gender = "M"),
+#'   b = list(name = "Mary", age = 24, gender = "F")
+#' )
 #' selectFromList(x, c("name", "age"))
 #'
 #' # $a
 #' # $a$name
 #' # [1] "John"
-#' # 
+#' #
 #' # $a$age
 #' # [1] 25
-#' # 
-#' # 
+#' #
+#' #
 #' # $b
 #' # $b$name
 #' # [1] "Mary"
-#' # 
+#' #
 #' # $b$age
 #' # [1] 24
-#'
 #' @export
 selectFromList <- function(x, select) {
   return(sapply(x, function(x) {
@@ -226,26 +235,27 @@ excludeFromList <- function(x, exclude) {
 #' A list of objects that match the \code{toMatch} object.
 #'
 #' @examples
-#' x <- list(a = list(name = "John", age = 25, gender = "M"),
-#'           b = list(name = "Mary", age = 24, gender = "F"))
+#' x <- list(
+#'   a = list(name = "John", age = 25, gender = "M"),
+#'   b = list(name = "Mary", age = 24, gender = "F")
+#' )
 #'
 #' matchInList(x, list(name = "Mary"))
 #'
 #' # $a
 #' # $a$name
 #' # [1] "John"
-#' # 
+#' #
 #' # $a$age
 #' # [1] 25
-#' # 
-#' # 
+#' #
+#' #
 #' # $b
 #' # $b$name
 #' # [1] "Mary"
-#' # 
+#' #
 #' # $b$age
 #' # [1] 24
-#'
 #' @export
 matchInList <- function(x, toMatch) {
   selected <- selectFromList(x, names(toMatch))
@@ -382,7 +392,7 @@ restoreDataFrames <- function(object) {
       } else {
         for (i in 1:length(object)) {
           if (!is.null(object[[i]])) {
-          object[[i]] <- restoreDataFrames(object[[i]])
+            object[[i]] <- restoreDataFrames(object[[i]])
           }
         }
       }

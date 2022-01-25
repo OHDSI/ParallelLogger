@@ -22,24 +22,25 @@ Typically, toMatch will contain a subset of the variables that are in the object
 object matching all variables in \code{toMatch} will be included in the result.
 }
 \examples{
-x <- list(a = list(name = "John", age = 25, gender = "M"),
-          b = list(name = "Mary", age = 24, gender = "F"))
+x <- list(
+  a = list(name = "John", age = 25, gender = "M"),
+  b = list(name = "Mary", age = 24, gender = "F")
+)
 
 matchInList(x, list(name = "Mary"))
 
 # $a
 # $a$name
 # [1] "John"
-# 
+#
 # $a$age
 # [1] 25
-# 
-# 
+#
+#
 # $b
 # $b$name
 # [1] "Mary"
-# 
+#
 # $b$age
 # [1] 24
-
 }

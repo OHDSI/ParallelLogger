@@ -1,6 +1,6 @@
 # @file PackageMaintentance.R
 #
-# Copyright 2021 Observational Health Data Sciences and Informatics
+# Copyright 2022 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 #
@@ -17,7 +17,7 @@
 # limitations under the License.
 
 # Format and check code -----------------------------------------------
-OhdsiRTools::formatRFolder("R")
+styler::style_pkg()
 OhdsiRTools::checkUsagePackage("ParallelLogger")
 OhdsiRTools::updateCopyrightYearFolder()
 devtools::spell_check()
