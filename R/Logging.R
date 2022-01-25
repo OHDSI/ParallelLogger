@@ -22,11 +22,11 @@ inTryCatchOrWithCallingHandlers <- function() {
 
 conditionHandler <- function(condition) {
   if (is(condition, "error")) {
-    log("FATAL", condition$message, echoToConsole = FALSE)
+    log("FATAL", conditionMessage(condition), echoToConsole = FALSE)
   } else if (is(condition, "warning")) {
-    log("WARN", condition$message, echoToConsole = FALSE)
+    log("WARN", conditionMessage(condition), echoToConsole = FALSE)
   } else if (is(condition, "message")) {
-    log("INFO", condition$message, echoToConsole = FALSE)
+    log("INFO", conditionMessage(condition), echoToConsole = FALSE)
   } 
 }
 

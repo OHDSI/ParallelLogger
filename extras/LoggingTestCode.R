@@ -111,7 +111,8 @@ stop("Test")
 library(ParallelLogger)
 fileName <- "s:/temp/logFile.txt"
 addDefaultFileLogger(fileName)
-
+# addDefaultErrorReportLogger(fileName)
+message("start")
 
 cluster <- makeCluster(3)
 fun <- function(x) {
@@ -130,8 +131,13 @@ log <- readChar(fileName, file.info(fileName)$size)
 writeLines(log)
 
 
-
 unlink(fileName)
 unregisterLogger("DEFAULT_FILE_LOGGER")
+# unregisterLogger("DEFAULT_ERRORREPORT_LOGGER")
 
 sysStatus <- readRDS("S:/temp/sysStatus.rds")
+
+
+data <- EmpiricalCalibration::simulateControls()
+data$seLogRr <- NA
+EmpiricalCalibration::plotCalibrationEffect(data$logRr, data$seLogRr, fileName = "s:/temp/plot.png")
