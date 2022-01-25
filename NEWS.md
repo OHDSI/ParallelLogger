@@ -3,7 +3,7 @@ ParallelLogger 3.0.0
 
 Changes
 
-1. Using new globalCallingHandlers functionality introduced in R 4.0.0 to capture warnings, errors and messages.
+1. Using new globalCallingHandlers functionality introduced in R 4.0.0 to capture warnings, errors and messages. This should be more stable than the legacy code. All `message()` calls are now logged automatically (at the 'INFO' level)
 
 
 ParallelLogger 2.0.2
@@ -16,7 +16,6 @@ Changes
 Bugfixes
 
 1. Disabling capturing of errors and warnings during R Check and unit testing so R Check fails if an error occurs during testing.
->>>>>>> develop
 
 
 ParallelLogger 2.0.1

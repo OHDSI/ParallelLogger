@@ -111,16 +111,18 @@ stop("Test")
 library(ParallelLogger)
 fileName <- "s:/temp/logFile.txt"
 addDefaultFileLogger(fileName)
-# addDefaultErrorReportLogger(fileName)
+addDefaultErrorReportLogger(fileName)
+logFatal("Oops")
+stop("Yikes")
 message("start")
 
 cluster <- makeCluster(3)
 fun <- function(x) {
   ParallelLogger::logInfo(paste("Hello", x))
   message(paste("Hi", x))
-  warning("There")
-  if (x == 10) 
-    stop("Halt!")
+  ParallelLogger::logFatal("There")
+  # if (x == 10) 
+    # stop("Halt!")
   return()
 }
 dummy <- clusterApply(cluster, 1:10, fun)
@@ -141,3 +143,9 @@ sysStatus <- readRDS("S:/temp/sysStatus.rds")
 data <- EmpiricalCalibration::simulateControls()
 data$seLogRr <- NA
 EmpiricalCalibration::plotCalibrationEffect(data$logRr, data$seLogRr, fileName = "s:/temp/plot.png")
+
+
+
+
+
+trace <- readRDS("s:/temp/trace_29.rds")

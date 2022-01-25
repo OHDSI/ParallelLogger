@@ -200,10 +200,23 @@ layoutErrorReport <- function(level, message) {
 }
 
 .tidyStackTrace <- function(trace) {
+  # saveRDS(trace, sprintf("s:/temp/trace_%d.rds", length(trace)))
   if (is.null(getOption("threadNumber"))) {
-    trace <- trace[1:(length(trace) - 5)]
+    if (length(trace) > 4 && grepl("echoToConsole = FALSE", trace[length(trace) - 4])) {
+      # Captured via globalCallingHandlers(): 2 more layers to discard
+      offset <- 2
+    } else {
+      offset <- 0
+    }
+    trace <- trace[1:(length(trace) - 3 - offset)]
   } else {
-    trace <- trace[23:(length(trace) - 6)]
+    if (length(trace) > 5 && grepl("function \\(e\\).*ParallelLogger::log", trace[length(trace) - 5])) {
+      # Captured via withCallingHandlers(): 2 more layers to discard
+      offset <- 2
+    } else {
+      offset <- 0
+    }
+    trace <- trace[23:(length(trace) - 4 - offset)]
   }
   trace <- paste(1:length(trace), trace, sep = ": ")
   trace <- rev(trace)
