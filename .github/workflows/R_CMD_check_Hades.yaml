@@ -25,6 +25,7 @@ jobs:
           - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
+      GITHUB_PAT: ${{ secrets.GH_TOKEN }}
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: ${{ matrix.config.rspm }}
       CDM5_ORACLE_CDM_SCHEMA: ${{ secrets.CDM5_ORACLE_CDM_SCHEMA }}
@@ -113,7 +114,7 @@ jobs:
           path: check
           
       - name: Upload source package
-        if: success() && runner.os == 'macOS' && github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+        if: success() && runner.os == 'macOS' && github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v2
         with:
           name: package_tarball
@@ -132,7 +133,7 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master' }}
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
 
     steps:
       
