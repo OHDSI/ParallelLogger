@@ -1,8 +1,8 @@
-pandoc: '2.11'
-pkgdown: 1.6.1
+pandoc: 2.16.2
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   Logging: Logging.html
   Parallel: Parallel.html
-last_built: 2021-07-15T12:56Z
+last_built: 2022-02-03T06:18Z
 
