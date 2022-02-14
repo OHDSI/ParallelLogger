@@ -1,3 +1,11 @@
+ParallelLogger 3.0.1
+====================
+
+Changes
+
+1. Throw more informative error message if file not found in `loadSettingsFromJson()`.
+
+
 ParallelLogger 3.0.0
 ====================
 

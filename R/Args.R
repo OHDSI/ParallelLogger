@@ -344,6 +344,7 @@ convertSettingsToJson <- function(object) {
 #'
 #' @export
 saveSettingsToJson <- function(object, fileName) {
+  fileName <- normalizePath(fileName)
   json <- convertSettingsToJson(object)
   write(json, fileName)
 }
@@ -379,6 +380,9 @@ convertJsonToSettings <- function(json) {
 #'
 #' @export
 loadSettingsFromJson <- function(fileName) {
+  fileName <- normalizePath(fileName)
+  if (!file.exists(fileName))
+    stop(sprintf("File '%s' not found", fileName))
   json <- readChar(fileName, file.info(fileName)$size)
   object <- convertJsonToSettings(json)
   return(object)
