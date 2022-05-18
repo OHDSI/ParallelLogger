@@ -5,6 +5,10 @@ Changes
 
 1. Throw more informative error message if file not found in `loadSettingsFromJson()`.
 
+Bugfixes
+
+1. Fixing extraction of parameter documentation in `createArgFunction()` on R >= 4.2.0.
+
 
 ParallelLogger 3.0.0
 ====================

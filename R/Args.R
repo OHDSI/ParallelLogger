@@ -68,15 +68,20 @@ createArgFunction <- function(functionName,
     argInfo$default[argInfo$name == names(args)[[i]]] <- args[[i]]
   }
   html <- capture.output(tools::Rd2HTML(.getHelpFile(help(functionName))))
-  xml <- xml2::read_html(paste(html, collapse = "\n"))
-  parameterHelp <- xml2::xml_find_all(xml, "//table[@summary=\"R argblock\"]//tr//td")
-  parameterHelp <- xml2::xml_text(parameterHelp)
-  parameterHelp <- iconv(parameterHelp, from = "UTF-8", to = "ASCII")
+  argsStartPos <- grep("<h3>Arguments</h3>", html) + 1
+  tableEndPos <- grep("</table>", html)
   argInfo$help <- ""
-  for (i in 1:(length(parameterHelp) / 2)) {
-    argInfo$help[argInfo$name == parameterHelp[i * 2 - 1]] <- gsub("\n", " ", parameterHelp[i * 2])
+  if (length(argsStartPos) == 1 && length(tableEndPos) > 0) {
+    argsEndPos <- min(tableEndPos[tableEndPos > argsStartPos])
+    parameterHelp <- xml2::read_html(paste(html[argsStartPos:argsEndPos], collapse = "\n"))
+    parameterHelp <- xml2::xml_find_all(parameterHelp, "//table//tr//td")
+    parameterHelp <- xml2::xml_text(parameterHelp)
+    parameterHelp <- iconv(parameterHelp, from = "UTF-8", to = "ASCII")
+    
+    for (i in 1:(length(parameterHelp) / 2)) {
+      argInfo$help[argInfo$name == parameterHelp[i * 2 - 1]] <- gsub("\n", " ", parameterHelp[i * 2])
+    }
   }
-
   if (length(rCode) != 0) {
     rCode <- c(rCode, "")
   }
