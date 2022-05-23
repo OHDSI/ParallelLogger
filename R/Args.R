@@ -53,9 +53,9 @@ createArgFunction <- function(functionName,
   toChar <- function(x) {
     if (is.null(x)) {
       "NULL"
-    } else if (class(x) == "call") {
+    } else if (is(x, "call")) {
       paste(capture.output(x), collapse = "")
-    } else if (class(x) == "character") {
+    } else if (is(x, "character")) {
       paste("\"", x, "\"", sep = "")
     } else {
       as.character(x)
@@ -286,10 +286,10 @@ convertAttrToMember <- function(object) {
     }
     a <- names(attributes(object))
     a <- a[!a %in% c("names", "class")]
+    class <- class(object)
+    class(object) <- "list"
+    object$attr_class <- class
     if (length(a) > 0) {
-      class <- class(object)
-      class(object) <- "list"
-      object$attr_class <- class
       object[paste("attr", a, sep = "_")] <- attributes(object)[a]
     }
   }
@@ -399,7 +399,7 @@ loadSettingsFromJson <- function(fileName) {
 restoreDataFrames <- function(object) {
   if (is.list(object)) {
     if (length(object) > 0) {
-      if (class(object[[1]]) == "data.frame") {
+      if (is(object[[1]], "data.frame")) {
         object <- do.call("rbind", object)
       } else {
         for (i in 1:length(object)) {
