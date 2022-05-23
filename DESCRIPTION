@@ -28,7 +28,8 @@ Suggests:
   shiny,
   DT,
   knitr,
-  rmarkdown
+  rmarkdown,
+  tibble
 URL: https://ohdsi.github.io/ParallelLogger/, https://github.com/OHDSI/ParallelLogger
 BugReports: https://github.com/OHDSI/ParallelLogger/issues
 NeedsCompilation: no

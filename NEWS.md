@@ -9,6 +9,8 @@ Bugfixes
 
 1. Fixing extraction of parameter documentation in `createArgFunction()` on R >= 4.2.0.
 
+2. Fixes error when saving and loading tibbles to JSON.
+
 
 ParallelLogger 3.0.0
 ====================

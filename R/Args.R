@@ -285,8 +285,11 @@ convertAttrToMember <- function(object) {
       }
     }
     a <- names(attributes(object))
-    a <- a[a != "names"]
+    a <- a[!a %in% c("names", "class")]
     if (length(a) > 0) {
+      class <- class(object)
+      class(object) <- "list"
+      object$attr_class <- class
       object[paste("attr", a, sep = "_")] <- attributes(object)[a]
     }
   }
@@ -349,7 +352,7 @@ convertSettingsToJson <- function(object) {
 #'
 #' @export
 saveSettingsToJson <- function(object, fileName) {
-  fileName <- normalizePath(fileName)
+  fileName <- normalizePath(fileName, mustWork = FALSE)
   json <- convertSettingsToJson(object)
   write(json, fileName)
 }
