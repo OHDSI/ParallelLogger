@@ -80,7 +80,7 @@ layoutParallel <- function(level, message) {
         "ParallelLogger",
         "rlang"
       )) {
-        if (class(sys.call(-i)[[1]]) == "function") {
+        if (is(sys.call(-i)[[1]], "function")) {
           # Using do.call without quotes means the function name is lost
           functionName <- ""
         } else {

@@ -33,6 +33,24 @@ test_that("tibble restore", {
   expect_equivalent(settings, settings2)
 })
 
+test_that("Named class member restore", {
+  fileName <- tempfile()
+  b = list(
+    x = c(1, 2, 3),
+    y = c("p", "q", "r")
+  )
+  class(b) <- "MyClass"
+  settings <- list(
+    a = "a",
+    b = b  
+  )
+  saveSettingsToJson(settings, fileName)
+  settings2 <- loadSettingsFromJson(fileName)
+  unlink(fileName)
+  expect_equal(class(settings$b), class(settings2$b))
+  expect_equivalent(settings, settings2)
+})
+
 
 test_that("list with empty vectors", {
   fileName <- tempfile()
