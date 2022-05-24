@@ -287,7 +287,7 @@ convertAttrToMember <- function(object) {
     a <- names(attributes(object))
     a <- a[!a %in% c("names", "class")]
     class <- class(object)
-    if (class != "list") {
+    if (length(class) > 1 || class != "list") {
       class(object) <- "list"
       object$attr_class <- class
     }
