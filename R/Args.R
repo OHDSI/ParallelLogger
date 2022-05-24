@@ -97,10 +97,10 @@ createArgFunction <- function(functionName,
   rCode <- c(rCode, "#' @export")
   if (missing(newName)) {
     createFunArgsName <- paste("create",
-      toupper(substr(functionName, 1, 1)),
-      substr(functionName, 2, nchar(functionName)),
-      "Args",
-      sep = ""
+                               toupper(substr(functionName, 1, 1)),
+                               substr(functionName, 2, nchar(functionName)),
+                               "Args",
+                               sep = ""
     )
   } else {
     createFunArgsName <- newName
@@ -122,7 +122,7 @@ createArgFunction <- function(functionName,
     } else {
       end <- paste(end, ",", sep = "")
     }
-
+    
     rCode <- c(rCode, paste(start, argInfo$name[i], end, sep = ""))
   }
   rCode <- c(rCode, "  analysis <- list()")
@@ -287,8 +287,10 @@ convertAttrToMember <- function(object) {
     a <- names(attributes(object))
     a <- a[!a %in% c("names", "class")]
     class <- class(object)
-    class(object) <- "list"
-    object$attr_class <- class
+    if (class != "list") {
+      class(object) <- "list"
+      object$attr_class <- class
+    }
     if (length(a) > 0) {
       object[paste("attr", a, sep = "_")] <- attributes(object)[a]
     }

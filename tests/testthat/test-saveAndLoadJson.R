@@ -51,6 +51,19 @@ test_that("Named class member restore", {
   expect_equivalent(settings, settings2)
 })
 
+test_that("Unnamed list restore (and not named)", {
+  fileName <- tempfile()
+  x <- list(a = 1, b= 2)
+  class(x) <- "MyClass"
+  settings <- list(x,x)
+  saveSettingsToJson(settings, fileName)
+  settings2 <- loadSettingsFromJson(fileName)
+  unlink(fileName)
+  expect_equal(class(settings$b), class(settings2$b))
+  expect_equivalent(settings, settings2)
+  expect_equal(names(settings), names(settings2))
+})
+
 
 test_that("list with empty vectors", {
   fileName <- tempfile()
