@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.1</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -85,9 +85,10 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Logging using ParallelLogger</h1>
-                        <h4 data-toc-skip class="author">Martijn J. Schuemie</h4>
+                        <h4 data-toc-skip class="author">Martijn J.
+Schuemie</h4>
             
-            <h4 data-toc-skip class="date">2022-02-03</h4>
+            <h4 data-toc-skip class="date">2022-06-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/OHDSI/ParallelLogger/blob/HEAD/vignettes/Logging.Rmd" class="external-link"><code>vignettes/Logging.Rmd</code></a></small>
       <div class="hidden name"><code>Logging.Rmd</code></div>
@@ -99,58 +100,88 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>This vignette describes how you can use the <code>ParallelLogger</code> package to perform logging. Logging is the activity of recording events that occur during an analysis in a log. The log can be used for example for for debugging, profiling (understanding performance bottlenecks), and audits.</p>
+<p>This vignette describes how you can use the
+<code>ParallelLogger</code> package to perform logging. Logging is the
+activity of recording events that occur during an analysis in a log. The
+log can be used for example for for debugging, profiling (understanding
+performance bottlenecks), and audits.</p>
 <div class="section level3">
 <h3 id="terminology">Terminology<a class="anchor" aria-label="anchor" href="#terminology"></a>
 </h3>
 <ul>
 <li>
-<strong>Logger</strong>: An object that can receive <strong>events</strong>, and writes them to a log. A logger has a <strong>name</strong>, a prespecified <strong>event level</strong> (only events at or above that level are logged), and one or more <strong>appenders</strong>.</li>
+<strong>Logger</strong>: An object that can receive
+<strong>events</strong>, and writes them to a log. A logger has a
+<strong>name</strong>, a prespecified <strong>event level</strong> (only
+events at or above that level are logged), and one or more
+<strong>appenders</strong>.</li>
 <li>
-<strong>Event</strong>: Consists of a message and an event level.</li>
+<strong>Event</strong>: Consists of a message and an event
+level.</li>
 <li>
-<strong>Event level</strong>: Each event has an associated level. These levels (in ranked order) are
+<strong>Event level</strong>: Each event has an associated level.
+These levels (in ranked order) are
 <ul>
 <li>
-<code>TRACE</code>: Events to mark the analysis has passed through some code.</li>
+<code>TRACE</code>: Events to mark the analysis has passed through
+some code.</li>
 <li>
-<code>DEBUG</code>: Events to help understand the state of the code (e.g. whether a variable has a value).</li>
+<code>DEBUG</code>: Events to help understand the state of the code
+(e.g. whether a variable has a value).</li>
 <li>
-<code>INFO</code>: Events typically displayed to the user to inform of the progress.</li>
+<code>INFO</code>: Events typically displayed to the user to inform
+of the progress.</li>
 <li>
-<code>WARN</code>: Events that indicate something probably requires attention.</li>
+<code>WARN</code>: Events that indicate something probably requires
+attention.</li>
 <li>
 <code>ERROR</code>: Events indicating something went wrong.</li>
 <li>
-<code>FATAL</code>: Events indicating something went wrong, causing the analysis to terminate.</li>
+<code>FATAL</code>: Events indicating something went wrong, causing
+the analysis to terminate.</li>
 </ul>
 </li>
 <li>
-<strong>Appender</strong>: An object that writes to a destination, for example the console or a file. An appender uses a <strong>layout</strong> to format its messages. There currently are three types of appenders:
+<strong>Appender</strong>: An object that writes to a destination,
+for example the console or a file. An appender uses a
+<strong>layout</strong> to format its messages. There currently are
+three types of appenders:
 <ul>
 <li>
-<strong>Console appender</strong>: Writes to the console, created using the <code>createConsoleAppender</code> function.</li>
+<strong>Console appender</strong>: Writes to the console, created
+using the <code>createConsoleAppender</code> function.</li>
 <li>
-<strong>File appender</strong>: Writes to a file, created using the <code>createFileAppender</code> function.</li>
+<strong>File appender</strong>: Writes to a file, created using the
+<code>createFileAppender</code> function.</li>
 <li>
-<strong>E-mail appender</strong>: Sends an e-mail, created using the <code>createEmailAppender</code> function.</li>
+<strong>E-mail appender</strong>: Sends an e-mail, created using the
+<code>createEmailAppender</code> function.</li>
 </ul>
 </li>
 <li>
-<strong>Layout</strong>: Objects specifying the format in which the log will be created. The following layouts are available:
+<strong>Layout</strong>: Objects specifying the format in which the
+log will be created. The following layouts are available:
 <ul>
 <li>
 <code>layoutSimple</code>: Only outputs the message.</li>
 <li>
-<code>layoutTimestamp</code>: Adds the current time and date to the message.</li>
+<code>layoutTimestamp</code>: Adds the current time and date to the
+message.</li>
 <li>
-<code>layoutStackTrace</code>: Adds the time and date, and full stack trace to the message.</li>
+<code>layoutStackTrace</code>: Adds the time and date, and full
+stack trace to the message.</li>
 <li>
-<code>layoutParallel</code>: Includes the thread identifier, name of the package and function raising the event, the current time and date, the message level, and the message itself.</li>
+<code>layoutParallel</code>: Includes the thread identifier, name of
+the package and function raising the event, the current time and date,
+the message level, and the message itself.</li>
 <li>
-<code>layoutErrorReport</code>: Creates a report for an event, including the message, stack trace, and information about the run-time environment such as the type of operating system, and installed R packages.</li>
+<code>layoutErrorReport</code>: Creates a report for an event,
+including the message, stack trace, and information about the run-time
+environment such as the type of operating system, and installed R
+packages.</li>
 <li>
-<code>layoutEmail</code>: This layout adds the thread ID and stack trace to the message.</li>
+<code>layoutEmail</code>: This layout adds the thread ID and stack
+trace to the message.</li>
 </ul>
 </li>
 </ul>
@@ -159,7 +190,9 @@
 <div class="section level2">
 <h2 id="creating-a-console-logger">Creating a console logger<a class="anchor" aria-label="anchor" href="#creating-a-console-logger"></a>
 </h2>
-<p>The code below demonstrates how one would create a logger that writes all events at level <code>INFO</code> or greater to the console using a layout with time stamp:</p>
+<p>The code below demonstrates how one would create a logger that writes
+all events at level <code>INFO</code> or greater to the console using a
+layout with time stamp:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"SIMPLE"</span>,
                        threshold <span class="op">=</span> <span class="st">"INFO"</span>,
@@ -172,7 +205,10 @@
 <span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Hello world</span>
 <span class="co">## 2021-02-23 09:04:06 Hello world</span></code></pre>
-<p>Note that the message is displayed twice. This is because there is a default logger that uses the simple layout and threshold = “INFO”, and writes to console. We can remove this logger before registering our logger to avoid duplication:</p>
+<p>Note that the message is displayed twice. This is because there is a
+default logger that uses the simple layout and threshold = “INFO”, and
+writes to console. We can remove this logger before registering our
+logger to avoid duplication:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span>
 
@@ -187,7 +223,8 @@
 <div class="section level3">
 <h3 id="shorthand">Shorthand<a class="anchor" aria-label="anchor" href="#shorthand"></a>
 </h3>
-<p>A shorthand for creating a simple console logger is offered by the <code>addDefaultConsoleLogger</code> function. The code</p>
+<p>A shorthand for creating a simple console logger is offered by the
+<code>addDefaultConsoleLogger</code> function. The code</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/addDefaultConsoleLogger.html">addDefaultConsoleLogger</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>is equivalent to</p>
@@ -200,7 +237,10 @@
 <div class="section level2">
 <h2 id="creating-a-file-logger">Creating a file logger<a class="anchor" aria-label="anchor" href="#creating-a-file-logger"></a>
 </h2>
-<p>Probably more useful is a file logger. In the code below, we instantiate a logger that writes to file, using a threshold of <code>TRACE</code> (so including all events), and using the layout for parallel processing.</p>
+<p>Probably more useful is a file logger. In the code below, we
+instantiate a logger that writes to file, using a threshold of
+<code>TRACE</code> (so including all events), and using the layout for
+parallel processing.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">logFileName</span> <span class="op">&lt;-</span> <span class="st">"log.txt"</span>
 
@@ -228,7 +268,8 @@
 <div class="section level3">
 <h3 id="shorthand-1">Shorthand<a class="anchor" aria-label="anchor" href="#shorthand-1"></a>
 </h3>
-<p>A shorthand for creating the file logger detailed here is offered by the <code>addDefaultFileLogger</code> function. The code</p>
+<p>A shorthand for creating the file logger detailed here is offered by
+the <code>addDefaultFileLogger</code> function. The code</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></code></pre></div>
 <p>is equivalent to</p>
@@ -242,12 +283,27 @@
 <div class="section level2">
 <h2 id="creating-an-error-report-logger">Creating an error report logger<a class="anchor" aria-label="anchor" href="#creating-an-error-report-logger"></a>
 </h2>
-<p>A special case of a file logger is an error report logger. Rather than logging one event per row, the error report logger creates a single file dedicated to one event. As the name implies, this makes most sense for fatal error events. The error report contains the error message, stack trace, and information on the run-time environment, including the type of operating system and installed R packages. The idea is that this report can be shared between someone running the code and someone debugging the code remotely.</p>
-<p>The error report will be overwritten if a new error occurs, unless the new error occurs within 60 seconds of the creation of the error report. The reason for this delay is that it may be that a sub-thread throws an error, which we’d want to catch, followed shortly after by an error in the main thread, which we’d also like to catch. Both threads will then provide their error messages and stack trace, but only the main thread will include the information about the run-time environment, to avoid redundancy.</p>
+<p>A special case of a file logger is an error report logger. Rather
+than logging one event per row, the error report logger creates a single
+file dedicated to one event. As the name implies, this makes most sense
+for fatal error events. The error report contains the error message,
+stack trace, and information on the run-time environment, including the
+type of operating system and installed R packages. The idea is that this
+report can be shared between someone running the code and someone
+debugging the code remotely.</p>
+<p>The error report will be overwritten if a new error occurs, unless
+the new error occurs within 60 seconds of the creation of the error
+report. The reason for this delay is that it may be that a sub-thread
+throws an error, which we’d want to catch, followed shortly after by an
+error in the main thread, which we’d also like to catch. Both threads
+will then provide their error messages and stack trace, but only the
+main thread will include the information about the run-time environment,
+to avoid redundancy.</p>
 <div class="section level3">
 <h3 id="shorthand-2">Shorthand<a class="anchor" aria-label="anchor" href="#shorthand-2"></a>
 </h3>
-<p>It is recommended to simply always use the shorthand for creating an error report logger:</p>
+<p>It is recommended to simply always use the shorthand for creating an
+error report logger:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/addDefaultErrorReportLogger.html">addDefaultErrorReportLogger</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>which is equivalent to</p>
@@ -265,7 +321,10 @@
 <div class="section level2">
 <h2 id="creating-an-e-mail-logger">Creating an e-mail logger<a class="anchor" aria-label="anchor" href="#creating-an-e-mail-logger"></a>
 </h2>
-<p>We can also add a logger that sends an e-mail whenever an event is logged above the specified threshold. For example, for a process running on a remote machine it might be useful to receive e-mails of fatal events:</p>
+<p>We can also add a logger that sends an e-mail whenever an event is
+logged above the specified threshold. For example, for a process running
+on a remote machine it might be useful to receive e-mails of fatal
+events:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mailSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,
 to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"someone_else@gmail.com"</span><span class="op">)</span>,
@@ -284,11 +343,14 @@ mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span
 <span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/logFatal.html">logFatal</a></span><span class="op">(</span><span class="st">"No more data to process"</span><span class="op">)</span></code></pre></div>
-<p>Note that the <code>mailSettings</code> object will be passed on to the <code>send.mail</code> function in the <code>mailR</code> package, so for more details see <code><a href="https://rdrr.io/pkg/mailR/man/send.mail.html" class="external-link">?mailR::send.mail</a></code>’</p>
+<p>Note that the <code>mailSettings</code> object will be passed on to
+the <code>send.mail</code> function in the <code>mailR</code> package,
+so for more details see <code><a href="https://rdrr.io/pkg/mailR/man/send.mail.html" class="external-link">?mailR::send.mail</a></code>’</p>
 <div class="section level3">
 <h3 id="shorthand-3">Shorthand<a class="anchor" aria-label="anchor" href="#shorthand-3"></a>
 </h3>
-<p>A shorthand for creating the e-mail logger detailed here is offered by the <code>addDefaultEmailLogger</code> function. The code</p>
+<p>A shorthand for creating the e-mail logger detailed here is offered
+by the <code>addDefaultEmailLogger</code> function. The code</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/addDefaultEmailLogger.html">addDefaultEmailLogger</a></span><span class="op">(</span><span class="va">mailSettings</span><span class="op">)</span></code></pre></div>
 <p>is equivalent to</p>
@@ -302,7 +364,8 @@ mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span
 <div class="section level2">
 <h2 id="messages-warnings-and-fatal-errors">Messages, warnings and fatal errors<a class="anchor" aria-label="anchor" href="#messages-warnings-and-fatal-errors"></a>
 </h2>
-<p>All R warnings and errors are automatically logged, and therefore do not require explicit logging. For example:</p>
+<p>All R warnings and errors are automatically logged, and therefore do
+not require explicit logging. For example:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span>
@@ -326,7 +389,11 @@ mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span
 <div class="section level2">
 <h2 id="logging-when-parallel-processing">Logging when parallel processing<a class="anchor" aria-label="anchor" href="#logging-when-parallel-processing"></a>
 </h2>
-<p>The logging functions are designed to work with the parallel processing functions included in this package. The <code>layoutParallel</code> records thread identifiers, making it possible to later untangle the various threads. Below is a simple example:</p>
+<p>The logging functions are designed to work with the parallel
+processing functions included in this package. The
+<code>layoutParallel</code> records thread identifiers, making it
+possible to later untangle the various threads. Below is a simple
+example:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Clean up the loggers from the previous example</span>
 
@@ -368,7 +435,11 @@ mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span
 <div class="section level2">
 <h2 id="creating-loggers-in-functions">Creating loggers in functions<a class="anchor" aria-label="anchor" href="#creating-loggers-in-functions"></a>
 </h2>
-<p>Creating a logger right before starting a very complex computation is probably a good idea, to capture information that may help to debug when things go wrong. Although having multiple loggers simultaneously should work fine, it probably makes sense to only invoke loggers at the highest level. So instead of</p>
+<p>Creating a logger right before starting a very complex computation is
+probably a good idea, to capture information that may help to debug when
+things go wrong. Although having multiple loggers simultaneously should
+work fine, it probably makes sense to only invoke loggers at the highest
+level. So instead of</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">subSubTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"subSubTaskLog.txt"</span><span class="op">)</span>
@@ -402,7 +473,10 @@ mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span
   <span class="co"># do something</span>
   <span class="fu">subTask</span><span class="op">(</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
-<p>Also, as a courtesy to the user, please clean up the logger after the function is finished. By using <code>on.exit</code>, we can ensure the logger is always closed, even when the function stops unexpectedly (e.g. due to an error):</p>
+<p>Also, as a courtesy to the user, please clean up the logger after the
+function is finished. By using <code>on.exit</code>, we can ensure the
+logger is always closed, even when the function stops unexpectedly
+(e.g. due to an error):</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mainTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
   <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"log.txt"</span><span class="op">)</span>
@@ -413,7 +487,9 @@ mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span
 <div class="section level2">
 <h2 id="shiny-log-viewer">Shiny log viewer<a class="anchor" aria-label="anchor" href="#shiny-log-viewer"></a>
 </h2>
-<p>A Shiny app for viewing a log file created using the <code>layoutParallel</code> is included in the package. To explore the log created in the prior example, run</p>
+<p>A Shiny app for viewing a log file created using the
+<code>layoutParallel</code> is included in the package. To explore the
+log created in the prior example, run</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/launchLogViewer.html">launchLogViewer</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></code></pre></div>
 <p>to launch the viewer shown in Figure 1.</p>
@@ -440,7 +516,7 @@ mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

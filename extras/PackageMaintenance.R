@@ -22,6 +22,18 @@ OhdsiRTools::checkUsagePackage("ParallelLogger")
 OhdsiRTools::updateCopyrightYearFolder()
 devtools::spell_check()
 
+# Test reverse dependencies listed in CRAN ----------------------------
+install.packages("BiocManager")
+BiocManager::install("ProteoDisco", update = FALSE, dependencies = c("Depends", "Imports", "LinkingTo", "Suggests"))
+# BiocManager::install("BiocStyle", update = FALSE)
+# BiocManager::install("TxDb.Hsapiens.UCSC.hg19.knownGene", update = FALSE)
+# BiocManager::install("BSgenome.Hsapiens.UCSC.hg19", update = FALSE)
+sourceFile <- tempfile(fileext = "tar.gz")
+download.file(url = "http://www.bioconductor.org/packages/release/bioc/src/contrib/ProteoDisco_1.2.0.tar.gz", destfile = sourceFile)
+sourceFolder <- tempfile()
+untar(tarfile = sourceFile, exdir  = sourceFolder)
+rcmdcheck::rcmdcheck(path = file.path(sourceFolder, "ProteoDisco"), args = c("--no-manual", "--no-multiarch"), error_on = "warning")
+
 # Create manual and vignette ------------------------------------------
 unlink("extras/ParallelLogger.pdf")
 shell("R CMD Rd2pdf ./ --output=extras/ParallelLogger.pdf")

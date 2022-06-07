@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.1</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -129,14 +129,15 @@ ParallelLogger will not display any messages if something goes wrong when sendin
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Body:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Message:  Something bad</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time:  2022-02-03 01:19:04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time:  2022-06-07 03:52:56</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Level:  FATAL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Stack trace:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36: logFatal("Something bad")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37: logFatal("Something bad")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36: eval(expr, envir, enclos)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35: eval(expr, envir, enclos)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34: eval(expr, envir, enclos)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33: withVisible(eval(expr, envir, enclos))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32: withCallingHandlers(withVisible(eval(expr, envir, enclos)), warning = wHand</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34: eval_with_user_handlers(expr, envir, enclos, user_handlers)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33: withVisible(eval_with_user_handlers(expr, envir, enclos, user_handlers))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32: withCallingHandlers(withVisible(eval_with_user_handlers(expr, envir, enclos</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 31: doTryCatch(return(expr), name, parentenv, handler)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 30: tryCatchOne(expr, names, parentenv, handlers[[1]])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 29: tryCatchList(expr, classes, parentenv, handlers)</span>
@@ -144,8 +145,8 @@ ParallelLogger will not display any messages if something goes wrong when sendin
 <span class="r-out co"><span class="r-pr">#&gt;</span>     call &lt;- conditionCall(e)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27: try(f, silent = TRUE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26: handle(ev &lt;- withCallingHandlers(withVisible(eval(expr, envir, enclos)), wa</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25: timing_fn(handle(ev &lt;- withCallingHandlers(withVisible(eval(expr, envir, en</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26: handle(ev &lt;- withCallingHandlers(withVisible(eval_with_user_handlers(expr, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25: timing_fn(handle(ev &lt;- withCallingHandlers(withVisible(eval_with_user_handl</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24: evaluate_call(expr, parsed$src[[i]], envir = envir, enclos = enclos, debug </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23: evaluate::evaluate(code, child_env(env), new_device = TRUE, output_handler </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 22: downlit::evaluate_and_highlight(code, fig_save = fig_save_topic, env = chil</span>
@@ -196,7 +197,7 @@ ParallelLogger will not display any messages if something goes wrong when sendin
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
