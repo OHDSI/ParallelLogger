@@ -39,7 +39,7 @@ makeCluster <- function(numberOfThreads, singleThreadToMain = TRUE, setAndromeda
   if (numberOfThreads == 1 && singleThreadToMain) {
     cluster <- list()
     class(cluster) <- "noCluster"
-    ParallelLogger::logTrace("Initiating cluster constisting only of main thread")
+    ParallelLogger::logTrace("Initiating cluster consisting only of main thread")
   } else {
     ParallelLogger::logTrace("Initiating cluster with ", numberOfThreads, " threads")
     cluster <- snow::makeCluster(numberOfThreads, type = "SOCK")
