@@ -54,3 +54,16 @@ logger <- createLogger(name = "EMAIL",
 # Test arg function code -------------------------------------------
 writeLines(createArgFunction("createArgFunction"))
 
+
+
+
+fun <- function(x, dummy, foo) {
+  if (x == 3)
+    stop("asdf'")
+  return(x^2)
+}
+
+cluster <- makeCluster(numberOfThreads = 3)
+x <- clusterApply(cluster, 1:3, fun, dummy = "hello", foo = cars)
+stopCluster(cluster)
+x

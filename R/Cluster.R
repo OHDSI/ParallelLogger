@@ -193,14 +193,6 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
 
       val <- vector("list", n)
       hasError <- FALSE
-      formatError <- function(threadNumber, error, args) {
-        sprintf(
-          "Thread %s returns error: \"%s\" when using argument(s): %s",
-          threadNumber,
-          gsub("\n", "\\n", gsub("\t", "\\t", error)),
-          gsub("\n", "\\n", gsub("\t", "\\t", paste(args, collapse = ",")))
-        )
-      }
       for (i in 1:n) {
         d <- snow::recvOneResult(cluster)
         if (inherits(d$value, "try-error")) {
@@ -244,3 +236,32 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
     }
   }
 }
+
+formatError <- function(threadNumber, error, args) {
+  names <- names(args)
+  names[1] <- "x"
+  addQuotes <- function(arg) {
+    if (is.character(arg))
+      return(shQuote(arg))
+    else 
+      return(arg)
+  }
+  values <- sapply(args, addQuotes)
+  nameValues <- sprintf("%s = %s", names, values)
+  truncateNameValue <- function(nameValue) {
+    maxLength <- 250
+    if (nchar(nameValue) > maxLength) {
+      return(paste0(substr(nameValue, 1, maxLength - 3), "..."))
+    } else {
+      return(nameValue)
+    }
+  }
+  nameValues <- sapply(nameValues, truncateNameValue)
+  sprintf(
+    "Thread %s returns error: \"%s\" when using argument(s): %s",
+    threadNumber,
+    gsub("\n", "\\n", gsub("\t", "\\t", error)),
+    gsub("\n", "\\n", gsub("\t", "\\t", paste(nameValues, collapse = ", ")))
+  )
+}
+

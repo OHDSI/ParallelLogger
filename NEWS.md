@@ -1,3 +1,11 @@
+ParallelLogger 3.0.2
+====================
+
+Changes
+
+1. Truncating long argument values when a thread throws an error in `clusterApply()` to avoid clutter.
+
+
 ParallelLogger 3.0.1
 ====================
 
