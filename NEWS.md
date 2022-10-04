@@ -5,6 +5,10 @@ Changes
 
 1. Truncating long argument values when a thread throws an error in `clusterApply()` to avoid clutter.
 
+Bugfixes
+
+1. Fixed issue when loading a JSON object where the first item in a list is a data frame.
+
 
 ParallelLogger 3.0.1
 ====================

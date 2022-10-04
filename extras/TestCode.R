@@ -67,3 +67,31 @@ cluster <- makeCluster(numberOfThreads = 3)
 x <- clusterApply(cluster, 1:3, fun, dummy = "hello", foo = cars)
 stopCluster(cluster)
 x
+
+
+
+# Storing NULL or NA in JSON --------------------------------------------
+library(ParallelLogger)
+x <- list(a = 1, b = "asdf")
+x["b"] <- list(NULL)
+saveSettingsToJson(x, "s:/temp/x.json")
+
+x2 <- loadSettingsFromJson("s:/temp/x.json")
+x2
+
+x <- list(a = 1, b = NA)
+
+# List with data frame as first element ---------------------------------
+fileName <- tempfile()
+settings <- list(
+  b = data.frame(
+    x = c(1, 2, 3),
+    y = c("p", "q", "r"),
+    stringsAsFactors = FALSE
+  ),
+  a = "a"
+)
+writeLines(readLines(fileName))
+saveSettingsToJson(settings, fileName)
+settings2 <- loadSettingsFromJson(fileName)
+

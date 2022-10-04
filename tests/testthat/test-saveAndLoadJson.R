@@ -35,14 +35,14 @@ test_that("tibble restore", {
 
 test_that("Named class member restore", {
   fileName <- tempfile()
-  b = list(
+  b <- list(
     x = c(1, 2, 3),
     y = c("p", "q", "r")
   )
   class(b) <- "MyClass"
   settings <- list(
     a = "a",
-    b = b  
+    b = b
   )
   saveSettingsToJson(settings, fileName)
   settings2 <- loadSettingsFromJson(fileName)
@@ -53,9 +53,9 @@ test_that("Named class member restore", {
 
 test_that("Unnamed list restore (and not named)", {
   fileName <- tempfile()
-  x <- list(a = 1, b= 2)
+  x <- list(a = 1, b = 2)
   class(x) <- "MyClass"
-  settings <- list(x,x)
+  settings <- list(x, x)
   saveSettingsToJson(settings, fileName)
   settings2 <- loadSettingsFromJson(fileName)
   unlink(fileName)
@@ -96,9 +96,42 @@ test_that("list with object with member function", {
   })
   objList <- list(obj)
   saveSettingsToJson(objList, fileName)
-  
+
   objList2 <- loadSettingsFromJson(fileName)
   unlink(fileName)
-  
+
   expect_equal(obj$fun(10), objList2[[1]]$fun(10))
+})
+
+test_that("data.frame restore, data.frame is first item in list", {
+  fileName <- tempfile()
+  settings <- list(
+    b = data.frame(
+      x = c(1, 2, 3),
+      y = c("p", "q", "r"),
+      stringsAsFactors = FALSE
+    ),
+    a = "a"
+  )
+  saveSettingsToJson(settings, fileName)
+  settings2 <- loadSettingsFromJson(fileName)
+  unlink(fileName)
+  expect_equal(class(settings$b), class(settings2$b))
+  expect_equivalent(settings, settings2)
+})
+
+test_that("tibble restore, tibble is first item in list", {
+  fileName <- tempfile()
+  settings <- list(
+    b = tibble::tibble(
+      x = c(1, 2, 3),
+      y = c("p", "q", "r")
+    ),
+    a = "a"
+  )
+  saveSettingsToJson(settings, fileName)
+  settings2 <- loadSettingsFromJson(fileName)
+  unlink(fileName)
+  expect_equal(class(settings$b), class(settings2$b))
+  expect_equivalent(settings, settings2)
 })
