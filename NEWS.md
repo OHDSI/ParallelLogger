@@ -5,6 +5,8 @@ Changes
 
 1. Truncating long argument values when a thread throws an error in `clusterApply()` to avoid clutter.
 
+2. Showing warning about being inside a `tryCatch` or `withCallingHandlers` block only once per R session.
+
 Bugfixes
 
 1. Fixed issue when loading a JSON object where the first item in a list is a data frame.

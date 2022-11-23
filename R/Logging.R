@@ -44,10 +44,14 @@ registerDefaultHandlers <- function() {
     return()
   }
   if (inTryCatchOrWithCallingHandlers()) {
-    message(paste(
-      "Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers.",
-      "ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger."
-    ))
+    if (!exists("warnedAboutHandlers", envir = globalVars)) {
+      message(paste(
+        "Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers.",
+        "ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.",
+        "(This message will not be shown again this R session)"
+      ))
+      assign("warnedAboutHandlers", TRUE, envir = globalVars)
+    }
     return()
   }
   globalCallingHandlers(condition = conditionHandler)

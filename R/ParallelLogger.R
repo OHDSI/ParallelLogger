@@ -23,3 +23,5 @@
 #' @importFrom utils installed.packages install.packages menu capture.output help memory.limit
 #' setTxtProgressBar txtProgressBar limitedLabels sessionInfo
 NULL
+
+globalVars <- new.env()
