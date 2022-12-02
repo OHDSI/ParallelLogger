@@ -1,4 +1,4 @@
-ParallelLogger 3.0.2
+ParallelLogger 3.1.0
 ====================
 
 Changes
@@ -6,6 +6,8 @@ Changes
 1. Truncating long argument values when a thread throws an error in `clusterApply()` to avoid clutter.
 
 2. Showing warning about being inside a `tryCatch` or `withCallingHandlers` block only once per R session.
+
+3. The `matchInList()` function now looks for equivalence, not exact match (e.g. a numeric and integer can still be considered the same).
 
 Bugfixes
 

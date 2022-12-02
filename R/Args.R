@@ -266,7 +266,7 @@ matchInList <- function(x, toMatch) {
   selected <- selectFromList(x, names(toMatch))
   result <- list()
   for (i in 1:length(x)) {
-    if (identical(selected[[i]], toMatch)) {
+    if (isTRUE(all.equal(selected[[i]], toMatch))) {
       result[[length(result) + 1]] <- x[[i]]
     }
   }
