@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.1.0</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">Martijn J.
 Schuemie</h4>
             
-            <h4 data-toc-skip class="date">2022-06-07</h4>
+            <h4 data-toc-skip class="date">2022-12-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/OHDSI/ParallelLogger/blob/HEAD/vignettes/Logging.Rmd" class="external-link"><code>vignettes/Logging.Rmd</code></a></small>
       <div class="hidden name"><code>Logging.Rmd</code></div>
@@ -194,44 +194,44 @@ trace to the message.</li>
 all events at level <code>INFO</code> or greater to the console using a
 layout with time stamp:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"SIMPLE"</span>,
-                       threshold <span class="op">=</span> <span class="st">"INFO"</span>,
-                       appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutTimestamp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/logTrace.html">logTrace</a></span><span class="op">(</span><span class="st">"This event is below the threshold (INFO)"</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Hello world</span>
-<span class="co">## 2021-02-23 09:04:06 Hello world</span></code></pre>
+<code class="sourceCode R"><span><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"SIMPLE"</span>,</span>
+<span>                       threshold <span class="op">=</span> <span class="st">"INFO"</span>,</span>
+<span>                       appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutTimestamp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/logTrace.html">logTrace</a></span><span class="op">(</span><span class="st">"This event is below the threshold (INFO)"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Hello world</span></span>
+<span><span class="co">## 2021-02-23 09:04:06 Hello world</span></span></code></pre>
 <p>Note that the message is displayed twice. This is because there is a
 default logger that uses the simple layout and threshold = “INFO”, and
 writes to console. We can remove this logger before registering our
 logger to avoid duplication:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"SIMPLE"</span>,
-                       threshold <span class="op">=</span> <span class="st">"INFO"</span>,
-                       appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutTimestamp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## 2021-02-23 09:04:06 Hello world</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"SIMPLE"</span>,</span>
+<span>                       threshold <span class="op">=</span> <span class="st">"INFO"</span>,</span>
+<span>                       appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutTimestamp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2021-02-23 09:04:06 Hello world</span></span></code></pre>
 <div class="section level3">
 <h3 id="shorthand">Shorthand<a class="anchor" aria-label="anchor" href="#shorthand"></a>
 </h3>
 <p>A shorthand for creating a simple console logger is offered by the
 <code>addDefaultConsoleLogger</code> function. The code</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/addDefaultConsoleLogger.html">addDefaultConsoleLogger</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/addDefaultConsoleLogger.html">addDefaultConsoleLogger</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>is equivalent to</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_CONSOLE_LOGGER"</span>,
-                            threshold <span class="op">=</span> <span class="st">"INFO"</span>, 
-                            appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutSimple</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_CONSOLE_LOGGER"</span>,</span>
+<span>                            threshold <span class="op">=</span> <span class="st">"INFO"</span>, </span>
+<span>                            appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutSimple</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -242,42 +242,42 @@ instantiate a logger that writes to file, using a threshold of
 <code>TRACE</code> (so including all events), and using the layout for
 parallel processing.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">logFileName</span> <span class="op">&lt;-</span> <span class="st">"log.txt"</span>
-
-<span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"PARALLEL"</span>,
-                       threshold <span class="op">=</span> <span class="st">"TRACE"</span>,
-                       appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createFileAppender.html">createFileAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutParallel</span>,
-                                                           fileName <span class="op">=</span> <span class="va">logFileName</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/logTrace.html">logTrace</a></span><span class="op">(</span><span class="st">"Executed this line"</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/logDebug.html">logDebug</a></span><span class="op">(</span><span class="st">"There are "</span>,  <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/getLoggers.html">getLoggers</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="st">" loggers"</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## 2021-02-23 09:04:06 Hello world</span></code></pre>
+<code class="sourceCode R"><span><span class="va">logFileName</span> <span class="op">&lt;-</span> <span class="st">"log.txt"</span></span>
+<span></span>
+<span><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"PARALLEL"</span>,</span>
+<span>                       threshold <span class="op">=</span> <span class="st">"TRACE"</span>,</span>
+<span>                       appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createFileAppender.html">createFileAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutParallel</span>,</span>
+<span>                                                           fileName <span class="op">=</span> <span class="va">logFileName</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/logTrace.html">logTrace</a></span><span class="op">(</span><span class="st">"Executed this line"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/logDebug.html">logDebug</a></span><span class="op">(</span><span class="st">"There are "</span>,  <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="../reference/getLoggers.html">getLoggers</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, <span class="st">" loggers"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2021-02-23 09:04:06 Hello world</span></span></code></pre>
 <p>We can read the log file:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readChar.html" class="external-link">readChar</a></span><span class="op">(</span><span class="va">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span><span class="op">$</span><span class="va">size</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## 2021-02-23 09:04:06  [Main thread]   TRACE   evaluate    timing_fn   Executed this line</span>
-<span class="co">## 2021-02-23 09:04:06  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers</span>
-<span class="co">## 2021-02-23 09:04:06  [Main thread]   INFO    evaluate    timing_fn   Hello world</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readChar.html" class="external-link">readChar</a></span><span class="op">(</span><span class="va">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span><span class="op">$</span><span class="va">size</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2021-02-23 09:04:06  [Main thread]   TRACE   evaluate    timing_fn   Executed this line</span></span>
+<span><span class="co">## 2021-02-23 09:04:06  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers</span></span>
+<span><span class="co">## 2021-02-23 09:04:06  [Main thread]   INFO    evaluate    timing_fn   Hello world</span></span></code></pre>
 <p>And clean it up when we’re done:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="shorthand-1">Shorthand<a class="anchor" aria-label="anchor" href="#shorthand-1"></a>
 </h3>
 <p>A shorthand for creating the file logger detailed here is offered by
 the <code>addDefaultFileLogger</code> function. The code</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span></code></pre></div>
 <p>is equivalent to</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_FILE_LOGGER"</span>,
-                            threshold <span class="op">=</span> <span class="st">"TRACE"</span>, 
-                            appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createFileAppender.html">createFileAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutParallel</span>, 
-                                                                fileName <span class="op">=</span> <span class="va">logFileName</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_FILE_LOGGER"</span>,</span>
+<span>                            threshold <span class="op">=</span> <span class="st">"TRACE"</span>, </span>
+<span>                            appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createFileAppender.html">createFileAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutParallel</span>, </span>
+<span>                                                                fileName <span class="op">=</span> <span class="va">logFileName</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -305,17 +305,17 @@ to avoid redundancy.</p>
 <p>It is recommended to simply always use the shorthand for creating an
 error report logger:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/addDefaultErrorReportLogger.html">addDefaultErrorReportLogger</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/addDefaultErrorReportLogger.html">addDefaultErrorReportLogger</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>which is equivalent to</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"errorReportR.txt"</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_ERRORREPORT_LOGGER"</span>,
-                            threshold <span class="op">=</span> <span class="st">"FATAL"</span>,
-                            appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createFileAppender.html">createFileAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutErrorReport</span>,
-                                                                fileName <span class="op">=</span> <span class="va">fileName</span>,
-                                                                overwrite <span class="op">=</span> <span class="cn">TRUE</span>,
-                                                                expirationTime <span class="op">=</span> <span class="fl">60</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"errorReportR.txt"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_ERRORREPORT_LOGGER"</span>,</span>
+<span>                            threshold <span class="op">=</span> <span class="st">"FATAL"</span>,</span>
+<span>                            appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createFileAppender.html">createFileAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutErrorReport</span>,</span>
+<span>                                                                fileName <span class="op">=</span> <span class="va">fileName</span>,</span>
+<span>                                                                overwrite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                                                                expirationTime <span class="op">=</span> <span class="fl">60</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -326,39 +326,39 @@ logged above the specified threshold. For example, for a process running
 on a remote machine it might be useful to receive e-mails of fatal
 events:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mailSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,
-to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"someone_else@gmail.com"</span><span class="op">)</span>,
-smtp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>host.name <span class="op">=</span> <span class="st">"smtp.gmail.com"</span>,
-port <span class="op">=</span> <span class="fl">465</span>,
-user.name <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,
-passwd <span class="op">=</span> <span class="st">"super_secret!"</span>,
-ssl <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
-authenticate <span class="op">=</span> <span class="cn">TRUE</span>,
-send <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-
-<span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"EMAIL"</span>,
-threshold <span class="op">=</span> <span class="st">"FATAL"</span>,
-appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createEmailAppender.html">createEmailAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutEmail</span>,
-mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/logFatal.html">logFatal</a></span><span class="op">(</span><span class="st">"No more data to process"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mailSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,</span>
+<span>to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"someone_else@gmail.com"</span><span class="op">)</span>,</span>
+<span>smtp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>host.name <span class="op">=</span> <span class="st">"smtp.gmail.com"</span>,</span>
+<span>port <span class="op">=</span> <span class="fl">465</span>,</span>
+<span>user.name <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,</span>
+<span>passwd <span class="op">=</span> <span class="st">"super_secret!"</span>,</span>
+<span>ssl <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>authenticate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>send <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"EMAIL"</span>,</span>
+<span>threshold <span class="op">=</span> <span class="st">"FATAL"</span>,</span>
+<span>appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createEmailAppender.html">createEmailAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutEmail</span>,</span>
+<span>mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/logFatal.html">logFatal</a></span><span class="op">(</span><span class="st">"No more data to process"</span><span class="op">)</span></span></code></pre></div>
 <p>Note that the <code>mailSettings</code> object will be passed on to
 the <code>send.mail</code> function in the <code>mailR</code> package,
-so for more details see <code><a href="https://rdrr.io/pkg/mailR/man/send.mail.html" class="external-link">?mailR::send.mail</a></code>’</p>
+so for more details see <code>?mailR::send.mail</code>’</p>
 <div class="section level3">
 <h3 id="shorthand-3">Shorthand<a class="anchor" aria-label="anchor" href="#shorthand-3"></a>
 </h3>
 <p>A shorthand for creating the e-mail logger detailed here is offered
 by the <code>addDefaultEmailLogger</code> function. The code</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/addDefaultEmailLogger.html">addDefaultEmailLogger</a></span><span class="op">(</span><span class="va">mailSettings</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/addDefaultEmailLogger.html">addDefaultEmailLogger</a></span><span class="op">(</span><span class="va">mailSettings</span><span class="op">)</span></span></code></pre></div>
 <p>is equivalent to</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_EMAIL_LOGGER"</span>,
-threshold <span class="op">=</span> <span class="st">"FATAL"</span>,
-appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createEmailAppender.html">createEmailAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutEmail</span>,
-mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_EMAIL_LOGGER"</span>,</span>
+<span>threshold <span class="op">=</span> <span class="st">"FATAL"</span>,</span>
+<span>appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createEmailAppender.html">createEmailAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutEmail</span>,</span>
+<span>mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -367,24 +367,24 @@ mailSettings <span class="op">=</span> <span class="va">mailSettings</span><span
 <p>All R warnings and errors are automatically logged, and therefore do
 not require explicit logging. For example:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Hello"</span><span class="op">)</span>
-
-<span class="kw"><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning</a></span><span class="op">(</span><span class="st">"Danger!"</span><span class="op">)</span>
-
-<span class="co"># This throws a warning:</span>
-<span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="st">'a'</span><span class="op">)</span>
-
-<span class="co"># This throws an error:</span>
-<span class="va">a</span> <span class="op">&lt;-</span> <span class="va">b</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readChar.html" class="external-link">readChar</a></span><span class="op">(</span><span class="va">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span><span class="op">$</span><span class="va">size</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## 2021-02-23 09:04:09  [Main thread]   WARN    evaluate    timing_fn   Hello</span>
-<span class="co">## 2021-02-23 09:04:09  [Main thread]   WARN    evaluate    timing_fn   Danger!</span>
-<span class="co">## 2021-02-23 09:04:09  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion</span>
-<span class="co">## 2021-02-23 09:04:09  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Hello"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning</a></span><span class="op">(</span><span class="st">"Danger!"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># This throws a warning:</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="st">'a'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># This throws an error:</span></span>
+<span><span class="va">a</span> <span class="op">&lt;-</span> <span class="va">b</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readChar.html" class="external-link">readChar</a></span><span class="op">(</span><span class="va">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span><span class="op">$</span><span class="va">size</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2021-02-23 09:04:09  [Main thread]   WARN    evaluate    timing_fn   Hello</span></span>
+<span><span class="co">## 2021-02-23 09:04:09  [Main thread]   WARN    evaluate    timing_fn   Danger!</span></span>
+<span><span class="co">## 2021-02-23 09:04:09  [Main thread]   WARN    evaluate    timing_fn   Warning: NAs introduced by coercion</span></span>
+<span><span class="co">## 2021-02-23 09:04:09  [Main thread]   FATAL   evaluate    timing_fn   Error: object a not found</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="logging-when-parallel-processing">Logging when parallel processing<a class="anchor" aria-label="anchor" href="#logging-when-parallel-processing"></a>
@@ -395,42 +395,42 @@ processing functions included in this package. The
 possible to later untangle the various threads. Below is a simple
 example:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Clean up the loggers from the previous example</span>
-
-<span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span>
-
-<span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeCluster.html">makeCluster</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>
-
-<span class="va">fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu">ParallelLogger</span><span class="fu">::</span><span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"The value of x is "</span>, <span class="va">x</span><span class="op">)</span>
-  <span class="co"># Do something</span>
-  <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op">==</span> <span class="fl">6</span><span class="op">)</span>
-    <span class="fu">ParallelLogger</span><span class="fu">::</span><span class="fu"><a href="../reference/logDebug.html">logDebug</a></span><span class="op">(</span><span class="st">"X equals 6"</span><span class="op">)</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">dummy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">fun</span>, progressBar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readChar.html" class="external-link">readChar</a></span><span class="op">(</span><span class="va">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span><span class="op">$</span><span class="va">size</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## 2021-02-23 09:04:09  [Main thread]   TRACE   evaluate timing_fn Initiating cluster with 3 threads</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 1]  TRACE       Thread 1 initiated</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 2]  TRACE       Thread 2 initiated</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 3]  TRACE       Thread 3 initiated</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 1]  INFO        The value of x is 1</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 2]  INFO        The value of x is 2</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 1]  INFO        The value of x is 4</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 2]  INFO        The value of x is 5</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 3]  INFO        The value of x is 6</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 1]  INFO        The value of x is 7</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 2]  INFO        The value of x is 8</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 1]  INFO        The value of x is 9</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 2]  INFO        The value of x is 10</span>
-<span class="co">## 2021-02-23 09:04:13  [Main thread]   TRACE   evaluate    timing_fn Stopping cluster</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 1]  TRACE       Thread 1 terminated</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 3]  TRACE       Thread 3 terminated</span>
-<span class="co">## 2021-02-23 09:04:13  [Thread 2]  TRACE       Thread 2 terminated</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Clean up the loggers from the previous example</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeCluster.html">makeCluster</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">ParallelLogger</span><span class="fu">::</span><span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"The value of x is "</span>, <span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="co"># Do something</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op">==</span> <span class="fl">6</span><span class="op">)</span></span>
+<span>    <span class="fu">ParallelLogger</span><span class="fu">::</span><span class="fu"><a href="../reference/logDebug.html">logDebug</a></span><span class="op">(</span><span class="st">"X equals 6"</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">dummy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">fun</span>, progressBar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readChar.html" class="external-link">readChar</a></span><span class="op">(</span><span class="va">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span><span class="op">$</span><span class="va">size</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2021-02-23 09:04:09  [Main thread]   TRACE   evaluate timing_fn Initiating cluster with 3 threads</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 1]  TRACE       Thread 1 initiated</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 2]  TRACE       Thread 2 initiated</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 3]  TRACE       Thread 3 initiated</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 1]  INFO        The value of x is 1</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 2]  INFO        The value of x is 2</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 1]  INFO        The value of x is 4</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 2]  INFO        The value of x is 5</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 3]  INFO        The value of x is 6</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 1]  INFO        The value of x is 7</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 2]  INFO        The value of x is 8</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 1]  INFO        The value of x is 9</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 2]  INFO        The value of x is 10</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Main thread]   TRACE   evaluate    timing_fn Stopping cluster</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 1]  TRACE       Thread 1 terminated</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 3]  TRACE       Thread 3 terminated</span></span>
+<span><span class="co">## 2021-02-23 09:04:13  [Thread 2]  TRACE       Thread 2 terminated</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="creating-loggers-in-functions">Creating loggers in functions<a class="anchor" aria-label="anchor" href="#creating-loggers-in-functions"></a>
@@ -441,48 +441,48 @@ things go wrong. Although having multiple loggers simultaneously should
 work fine, it probably makes sense to only invoke loggers at the highest
 level. So instead of</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">subSubTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"subSubTaskLog.txt"</span><span class="op">)</span>
-  <span class="co"># do something</span>
-<span class="op">}</span>
-
-<span class="va">subTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"subTaskLog.txt"</span><span class="op">)</span>
-  <span class="co"># do something</span>
-  <span class="fu">subSubTask</span><span class="op">(</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">mainTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"mainTaskLog.txt"</span><span class="op">)</span>
-  <span class="co"># do something</span>
-  <span class="fu">subTask</span><span class="op">(</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">subSubTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"subSubTaskLog.txt"</span><span class="op">)</span></span>
+<span>  <span class="co"># do something</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">subTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"subTaskLog.txt"</span><span class="op">)</span></span>
+<span>  <span class="co"># do something</span></span>
+<span>  <span class="fu">subSubTask</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">mainTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"mainTaskLog.txt"</span><span class="op">)</span></span>
+<span>  <span class="co"># do something</span></span>
+<span>  <span class="fu">subTask</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>it would be better to have only one logger:</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">subSubTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-  <span class="co"># do something</span>
-<span class="op">}</span>
-
-<span class="va">subTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-  <span class="co"># do something</span>
-  <span class="fu">subSubTask</span><span class="op">(</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">mainTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"log.txt"</span><span class="op">)</span>
-  <span class="co"># do something</span>
-  <span class="fu">subTask</span><span class="op">(</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">subSubTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># do something</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">subTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># do something</span></span>
+<span>  <span class="fu">subSubTask</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">mainTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"log.txt"</span><span class="op">)</span></span>
+<span>  <span class="co"># do something</span></span>
+<span>  <span class="fu">subTask</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>Also, as a courtesy to the user, please clean up the logger after the
 function is finished. By using <code>on.exit</code>, we can ensure the
 logger is always closed, even when the function stops unexpectedly
 (e.g. due to an error):</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mainTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"log.txt"</span><span class="op">)</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="../reference/unregisterLogger.html">unregisterLogger</a></span><span class="op">(</span><span class="st">"DEFAULT_FILE_LOGGER"</span><span class="op">)</span><span class="op">)</span>
-  <span class="co"># do something</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">mainTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"log.txt"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="../reference/unregisterLogger.html">unregisterLogger</a></span><span class="op">(</span><span class="st">"DEFAULT_FILE_LOGGER"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="co"># do something</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="shiny-log-viewer">Shiny log viewer<a class="anchor" aria-label="anchor" href="#shiny-log-viewer"></a>
@@ -491,7 +491,7 @@ logger is always closed, even when the function stops unexpectedly
 <code>layoutParallel</code> is included in the package. To explore the
 log created in the prior example, run</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/launchLogViewer.html">launchLogViewer</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/launchLogViewer.html">launchLogViewer</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span></code></pre></div>
 <p>to launch the viewer shown in Figure 1.</p>
 <div class="figure">
 <img src="shinyApp.png" alt=""><p class="caption">Shiny log viewer app</p>
@@ -516,7 +516,7 @@ log created in the prior example, run</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.1.0</span>
       </span>
     </div>
 
@@ -69,26 +69,33 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">createLogger</span><span class="op">(</span>
-  name <span class="op">=</span> <span class="st">"SIMPLE"</span>,
-  threshold <span class="op">=</span> <span class="st">"INFO"</span>,
-  appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">createLogger</span><span class="op">(</span></span>
+<span>  name <span class="op">=</span> <span class="st">"SIMPLE"</span>,</span>
+<span>  threshold <span class="op">=</span> <span class="st">"INFO"</span>,</span>
+<span>  appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>name</dt>
 <dd><p>A name for the logger.</p></dd>
+
+
 <dt>threshold</dt>
 <dd><p>The threshold to be used for reporting.</p></dd>
+
+
 <dt>appenders</dt>
 <dd><p>A list of one or more appenders as created for example using the
 <code><a href="createConsoleAppender.html">createConsoleAppender</a></code> or <code><a href="createFileAppender.html">createFileAppender</a></code> function.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of type <code>Logger</code>, to be used with the <code><a href="registerLogger.html">registerLogger</a></code> function.</p>
+    
+
+<p>An object of type <code>Logger</code>, to be used with the <code><a href="registerLogger.html">registerLogger</a></code> function.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -100,21 +107,17 @@ marked "INFO" will be logged, but messages marked "TRACE" will not. The order of
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">appender</span> <span class="op">&lt;-</span> <span class="fu"><a href="createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutTimestamp</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu">createLogger</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"SIMPLE"</span>,</span>
-<span class="r-in">                       threshold <span class="op">=</span> <span class="st">"INFO"</span>,</span>
-<span class="r-in">                       appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">appender</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span>                      </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span>
-<span class="r-in"><span class="fu"><a href="logTrace.html">logTrace</a></span><span class="op">(</span><span class="st">"This event is below the threshold (INFO)"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span>
-<span class="r-in"><span class="fu"><a href="logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span>                       </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2022-06-07 03:53:03	Hello world</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2022-06-07 03:53:03	Hello world</span>
-<span class="r-in"><span class="fu"><a href="unregisterLogger.html">unregisterLogger</a></span><span class="op">(</span><span class="st">"SIMPLE"</span><span class="op">)</span>                     </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">appender</span> <span class="op">&lt;-</span> <span class="fu"><a href="createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutTimestamp</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu">createLogger</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"SIMPLE"</span>,</span></span>
+<span class="r-in"><span>                       threshold <span class="op">=</span> <span class="st">"INFO"</span>,</span></span>
+<span class="r-in"><span>                       appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">appender</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span>                      </span></span>
+<span class="r-in"><span><span class="fu"><a href="logTrace.html">logTrace</a></span><span class="op">(</span><span class="st">"This event is below the threshold (INFO)"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span>                       </span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2022-12-08 03:35:47	Hello world</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2022-12-08 03:35:47	Hello world</span>
+<span class="r-in"><span><span class="fu"><a href="unregisterLogger.html">unregisterLogger</a></span><span class="op">(</span><span class="st">"SIMPLE"</span><span class="op">)</span>                     </span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -130,7 +133,7 @@ marked "INFO" will be logged, but messages marked "TRACE" will not. The order of
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

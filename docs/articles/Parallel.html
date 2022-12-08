@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.1.0</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">Martijn J.
 Schuemie</h4>
             
-            <h4 data-toc-skip class="date">2022-06-07</h4>
+            <h4 data-toc-skip class="date">2022-12-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/OHDSI/ParallelLogger/blob/HEAD/vignettes/Parallel.Rmd" class="external-link"><code>vignettes/Parallel.Rmd</code></a></small>
       <div class="hidden name"><code>Parallel.Rmd</code></div>
@@ -127,9 +127,8 @@ machines, for example in a physical computer cluster.</p>
 <p>We can create a cluster using the <code>makeCluster</code>
 command:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeCluster.html">makeCluster</a></span><span class="op">(</span>numberOfThreads <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span>
-<span class="co">## Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span></code></pre>
+<code class="sourceCode R"><span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeCluster.html">makeCluster</a></span><span class="op">(</span>numberOfThreads <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger. (This message will not be shown again this R session)</span></span></code></pre>
 <p>This instantiates three new R instances on your computer, which
 together form a cluster.</p>
 <div class="section level3">
@@ -150,15 +149,15 @@ behavior, you can set <code>singleThreadToMain = FALSE</code>.</p>
 <p>Any code that we want to execute needs to be implemented in an R
 function, for example:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">constant</span><span class="op">)</span> <span class="op">{</span>
-     <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">constant</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">constant</span><span class="op">)</span> <span class="op">{</span></span>
+<span>     <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span> <span class="op">*</span> <span class="va">constant</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>This simple function merely computes the product of <code>x</code>
 and <code>constant</code>, and returns it.</p>
 <p>We can now execute this function in parallel across our cluster:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>
-<span class="fu"><a href="../reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="va">x</span>, <span class="va">fun</span>, constant <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
+<span><span class="fu"><a href="../reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="va">x</span>, <span class="va">fun</span>, constant <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code>## 
   |                                                                            
   |                                                                      |   0%
@@ -168,14 +167,14 @@ and <code>constant</code>, and returns it.</p>
   |===============================================                       |  67%
   |                                                                            
   |======================================================================| 100%</code></pre>
-<pre><code><span class="co">## [[1]]</span>
-<span class="co">## [1] 2</span>
-<span class="co">## </span>
-<span class="co">## [[2]]</span>
-<span class="co">## [1] 4</span>
-<span class="co">## </span>
-<span class="co">## [[3]]</span>
-<span class="co">## [1] 6</span></code></pre>
+<pre><code><span><span class="co">## [[1]]</span></span>
+<span><span class="co">## [1] 2</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## [[2]]</span></span>
+<span><span class="co">## [1] 4</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## [[3]]</span></span>
+<span><span class="co">## [1] 6</span></span></code></pre>
 <p>The function <code>clusterApply</code> executes the function across
 the nodes over all values of x, and returns all responses in a list.
 Note that by default a progress bar is shown. This can be disabled by
@@ -195,34 +194,33 @@ overhead. So for example, in the code below every time the function
 <code>doTinyJob</code> is called, the <code>largeVector</code> argument
 is passed to the worker node:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">doBigJob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">largeVector</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">doTinyJob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
-    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
-  <span class="op">}</span>
-  <span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeCluster.html">makeCluster</a></span><span class="op">(</span>numberOfThreads <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-  <span class="fu"><a href="../reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="va">largeVector</span>, <span class="va">doTinyJob</span><span class="op">)</span>
-  <span class="fu"><a href="../reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">doBigJob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">largeVector</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">doTinyJob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeCluster.html">makeCluster</a></span><span class="op">(</span>numberOfThreads <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="va">largeVector</span>, <span class="va">doTinyJob</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>It is much more efficient to declare <code>doTinyJob</code> outside
 the <code>doBigJob</code> function:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">doTinyJob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">doBigJob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">largeVector</span><span class="op">)</span> <span class="op">{</span>
-  <span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeCluster.html">makeCluster</a></span><span class="op">(</span>numberOfThreads <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-  <span class="fu"><a href="../reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="va">largeVector</span>, <span class="va">doTinyJob</span><span class="op">)</span>
-  <span class="fu"><a href="../reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">doTinyJob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">doBigJob</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">largeVector</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/makeCluster.html">makeCluster</a></span><span class="op">(</span>numberOfThreads <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="va">largeVector</span>, <span class="va">doTinyJob</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="../reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="stopping-the-cluster">Stopping the cluster<a class="anchor" aria-label="anchor" href="#stopping-the-cluster"></a>
 </h2>
 <p>Once you are done using the cluster, make sure to stop it:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="debugging-logging-and-error-handling">Debugging, logging, and error handling<a class="anchor" aria-label="anchor" href="#debugging-logging-and-error-handling"></a>
@@ -273,7 +271,7 @@ Andromeda object instead.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

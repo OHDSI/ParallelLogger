@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.1.0</span>
       </span>
     </div>
 
@@ -69,27 +69,34 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">createEmailAppender</span><span class="op">(</span>
-  layout <span class="op">=</span> <span class="va">layoutEmail</span>,
-  <span class="va">mailSettings</span>,
-  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">"nodename"</span><span class="op">]</span>,
-  test <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">createEmailAppender</span><span class="op">(</span></span>
+<span>  layout <span class="op">=</span> <span class="va">layoutEmail</span>,</span>
+<span>  <span class="va">mailSettings</span>,</span>
+<span>  label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.info.html" class="external-link">Sys.info</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">"nodename"</span><span class="op">]</span>,</span>
+<span>  test <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>layout</dt>
 <dd><p>The layout to be used by the appender.</p></dd>
+
+
 <dt>mailSettings</dt>
 <dd><p>Arguments to be passed to the send.mail function in the mailR package (except
 subject and body).</p></dd>
+
+
 <dt>label</dt>
 <dd><p>A label to be used in the e-mail subject to identify a run. By default the
 name of the computer is used.</p></dd>
+
+
 <dt>test</dt>
 <dd><p>If TRUE, a message will be displayed on the console instead of sending an
 e-mail.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -100,96 +107,38 @@ here. ParallelLogger will not display any messages if something goes wrong when 
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">mailSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">  from <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,</span>
-<span class="r-in">  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"someone_else@gmail.com"</span><span class="op">)</span>,</span>
-<span class="r-in">  smtp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">    host.name <span class="op">=</span> <span class="st">"smtp.gmail.com"</span>,</span>
-<span class="r-in">    port <span class="op">=</span> <span class="fl">465</span>,</span>
-<span class="r-in">    user.name <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,</span>
-<span class="r-in">    passwd <span class="op">=</span> <span class="st">"super_secret!"</span>,</span>
-<span class="r-in">    ssl <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  authenticate <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  send <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Setting test to TRUE in this example so we don't really send an e-mail:</span></span>
-<span class="r-in"><span class="va">appender</span> <span class="op">&lt;-</span> <span class="fu">createEmailAppender</span><span class="op">(</span></span>
-<span class="r-in">  layout <span class="op">=</span> <span class="va">layoutEmail</span>,</span>
-<span class="r-in">  mailSettings <span class="op">=</span> <span class="va">mailSettings</span>,</span>
-<span class="r-in">  label <span class="op">=</span> <span class="st">"My R session"</span>,</span>
-<span class="r-in">  test <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"EMAIL"</span>, threshold <span class="op">=</span> <span class="st">"FATAL"</span>, appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">appender</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="logFatal.html">logFatal</a></span><span class="op">(</span><span class="st">"Something bad"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> You've got mail:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> To:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> someone_else@gmail.com</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Subject:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [My R session] FATAL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Body:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Message:  Something bad</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time:  2022-06-07 03:53:02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Level:  FATAL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Stack trace:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37: logFatal("Something bad")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36: eval(expr, envir, enclos)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35: eval(expr, envir, enclos)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34: eval_with_user_handlers(expr, envir, enclos, user_handlers)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33: withVisible(eval_with_user_handlers(expr, envir, enclos, user_handlers))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32: withCallingHandlers(withVisible(eval_with_user_handlers(expr, envir, enclos</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31: doTryCatch(return(expr), name, parentenv, handler)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30: tryCatchOne(expr, names, parentenv, handlers[[1]])</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29: tryCatchList(expr, classes, parentenv, handlers)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28: tryCatch(expr, error = function(e) {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     call &lt;- conditionCall(e)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27: try(f, silent = TRUE)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26: handle(ev &lt;- withCallingHandlers(withVisible(eval_with_user_handlers(expr, </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25: timing_fn(handle(ev &lt;- withCallingHandlers(withVisible(eval_with_user_handl</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24: evaluate_call(expr, parsed$src[[i]], envir = envir, enclos = enclos, debug </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23: evaluate::evaluate(code, child_env(env), new_device = TRUE, output_handler </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22: downlit::evaluate_and_highlight(code, fig_save = fig_save_topic, env = chil</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21: highlight_examples(code, topic, env = env)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20: run_examples(tags$tag_examples[[1]], env = if (is.null(examples_env)) NULL </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19: data_reference_topic(topic, pkg, examples_env = examples_env, run_dont_run </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18: withCallingHandlers(data_reference_topic(topic, pkg, examples_env = example</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17: .f(.x[[i]], ...)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16: purrr::map(topics, build_reference_topic, pkg = pkg, lazy = lazy, examples_</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15: build_reference(pkg, lazy = lazy, examples = examples, run_dont_run = run_d</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14: build_site_local(pkg = pkg, examples = examples, run_dont_run = run_dont_ru</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13: pkgdown::build_site(...)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12: (function (..., crayon_enabled, crayon_colors, pkgdown_internet) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     optio</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11: (function (what, args, quote = FALSE, envir = parent.frame()) </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> {</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     if (!is.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10: do.call(do.call, c(readRDS("C:\\Users\\mschuemi.EU\\AppData\\Local\\Temp\\R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9: saveRDS(do.call(do.call, c(readRDS("C:\\Users\\mschuemi.EU\\AppData\\Local\</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8: withCallingHandlers({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     saveRDS(do.call(do.call, c(readRDS("C:\\Us</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7: doTryCatch(return(expr), name, parentenv, handler)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: tryCatchOne(expr, names, parentenv, handlers[[1]])</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: tryCatchList(expr, names[-nh], parentenv, handlers[-nh])</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: doTryCatch(return(expr), name, parentenv, handler)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: tryCatchOne(tryCatchList(expr, names[-nh], parentenv, handlers[-nh]), names</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: tryCatchList(expr, classes, parentenv, handlers)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: tryCatch(withCallingHandlers({</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     saveRDS(do.call(do.call, c(readRD</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="unregisterLogger.html">unregisterLogger</a></span><span class="op">(</span><span class="st">"EMAIL"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Currently in a tryCatch or withCallingHandlers block, so unable to add global calling handlers. ParallelLogger will not capture R messages, errors, and warnings, only explicit calls to ParallelLogger.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">mailSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  from <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,</span></span>
+<span class="r-in"><span>  to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"someone_else@gmail.com"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  smtp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    host.name <span class="op">=</span> <span class="st">"smtp.gmail.com"</span>,</span></span>
+<span class="r-in"><span>    port <span class="op">=</span> <span class="fl">465</span>,</span></span>
+<span class="r-in"><span>    user.name <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,</span></span>
+<span class="r-in"><span>    passwd <span class="op">=</span> <span class="st">"super_secret!"</span>,</span></span>
+<span class="r-in"><span>    ssl <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  authenticate <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  send <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Setting test to TRUE in this example so we don't really send an e-mail:</span></span></span>
+<span class="r-in"><span><span class="va">appender</span> <span class="op">&lt;-</span> <span class="fu">createEmailAppender</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  layout <span class="op">=</span> <span class="va">layoutEmail</span>,</span></span>
+<span class="r-in"><span>  mailSettings <span class="op">=</span> <span class="va">mailSettings</span>,</span></span>
+<span class="r-in"><span>  label <span class="op">=</span> <span class="st">"My R session"</span>,</span></span>
+<span class="r-in"><span>  test <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> 'mailR' must be installed for this functionality.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"EMAIL"</span>, threshold <span class="op">=</span> <span class="st">"FATAL"</span>, appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">appender</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in createLogger(name = "EMAIL", threshold = "FATAL", appenders = list(appender)):</span> object 'appender' not found</span>
+<span class="r-in"><span><span class="fu"><a href="registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="va">logger</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in is(logger, "Logger"):</span> object 'logger' not found</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="logFatal.html">logFatal</a></span><span class="op">(</span><span class="st">"Something bad"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="unregisterLogger.html">unregisterLogger</a></span><span class="op">(</span><span class="st">"EMAIL"</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Could not find logger EMAIL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 </code></pre></div>
     </div>
   </div>
@@ -204,7 +153,7 @@ here. ParallelLogger will not display any messages if something goes wrong when 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

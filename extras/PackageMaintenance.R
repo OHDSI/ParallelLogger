@@ -23,16 +23,11 @@ OhdsiRTools::updateCopyrightYearFolder()
 devtools::spell_check()
 
 # Test reverse dependencies listed in CRAN ----------------------------
-install.packages("BiocManager")
-BiocManager::install("ProteoDisco", update = FALSE, dependencies = c("Depends", "Imports", "LinkingTo", "Suggests"))
-# BiocManager::install("BiocStyle", update = FALSE)
-# BiocManager::install("TxDb.Hsapiens.UCSC.hg19.knownGene", update = FALSE)
-# BiocManager::install("BSgenome.Hsapiens.UCSC.hg19", update = FALSE)
-sourceFile <- tempfile(fileext = "tar.gz")
-download.file(url = "http://www.bioconductor.org/packages/release/bioc/src/contrib/ProteoDisco_1.2.0.tar.gz", destfile = sourceFile)
-sourceFolder <- tempfile()
-untar(tarfile = sourceFile, exdir  = sourceFolder)
-rcmdcheck::rcmdcheck(path = file.path(sourceFolder, "ProteoDisco"), args = c("--no-manual", "--no-multiarch"), error_on = "warning")
+# ProteoDisco:
+# Not able to test. Requires installation of >2,000 packages from BioConductor, several of which tend to fail to install.
+
+# IterativeHardThresholding:
+# Clone and test in RStudio
 
 # Create manual and vignette ------------------------------------------
 unlink("extras/ParallelLogger.pdf")

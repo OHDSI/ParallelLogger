@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.1.0</span>
       </span>
     </div>
 
@@ -110,18 +110,18 @@
 <h1 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h1>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Run a function in parallel:</span>
-<span class="va">fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
-  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span> <span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/makeCluster.html">makeCluster</a></span><span class="op">(</span>numberOfThreads <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-<span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">fun</span><span class="op">)</span>
-<span class="fu"><a href="reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span>
-
-<span class="co"># Create a file logger:</span>
-<span class="fu"><a href="reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"log.txt"</span><span class="op">)</span>
-<span class="fu"><a href="reference/logTrace.html">logTrace</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Run a function in parallel:</span></span>
+<span><span class="va">fun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span> <span class="op">(</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/makeCluster.html">makeCluster</a></span><span class="op">(</span>numberOfThreads <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/clusterApply.html">clusterApply</a></span><span class="op">(</span><span class="va">cluster</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="va">fun</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/stopCluster.html">stopCluster</a></span><span class="op">(</span><span class="va">cluster</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create a file logger:</span></span>
+<span><span class="fu"><a href="reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"log.txt"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/logTrace.html">logTrace</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="technology">Technology<a class="anchor" aria-label="anchor" href="#technology"></a>
@@ -138,12 +138,12 @@
 </h1>
 <p>In R, to install the latest stable version, install from CRAN:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ParallelLogger"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"ParallelLogger"</span><span class="op">)</span></span></code></pre></div>
 <p>To install the latest development version, install from the develop branch in GitHub:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span>
-<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ohdsi/ParallelLogger"</span>, ref <span class="op">=</span> <span class="st">"develop"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"ohdsi/ParallelLogger"</span>, ref <span class="op">=</span> <span class="st">"develop"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level1">
 <h1 id="user-documentation">User Documentation<a class="anchor" aria-label="anchor" href="#user-documentation"></a>
@@ -251,7 +251,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
