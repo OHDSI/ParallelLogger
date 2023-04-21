@@ -17,7 +17,6 @@
 # limitations under the License.
 
 inTryCatchOrWithCallingHandlers <- function() {
-  # print(as.character(sys.status()$sys.calls))
   return(any(grepl("(^tryCatch)|(^withCallingHandlers)", as.character(sys.status()$sys.calls))))
 }
 
