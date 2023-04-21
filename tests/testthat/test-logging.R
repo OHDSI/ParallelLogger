@@ -32,7 +32,7 @@ test_that("Logging to file when log folder is deleted", {
   logInfo("Hello world")
   unlink(logFolder, recursive = TRUE)
   expect_warning(logInfo("Hello world"))
-  expect_error(unregisterLogger("TEST"))
+  expect_warning(unregisterLogger("TEST"))
 })
 
 test_that("logging with bad logger", {
@@ -124,4 +124,12 @@ test_that("different logLevel functions", {
   expect_true(grepl("this is an ERROR", log))
   expect_true(grepl("this is FATAL", log))
   unlink(logFile)
+})
+
+test_that("Calling log without loggers", {
+  options("loggerSettings" = NULL)
+  expect_output(ParallelLogger::logInfo("Hello"), "Hello")
+  expect_equal(capture.output(ParallelLogger::logWarn("A warning"), type = "message"), "A warning")
+  expect_equal(capture.output(ParallelLogger::logError("An error"), type = "message"), "An error")
+  expect_equal(ParallelLogger::getLoggers(), list())  
 })

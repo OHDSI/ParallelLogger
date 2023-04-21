@@ -17,6 +17,10 @@ vignette: >
 
 # Introduction
 
+```{r}
+!is.null(knitr::opts_knit$get("out.format"))
+```
+
 This vignette describes how you can use the `ParallelLogger` package to perform logging. Logging is the activity of recording events that occur during an analysis in a log. The log can be used for example for for debugging, profiling (understanding performance bottlenecks), and audits.
 
 ## Terminology

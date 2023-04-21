@@ -1,6 +1,7 @@
 # Unit tests that won't run in R's testing framework
 
 library(testthat)
+library(ParallelLogger)
 
 logFile <- tempfile()
 registerLogger(createLogger(name = "TEST",
@@ -15,7 +16,7 @@ rlang::inform("An rlang message")
 rlang::warn("An rlang warning")
 rlang::abort("An rlang fatal error")
 
-# log <- readChar(logFile, file.info(logFile)$size)
+log <- readChar(logFile, file.info(logFile)$size)
 # writeLines(log)
 expect_true(grepl("A message", log))
 expect_true(grepl("A warning", log))

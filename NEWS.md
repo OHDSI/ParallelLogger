@@ -1,3 +1,11 @@
+ParallelLogger 3.2.0
+====================
+
+Changes
+
+1. When calling any log function (e.g. `logInfo()`) before any loggers are registered, `ParallelLogger` no longer creates a default console logger, but just writes the output to console (except for `logTrace()` and `logDebug()`). Global handlers will not be registered until a logger is registered explicitly (using `registerLogger()`). As a consequence, any warnings about calling global handlers with callers on the stack (when in a try...catch) will not occur until explicitly registering a logger.
+
+
 ParallelLogger 3.1.0
 ====================
 
