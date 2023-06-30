@@ -119,31 +119,32 @@ createFileAppender <- function(layout = layoutParallel,
 #' Create e-mail appender
 #'
 #' @details
-#' Creates an appender that will send log events to an e-mail address using the \code{mailR} package.
-#' Please make sure your settings are correct by using the mailR package before using those settings
-#' here. ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
+#' Creates an appender that will send log events to an e-mail address using the \code{sendmailR} package.
+#' Please make sure your settings are correct by using the \code{sendmailR} package before using those settings
+#' here. \code{ParallelLogger} will not display any messages if something goes wrong when sending the e-mail.
 #'
 #' @param layout         The layout to be used by the appender.
-#' @param mailSettings   Arguments to be passed to the send.mail function in the mailR package (except
-#'                       subject and body).
+#' @param mailSettings   Arguments to be passed to the \code{sendmail} function in the \code{sendmailR} package (except
+#'                       subject and msg).
 #' @param label          A label to be used in the e-mail subject to identify a run. By default the
 #'                       name of the computer is used.
 #' @param test           If TRUE, a message will be displayed on the console instead of sending an
 #'                       e-mail.
+#'                       
+#' @template Gmail
 #'
 #' @examples
 #' mailSettings <- list(
 #'   from = "someone@gmail.com",
-#'   to = c("someone_else@gmail.com"),
-#'   smtp = list(
-#'     host.name = "smtp.gmail.com",
-#'     port = 465,
-#'     user.name = "someone@gmail.com",
-#'     passwd = "super_secret!",
-#'     ssl = TRUE
-#'   ),
-#'   authenticate = TRUE,
-#'   send = TRUE
+#'   to = "someone_else@gmail.com",
+#'   engine = "curl",
+#'   engineopts  = list(
+#'     username = "someone@gmail.com",
+#'     password = "Secret!"
+#'   ), 
+#'   control = list(
+#'     host.name = "smtp.gmail.com:587"
+#'   )
 #' )
 #' # Setting test to TRUE in this example so we don't really send an e-mail:
 #' appender <- createEmailAppender(
@@ -164,7 +165,10 @@ createEmailAppender <- function(layout = layoutEmail,
                                 mailSettings,
                                 label = Sys.info()["nodename"],
                                 test = FALSE) {
-  ensure_installed("mailR")
+  if ("smtp" %in% names(mailSettings)) {
+      stop("It seems you're providing mailSettings for the mailR package, but ParallelLogger has switched to the sendmailR instead")
+  }
+  ensure_installed("sendmailR")
 
   appendFunction <- function(this, level, message, echoToConsole) {
     # Avoid note in check:
@@ -182,11 +186,12 @@ createEmailAppender <- function(layout = layoutEmail,
     }
 
     mailSettings$subject <- sprintf("[%s] %s", label, level)
-    mailSettings$body <- message
     if (test) {
+      mailSettings$msg <- message
       myfun <- testSendMail
     } else {
-      myfun <- get("send.mail", asNamespace("mailR"))
+      mailSettings$msg <- sendmailR::mime_part(message)
+      myfun <- get("sendmail", asNamespace("sendmailR"))
     }
     try(do.call(myfun, mailSettings), silent = TRUE)
   }
@@ -205,7 +210,7 @@ isValidEmail <- function(x) {
   grepl("\\<[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\>", as.character(x), ignore.case = TRUE)
 }
 
-testSendMail <- function(to, subject, body, ...) {
+testSendMail <- function(to, subject, msg, ...) {
   if (!isValidEmail(to)) {
     stop(paste("The email address:", to, "is invalid"))
   }
@@ -217,5 +222,5 @@ testSendMail <- function(to, subject, body, ...) {
   writeLines(subject)
   writeLines("")
   writeLines("Body:")
-  writeLines(body)
+  writeLines(msg)
 }

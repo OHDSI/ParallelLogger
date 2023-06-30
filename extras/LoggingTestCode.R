@@ -1,4 +1,4 @@
-# This may become a vignette later on
+# Some random testing code used during development
 
 library(ParallelLogger)
 

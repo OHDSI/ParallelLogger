@@ -39,6 +39,25 @@ test_that("test def file logger", {
 test_that("test the default email logger", {
   mailSettings <- list(
     from = "someone@gmail.com",
+    to = "someone_else@gmail.com",
+    engine = "curl",
+    engineopts  = list(
+      username = "someone@gmail.com",
+      password = "Secret!"
+    ), 
+    control = list(
+      host.name = "smtp.gmail.com:587"
+    )
+  )
+  addDefaultEmailLogger(mailSettings, "My R session", test = TRUE)
+  output <- capture.output(logFatal("Something bad"))
+  expect_true(any(grepl("You've got mail:", output)))
+  expect_true(unregisterLogger("DEFAULT_EMAIL_LOGGER"))
+})
+
+test_that("test email logger throws error when using mailR settings", {
+  mailSettings <- list(
+    from = "someone@gmail.com",
     to = c("someone_else@gmail.com"),
     smtp = list(
       host.name = "smtp.gmail.com",
@@ -51,11 +70,7 @@ test_that("test the default email logger", {
     send = TRUE
   )
 
-  # Setting test to TRUE in this example so we don't really send an e-mail:
-  addDefaultEmailLogger(mailSettings, "My R session", test = TRUE)
-  output <- capture.output(logFatal("Something bad"))
-  expect_true(any(grepl("You've got mail:", output)))
-  expect_true(unregisterLogger("DEFAULT_EMAIL_LOGGER"))
+  expect_error(addDefaultEmailLogger(mailSettings), "mailR")
 })
 
 test_that("test default error report logger", {

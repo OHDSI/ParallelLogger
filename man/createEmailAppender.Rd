@@ -14,8 +14,8 @@ createEmailAppender(
 \arguments{
 \item{layout}{The layout to be used by the appender.}
 
-\item{mailSettings}{Arguments to be passed to the send.mail function in the mailR package (except
-subject and body).}
+\item{mailSettings}{Arguments to be passed to the \code{sendmail} function in the \code{sendmailR} package (except
+subject and msg).}
 
 \item{label}{A label to be used in the e-mail subject to identify a run. By default the
 name of the computer is used.}
@@ -27,23 +27,33 @@ e-mail.}
 Create e-mail appender
 }
 \details{
-Creates an appender that will send log events to an e-mail address using the \code{mailR} package.
-Please make sure your settings are correct by using the mailR package before using those settings
-here. ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
+Creates an appender that will send log events to an e-mail address using the \code{sendmailR} package.
+Please make sure your settings are correct by using the \code{sendmailR} package before using those settings
+here. \code{ParallelLogger} will not display any messages if something goes wrong when sending the e-mail.
 }
+\section{Using GMail}{
+
+
+To use a GMail account, make sure to enable 2-step verification on your 
+Google account (see 'Security'). Click on 2-Step Verification, and 
+scroll down to 'App passwords'. Here, you can create an app-specific password
+to be used with \code{ParallelLogger}. You can set 
+\code{host.name = "smtp.gmail.com:587"}, and be sure to use 
+\code{engine = "curl"}.
+}
+
 \examples{
 mailSettings <- list(
   from = "someone@gmail.com",
-  to = c("someone_else@gmail.com"),
-  smtp = list(
-    host.name = "smtp.gmail.com",
-    port = 465,
-    user.name = "someone@gmail.com",
-    passwd = "super_secret!",
-    ssl = TRUE
-  ),
-  authenticate = TRUE,
-  send = TRUE
+  to = "someone_else@gmail.com",
+  engine = "curl",
+  engineopts  = list(
+    username = "someone@gmail.com",
+    password = "Secret!"
+  ), 
+  control = list(
+    host.name = "smtp.gmail.com:587"
+  )
 )
 # Setting test to TRUE in this example so we don't really send an e-mail:
 appender <- createEmailAppender(

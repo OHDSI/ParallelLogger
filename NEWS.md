@@ -1,3 +1,11 @@
+ParallelLogger 3.3.0
+====================
+
+Changes
+
+1. Switching from `mailR` to `sendmailR` for sending e-mails, which has fewer dependencies.
+
+
 ParallelLogger 3.2.0
 ====================
 

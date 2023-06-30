@@ -105,31 +105,32 @@ addDefaultFileLogger <- function(fileName, name = "DEFAULT_FILE_LOGGER") {
 #'
 #' @details
 #' Creates a logger that writes to e-mail using the "FATAL" threshold and the
-#' \code{\link{layoutEmail}} layout. This function uses the \code{mailR} package. Please make sure
-#' your e-mail settings are correct by using the mailR package before using those settings here.
-#' ParallelLogger will not display any messages if something goes wrong when sending the e-mail.
+#' \code{\link{layoutEmail}} layout. This function uses the \code{sendmailR} package. Please make sure
+#' your e-mail settings are correct by using the \code{sendmailR} package before using those settings here.
+#' \code{ParallelLogger} will not display any messages if something goes wrong when sending the e-mail.
 #'
-#' @param mailSettings   Arguments to be passed to the send.mail function in the mailR package (except
-#'                       subject and body).
+#' @param mailSettings   Arguments to be passed to the \code{sendmail} function in the \code{sendmailR} package (except
+#'                       subject and msg).
 #' @param label          A label to be used in the e-mail subject to identify a run. By default the
 #'                       name of the computer is used.
 #' @param name           A name for the logger.
 #' @param test           If TRUE, a message will be displayed on the console instead of sending an
 #'                       e-mail.
+#'                       
+#' @template Gmail
 #'
 #' @examples
 #' mailSettings <- list(
 #'   from = "someone@gmail.com",
-#'   to = c("someone_else@gmail.com"),
-#'   smtp = list(
-#'     host.name = "smtp.gmail.com",
-#'     port = 465,
-#'     user.name = "someone@gmail.com",
-#'     passwd = "super_secret!",
-#'     ssl = TRUE
-#'   ),
-#'   authenticate = TRUE,
-#'   send = TRUE
+#'   to = "someone_else@gmail.com",
+#'   engine = "curl",
+#'   engineopts  = list(
+#'     username = "someone@gmail.com",
+#'     password = "Secret!"
+#'   ), 
+#'   control = list(
+#'     host.name = "smtp.gmail.com:587"
+#'   )
 #' )
 #'
 #' # Setting test to TRUE in this example so we don't really send an e-mail:
