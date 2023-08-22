@@ -115,8 +115,8 @@ clusterRequire <- function(cluster, package) {
 #' @export
 stopCluster <- function(cluster) {
   if (class(cluster)[1] != "noCluster") {
-    snow::stopCluster.default(cluster)
     ParallelLogger::logTrace("Stopping cluster")
+    snow::stopCluster.default(cluster)
   }
 }
 
