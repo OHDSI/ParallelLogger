@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.3.0</span>
       </span>
     </div>
 
@@ -64,7 +64,14 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="3.2.0" id="parallellogger-320">ParallelLogger 3.2.0<a class="anchor" aria-label="anchor" href="#parallellogger-320"></a></h2>
+<h2 class="page-header" data-toc-text="3.3.0" id="parallellogger-330">ParallelLogger 3.3.0<a class="anchor" aria-label="anchor" href="#parallellogger-330"></a></h2>
+<p>Changes</p>
+<ol style="list-style-type: decimal"><li>Switching from <code>mailR</code> to <code>sendmailR</code> for sending e-mails, which has fewer dependencies.</li>
+</ol><p>Bugfixes</p>
+<ol style="list-style-type: decimal"><li>Fixing test for whether packages exist, which was causing errors on some Linux versions.</li>
+</ol></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="3.2.0" id="parallellogger-320">ParallelLogger 3.2.0<small>2023-06-27</small><a class="anchor" aria-label="anchor" href="#parallellogger-320"></a></h2>
 <p>Changes</p>
 <ol style="list-style-type: decimal"><li>When calling any log function (e.g. <code><a href="../reference/logInfo.html">logInfo()</a></code>) before any loggers are registered, <code>ParallelLogger</code> no longer creates a default console logger, but just writes the output to console (except for <code><a href="../reference/logTrace.html">logTrace()</a></code> and <code><a href="../reference/logDebug.html">logDebug()</a></code>). Global handlers will not be registered until a logger is registered explicitly (using <code><a href="../reference/registerLogger.html">registerLogger()</a></code>). As a consequence, any warnings about calling global handlers with callers on the stack (when in a try…catch) will not occur until explicitly registering a logger.</li>
 </ol></div>
