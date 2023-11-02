@@ -317,6 +317,9 @@ convertMemberToAttr <- function(object) {
         attrNames <- attrNames[attrNames != "attr_class"]
         cleanNames <- cleanNames[cleanNames != "class"]
       }
+      if (any(cleanNames == "row.names") &&  length(object$attr_row.names) ==  0) {
+        object$attr_row.names <- as.character(c())
+      }
       attributes(object)[cleanNames] <- object[attrNames]
       object[attrNames] <- NULL
     }

@@ -135,3 +135,20 @@ test_that("tibble restore, tibble is first item in list", {
   expect_equal(class(settings$b), class(settings2$b))
   expect_equivalent(settings, settings2)
 })
+
+test_that("Empty data.frame restore", {
+  fileName <- tempfile()
+  settings <- list(
+    b = data.frame(
+      x = c(1, 2, 3),
+      y = c("p", "q", "r"),
+      stringsAsFactors = FALSE
+    ),
+    a = "a"
+  )
+  settings$b <- settings$b[c(),]
+  saveSettingsToJson(settings, fileName)
+  settings2 <- loadSettingsFromJson(fileName)
+  unlink(fileName)
+  expect_equal(class(settings$b), class(settings2$b))
+})

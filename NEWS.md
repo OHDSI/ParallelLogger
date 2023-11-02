@@ -1,3 +1,11 @@
+ParallelLogger 3.3.1
+====================
+
+Bugfixes
+
+1. Fix error when loading empty data frame.
+
+
 ParallelLogger 3.3.0
 ====================
 
