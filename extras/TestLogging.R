@@ -55,3 +55,33 @@ expect_true(grepl("Warning 3", log))
 expect_true(grepl("Fatal error 3", log))
 unlink(logFile)
 expect_true(unregisterLogger("TEST"))
+
+# Multi-logger message, warning, error logging ---------------------------------
+logFile1 <- tempfile()
+registerLogger(createLogger(name = "TEST1",
+                            threshold = "TRACE",
+                            appenders = list(createFileAppender(layout = layoutParallel,
+                                                                fileName = logFile1))))
+logFile2 <- tempfile()
+registerLogger(createLogger(name = "TEST2",
+                            threshold = "TRACE",
+                            appenders = list(createFileAppender(layout = layoutParallel,
+                                                                fileName = logFile2))))
+message("A message")
+warning("A warning")
+stop("A fatal error")
+
+log1 <- readChar(logFile1, file.info(logFile1)$size)
+expect_true(grepl("A message", log1))
+expect_true(grepl("A warning", log1))
+expect_true(grepl("A fatal error", log1))
+log2 <- readChar(logFile2, file.info(logFile2)$size)
+expect_true(grepl("A message", log2))
+expect_true(grepl("A warning", log2))
+expect_true(grepl("A fatal error", log2))
+unlink(logFile1)
+unlink(logFile2)
+expect_true(unregisterLogger("TEST1"))
+expect_true(unregisterLogger("TEST2"))
+
+
