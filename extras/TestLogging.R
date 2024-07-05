@@ -84,4 +84,38 @@ unlink(logFile2)
 expect_true(unregisterLogger("TEST1"))
 expect_true(unregisterLogger("TEST2"))
 
+# Logging message, warning, error in R6 objects ----------------------------------------------------
+logFile1 <- tempfile()
+registerLogger(createLogger(name = "TEST1",
+                            threshold = "TRACE",
+                            appenders = list(createFileAppender(layout = layoutParallel,
+                                                                fileName = logFile1))))
+logFile2 <- tempfile()
+myClass <- R6::R6Class(
+  public = list(
+    run = function(logFile2) {
+      registerLogger(createLogger(name = "TEST2",
+                                  threshold = "TRACE",
+                                  appenders = list(createFileAppender(layout = layoutParallel,
+                                                                      fileName = logFile2))))
+      message("A message")
+      warning("A warning")
+      unregisterLogger("TEST2")
+    }
+  )
+)
+
+myObject <- myClass$new()
+myObject$run(logFile2)
+
+log1 <- readChar(logFile1, file.info(logFile1)$size)
+expect_true(grepl("A message", log1))
+expect_true(grepl("A warning", log1))
+log2 <- readChar(logFile2, file.info(logFile2)$size)
+expect_true(grepl("A message", log2))
+expect_true(grepl("A warning", log2))
+unlink(logFile1)
+unlink(logFile2)
+expect_true(unregisterLogger("TEST1"))
+
 
