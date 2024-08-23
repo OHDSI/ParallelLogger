@@ -1,12 +1,11 @@
-This update includes 1 change and 2 bugfixes. This includes the fix requested by Prof. Hornik (see NEWS)
+This update includes 1 bugfix (see NEWS.md)
 
 ---
 
 ## Test environments
-* Ubuntu 20.04, R 4.3.1
-* Microsoft Windows Server 2019, R 4.3.1
-* MacOS, R 4.3.1
-* Windows 10, R 4.2.3
+* Ubuntu 20.04, R 4.4.1
+* Microsoft Windows Server 2019, R 4.4.1
+* MacOS, R 4.4.1
 
 ## R CMD check results
 

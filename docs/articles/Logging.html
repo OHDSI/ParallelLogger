@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Logging using ParallelLogger • ParallelLogger</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.3.1</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">Martijn J.
 Schuemie</h4>
             
-            <h4 data-toc-skip class="date">2023-08-22</h4>
+            <h4 data-toc-skip class="date">2024-08-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/OHDSI/ParallelLogger/blob/HEAD/vignettes/Logging.Rmd" class="external-link"><code>vignettes/Logging.Rmd</code></a></small>
       <div class="hidden name"><code>Logging.Rmd</code></div>
@@ -100,9 +100,6 @@ Schuemie</h4>
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="fu">knitr</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/knitr/man/opts_knit.html" class="external-link">opts_knit</a></span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"out.format"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>This vignette describes how you can use the
 <code>ParallelLogger</code> package to perform logging. Logging is the
 activity of recording events that occur during an analysis in a log. The
@@ -196,7 +193,7 @@ trace to the message.</li>
 <p>The code below demonstrates how one would create a logger that writes
 all events at level <code>INFO</code> or greater to the console using a
 layout with time stamp:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"SIMPLE"</span>,</span>
 <span>                       threshold <span class="op">=</span> <span class="st">"INFO"</span>,</span>
 <span>                       appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutTimestamp</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -212,7 +209,7 @@ layout with time stamp:</p>
 default logger that uses the simple layout and threshold = “INFO”, and
 writes to console. We can remove this logger before registering our
 logger to avoid duplication:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"SIMPLE"</span>,</span>
@@ -228,10 +225,10 @@ logger to avoid duplication:</p>
 </h3>
 <p>A shorthand for creating a simple console logger is offered by the
 <code>addDefaultConsoleLogger</code> function. The code</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/addDefaultConsoleLogger.html">addDefaultConsoleLogger</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>is equivalent to</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_CONSOLE_LOGGER"</span>,</span>
 <span>                            threshold <span class="op">=</span> <span class="st">"INFO"</span>, </span>
 <span>                            appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createConsoleAppender.html">createConsoleAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutSimple</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -244,7 +241,7 @@ logger to avoid duplication:</p>
 instantiate a logger that writes to file, using a threshold of
 <code>TRACE</code> (so including all events), and using the layout for
 parallel processing.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">logFileName</span> <span class="op">&lt;-</span> <span class="st">"log.txt"</span></span>
 <span></span>
 <span><span class="va">logger</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"PARALLEL"</span>,</span>
@@ -260,23 +257,23 @@ parallel processing.</p>
 <span><span class="fu"><a href="../reference/logInfo.html">logInfo</a></span><span class="op">(</span><span class="st">"Hello world"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 2021-02-23 09:04:06 Hello world</span></span></code></pre>
 <p>We can read the log file:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readChar.html" class="external-link">readChar</a></span><span class="op">(</span><span class="va">logFileName</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span><span class="op">$</span><span class="va">size</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 2021-02-23 09:04:06  [Main thread]   TRACE   evaluate    timing_fn   Executed this line</span></span>
 <span><span class="co">## 2021-02-23 09:04:06  [Main thread]   DEBUG   evaluate    timing_fn   There are 2 loggers</span></span>
 <span><span class="co">## 2021-02-23 09:04:06  [Main thread]   INFO    evaluate    timing_fn   Hello world</span></span></code></pre>
 <p>And clean it up when we’re done:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="shorthand-1">Shorthand<a class="anchor" aria-label="anchor" href="#shorthand-1"></a>
 </h3>
 <p>A shorthand for creating the file logger detailed here is offered by
 the <code>addDefaultFileLogger</code> function. The code</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span></code></pre></div>
 <p>is equivalent to</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_FILE_LOGGER"</span>,</span>
 <span>                            threshold <span class="op">=</span> <span class="st">"TRACE"</span>, </span>
 <span>                            appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createFileAppender.html">createFileAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutParallel</span>, </span>
@@ -307,10 +304,10 @@ to avoid redundancy.</p>
 </h3>
 <p>It is recommended to simply always use the shorthand for creating an
 error report logger:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/addDefaultErrorReportLogger.html">addDefaultErrorReportLogger</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>which is equivalent to</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fileName</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"errorReportR.txt"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_ERRORREPORT_LOGGER"</span>,</span>
@@ -328,7 +325,7 @@ error report logger:</p>
 logged above the specified threshold. For example, for a process running
 on a remote machine it might be useful to receive e-mails of fatal
 events:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mailSettings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>from <span class="op">=</span> <span class="st">"someone@gmail.com"</span>,</span>
 <span>to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"someone_else@gmail.com"</span><span class="op">)</span>,</span>
 <span>smtp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>host.name <span class="op">=</span> <span class="st">"smtp.gmail.com"</span>,</span>
@@ -354,10 +351,10 @@ so for more details see <code>?mailR::send.mail</code>’</p>
 </h3>
 <p>A shorthand for creating the e-mail logger detailed here is offered
 by the <code>addDefaultEmailLogger</code> function. The code</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/addDefaultEmailLogger.html">addDefaultEmailLogger</a></span><span class="op">(</span><span class="va">mailSettings</span><span class="op">)</span></span></code></pre></div>
 <p>is equivalent to</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/registerLogger.html">registerLogger</a></span><span class="op">(</span><span class="fu"><a href="../reference/createLogger.html">createLogger</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"DEFAULT_EMAIL_LOGGER"</span>,</span>
 <span>threshold <span class="op">=</span> <span class="st">"FATAL"</span>,</span>
 <span>appenders <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/createEmailAppender.html">createEmailAppender</a></span><span class="op">(</span>layout <span class="op">=</span> <span class="va">layoutEmail</span>,</span>
@@ -369,7 +366,7 @@ by the <code>addDefaultEmailLogger</code> function. The code</p>
 </h2>
 <p>All R warnings and errors are automatically logged, and therefore do
 not require explicit logging. For example:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span>
 <span></span>
@@ -397,7 +394,7 @@ processing functions included in this package. The
 <code>layoutParallel</code> records thread identifiers, making it
 possible to later untangle the various threads. Below is a simple
 example:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/clearLoggers.html">clearLoggers</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Clean up the loggers from the previous example</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span>
@@ -443,7 +440,7 @@ probably a good idea, to capture information that may help to debug when
 things go wrong. Although having multiple loggers simultaneously should
 work fine, it probably makes sense to only invoke loggers at the highest
 level. So instead of</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">subSubTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"subSubTaskLog.txt"</span><span class="op">)</span></span>
 <span>  <span class="co"># do something</span></span>
@@ -461,7 +458,7 @@ level. So instead of</p>
 <span>  <span class="fu">subTask</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>it would be better to have only one logger:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">subSubTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># do something</span></span>
 <span><span class="op">}</span></span>
@@ -480,7 +477,7 @@ level. So instead of</p>
 function is finished. By using <code>on.exit</code>, we can ensure the
 logger is always closed, even when the function stops unexpectedly
 (e.g. due to an error):</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mainTask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/addDefaultFileLogger.html">addDefaultFileLogger</a></span><span class="op">(</span><span class="st">"log.txt"</span><span class="op">)</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit</a></span><span class="op">(</span><span class="fu"><a href="../reference/unregisterLogger.html">unregisterLogger</a></span><span class="op">(</span><span class="st">"DEFAULT_FILE_LOGGER"</span><span class="op">)</span><span class="op">)</span></span>
@@ -493,11 +490,11 @@ logger is always closed, even when the function stops unexpectedly
 <p>A Shiny app for viewing a log file created using the
 <code>layoutParallel</code> is included in the package. To explore the
 log created in the prior example, run</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/launchLogViewer.html">launchLogViewer</a></span><span class="op">(</span><span class="va">logFileName</span><span class="op">)</span></span></code></pre></div>
 <p>to launch the viewer shown in Figure 1.</p>
-<div class="figure">
-<img src="shinyApp.png" alt=""><p class="caption">Shiny log viewer app</p>
+<div class="float">
+<img src="shinyApp.png" alt="Shiny log viewer app"><div class="figcaption">Shiny log viewer app</div>
 </div>
 </div>
   </div>
@@ -519,7 +516,7 @@ log created in the prior example, run</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

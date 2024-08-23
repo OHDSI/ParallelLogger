@@ -1,6 +1,6 @@
 # @file PackageMaintentance.R
 #
-# Copyright 2022 Observational Health Data Sciences and Informatics
+# Copyright 2024 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 #
@@ -38,14 +38,12 @@ rmarkdown::render("vignettes/Logging.Rmd",
                   rmarkdown::pdf_document(latex_engine = "pdflatex",
                                           toc = TRUE,
                                           number_sections = TRUE))
-unlink("inst/doc/Logging.tex")
 
 rmarkdown::render("vignettes/Parallel.Rmd",
                   output_file = "../inst/doc/Parallel.pdf",
                   rmarkdown::pdf_document(latex_engine = "pdflatex",
                                           toc = TRUE,
                                           number_sections = TRUE))
-unlink("inst/doc/Parallel.tex")
 
 pkgdown::build_site()
 OhdsiRTools::fixHadesLogo()
