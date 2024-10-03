@@ -40,7 +40,7 @@ handlersRegistered <- function() {
 }
 
 registerDefaultHandlers <- function() {
-  if (!is.null(getOption("threadNumber")) || handlersRegistered()) {
+  if (getThreadNumber() != 0 || handlersRegistered()) {
     return()
   }
   if (inTryCatchOrWithCallingHandlers()) {

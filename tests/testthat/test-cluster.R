@@ -28,33 +28,6 @@ test_that("Create a cluster of nodes for parallel computation", {
   testthat::expect_equal(length(res), 1)
 })
 
-test_that("makeCluster", {
-  cluster <- snow::makeCluster(2, type = "SOCK")
-  logThreadStart <- function(loggers, threadNumber) {
-    ParallelLogger::clearLoggers()
-    for (logger in loggers) {
-      ParallelLogger::registerLogger(logger)
-    }
-    options(threadNumber = threadNumber)
-    ParallelLogger::logTrace("Thread ", threadNumber, " initiated")
-    finalize <- function(env) {
-      ParallelLogger::logTrace("Thread ", threadNumber, " terminated")
-    }
-    reg.finalizer(globalenv(), finalize, onexit = TRUE)
-    return(NULL)
-  }
-
-  loggers <- ParallelLogger::getLoggers()
-  testthat::expect_gt(length(cluster), expected = 1)
-
-  for (i in 1:length(cluster)) {
-    res <- snow::sendCall(cluster[[i]], logThreadStart, list(loggers = loggers, threadNumber = i))
-    testthat::expect_equal(res, NULL)
-  }
-
-  ParallelLogger::clearLoggers()
-})
-
 test_that("Test require package", {
   tryCatch(
     expr = {
@@ -87,3 +60,19 @@ test_that("Check andromedaTempFolder", {
   testthat::expect_true(!is.null(getOption("andromedaTempFolder")))
   testthat::expect_equal(getOption("andromedaTempFolder"), check)
 })
+
+
+test_that("Test getThreadNumber", {
+  expect_equal(getThreadNumber(), 0)
+  
+  fun <- function(x) {
+    return(ParallelLogger::getThreadNumber())
+  }
+  
+  cluster <- makeCluster(numberOfThreads = 3)
+  x <- clusterApply(cluster, 1:3, fun)
+  stopCluster(cluster)
+  
+  expect_equal(sort(unlist(x)), 1:3)
+})
+

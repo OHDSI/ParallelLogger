@@ -16,6 +16,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#' Return the number of the current thread
+#'
+#' @return
+#' Returns the number of the current thread. Returns 0 if this is the main thread.
+#' 
+#' @export
+getThreadNumber <- function() {
+  threadNumber <- getOption("PARALLELLOGGER_THREAD_NUMBER")
+  if (is.null(threadNumber)) {
+    return(0)
+  } else {
+    return(threadNumber)
+  }
+}
+
 doSetAndromedaTempFolder <- function(andromedaTempFolder) {
   options(andromedaTempFolder = andromedaTempFolder)
   ParallelLogger::logTrace("AndromedateTempFolder set to ", andromedaTempFolder)
@@ -48,7 +63,7 @@ makeCluster <- function(numberOfThreads, singleThreadToMain = TRUE, setAndromeda
       for (logger in loggers) {
         ParallelLogger::registerLogger(logger)
       }
-      options(threadNumber = threadNumber)
+      options(PARALLELLOGGER_THREAD_NUMBER = threadNumber)
       ParallelLogger::logTrace("Thread ", threadNumber, " initiated")
       finalize <- function(env) {
         ParallelLogger::logTrace("Thread ", threadNumber, " terminated")
@@ -182,7 +197,7 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
       if (progressBar) {
         pb <- txtProgressBar(style = 3)
       }
-
+      
       for (i in 1:min(n, p)) {
         snow::sendCall(cluster[[i]], functionWrapper, c(
           list(x[[i]]),
@@ -190,7 +205,7 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
           list(fun = fun)
         ), tag = i)
       }
-
+      
       val <- vector("list", n)
       hasError <- FALSE
       for (i in 1:n) {
@@ -215,8 +230,8 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
             list(...),
             list(fun = fun)
           ), tag = j)
-
-
+          
+          
           # snow::sendCall(cluster[[d$node]], fun, c(list(x[[j]]), list(...)), tag = j)
         }
         val[d$tag] <- list(d$value)

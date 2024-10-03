@@ -101,7 +101,7 @@ createFileAppender <- function(layout = layoutParallel,
         )
       }
     )
-    if (is.null(getOption("threadNumber")) && identical(layout, layoutErrorReport)) {
+    if (getThreadNumber() == 0 && identical(layout, layoutErrorReport)) {
       writeLines(paste("An error report has been created at ", fileName))
     }
   }
@@ -181,7 +181,7 @@ createEmailAppender <- function(layout = layoutEmail,
     }
 
     # Only main thread gets to send e-mails:
-    if (!is.null(getOption("threadNumber"))) {
+    if (getThreadNumber() != 0) {
       return()
     }
 

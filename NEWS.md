@@ -1,3 +1,11 @@
+ParallelLogger 3.3.2
+====================
+
+Changes
+
+1. Exposing `getThreadNumber()` function that can be used to determine which thread we're in (including the main thread).
+
+
 ParallelLogger 3.3.1
 ====================
 

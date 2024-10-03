@@ -31,7 +31,8 @@ reference:
       - makeCluster 
       - clusterRequire 
       - clusterApply 
-      - stopCluster 	  
+      - stopCluster
+      - getThreadNumber
   - title: "Function automation"
     desc: >
       Functions for capturing arguments for function calls so these can be executed automatically later on.
