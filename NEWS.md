@@ -5,6 +5,8 @@ Changes
 
 1. Exposing `getThreadNumber()` function that can be used to determine which thread we're in (including the main thread).
 
+2. Updating `selectFromList()` to support selection from R6 objects.
+
 
 ParallelLogger 3.3.1
 ====================
