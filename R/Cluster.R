@@ -36,6 +36,11 @@ doSetAndromedaTempFolder <- function(andromedaTempFolder) {
   ParallelLogger::logTrace("AndromedateTempFolder set to ", andromedaTempFolder)
 }
 
+doSetAndromedaMemoryLimit <- function(memoryLimit) {
+  options(andromedaMemoryLimit = memoryLimit)
+  ParallelLogger::logTrace("AndromedaMemoryLimit set to ", memoryLimit, "GB")
+}
+
 #' Create a cluster of nodes for parallel computation
 #'
 #' @param numberOfThreads          Number of parallel threads.
@@ -43,6 +48,9 @@ doSetAndromedaTempFolder <- function(andromedaTempFolder) {
 #'                                 process in the main thread?
 #' @param setAndromedaTempFolder   When TRUE, the andromedaTempFolder option will be copied to each
 #'                                 thread.
+#' @param setAndromedaMemoryLimit  When TRUE, the andromedaMemoryLimit option will be set in each 
+#'                                 thread to be either the global andromedaMemoryLimit / numberOfThreads
+#'                                 or 75% of the system memory / number of threads.
 #'
 #' @return
 #' An object representing the cluster.
@@ -50,7 +58,10 @@ doSetAndromedaTempFolder <- function(andromedaTempFolder) {
 #' @template ClusterExample
 #'
 #' @export
-makeCluster <- function(numberOfThreads, singleThreadToMain = TRUE, setAndromedaTempFolder = TRUE) {
+makeCluster <- function(numberOfThreads, 
+                        singleThreadToMain = TRUE, 
+                        setAndromedaTempFolder = TRUE,
+                        setAndromedaMemoryLimit = TRUE) {
   if (numberOfThreads == 1 && singleThreadToMain) {
     cluster <- list()
     class(cluster) <- "noCluster"
@@ -85,6 +96,25 @@ makeCluster <- function(numberOfThreads, singleThreadToMain = TRUE, setAndromeda
             cluster[[i]],
             doSetAndromedaTempFolder,
             list(andromedaTempFolder = getOption("andromedaTempFolder"))
+          )
+        }
+        for (i in 1:length(cluster)) {
+          snow::recvOneResult(cluster)
+        }
+      }
+    }
+    if (setAndromedaMemoryLimit) {
+      memoryLimit <- getOption("andromedaMemoryLimit")
+      if (is.null(memoryLimit)) {
+        memoryLimit <- getPhysicalMemory() * 0.75
+      }
+      if (!is.na(memoryLimit)) {
+        memoryLimitPerThread <- memoryLimit / length(cluster)
+        for (i in 1:length(cluster)) {
+          snow::sendCall(
+            cluster[[i]],
+            doSetAndromedaMemoryLimit,
+            list(memoryLimit = memoryLimitPerThread)
           )
         }
         for (i in 1:length(cluster)) {
@@ -279,4 +309,40 @@ formatError <- function(threadNumber, error, args) {
     gsub("\n", "\\n", gsub("\t", "\\t", paste(nameValues, collapse = ", ")))
   )
 }
+
+#' Get the total amount of physical memory
+#'
+#' @returns
+#' The number of GB of RAM. Returns NA if the function failed. One GB is 
+#' 1,000,000,000 bytes.
+#' 
+#' @examples
+#' getPhysicalMemory()
+#' 
+#' @export
+getPhysicalMemory <- function() {
+  os <- Sys.info()[['sysname']]
+  if (os == "Windows") {
+    output <- system("wmic ComputerSystem get TotalPhysicalMemory /value", intern = TRUE)
+    idx <- grep("TotalPhysicalMemory=", output, value = TRUE)
+    if (length(idx) > 0) {
+      memoryString <- gsub("TotalPhysicalMemory=", "", idx[1])
+      memory <- as.numeric(memoryString)
+      return(memory / (1e9)) # Convert to GB
+    } else {
+      return(NA)
+    }
+  } else if (os == "Linux" || os == "Darwin") {
+    memory <- as.numeric(system("sysctl -n hw.memsize", intern = TRUE))
+    if (length(memory) > 0) {
+      return(memory / (1e9)) # Convert to GB
+    } else {
+      return(NA)
+    }
+  } else {
+    warning("Operating system not supported.")
+    return(NA)
+  }
+}
+
 
