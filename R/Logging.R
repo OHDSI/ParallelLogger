@@ -39,6 +39,7 @@ handlersRegistered <- function() {
   }
 }
 
+#' @importFrom rstudioapi getActiveDocumentContext
 isRunningInNotebookChunk = function() {
   isTRUE(try(rstudioapi::getActiveDocumentContext()$id != "#console", 
              silent=TRUE))
