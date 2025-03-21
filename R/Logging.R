@@ -39,8 +39,13 @@ handlersRegistered <- function() {
   }
 }
 
+isRunningInNotebookChunk = function() {
+  isTRUE(try(rstudioapi::getActiveDocumentContext()$id != "#console", 
+             silent=TRUE))
+}
+
 registerDefaultHandlers <- function() {
-  if (getThreadNumber() != 0 || handlersRegistered()) {
+  if (getThreadNumber() != 0 || isRunningInNotebookChunk() || handlersRegistered()) {
     return()
   }
   if (inTryCatchOrWithCallingHandlers()) {
