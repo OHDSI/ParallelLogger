@@ -22,7 +22,7 @@ thread.}
 
 \item{setAndromedaMemoryLimit}{When TRUE, the andromedaMemoryLimit option will be set in each 
 thread to be either the global andromedaMemoryLimit / numberOfThreads
-or 75% of the system memory / number of threads.}
+or 75 percent of the system memory / number of threads.}
 }
 \value{
 An object representing the cluster.
