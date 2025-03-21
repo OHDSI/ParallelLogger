@@ -21,7 +21,8 @@ Imports:
   xml2,
   jsonlite,
   methods,
-  utils
+  utils,
+  rstudioapi
 Suggests:
   sendmailR,
   testthat,
