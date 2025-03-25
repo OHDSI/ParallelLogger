@@ -114,3 +114,5 @@ By default, an error thrown by a node does not cause the execution in the other 
 
 The `Andromeda` package allows the user to work with data objects that are too large to fit in memory, by storing the data on disk. When calling `makeCluster`, the `andromedaTempFolder` option is copied from the main thread to all worker nodes. Note that it is not possible to pass Andromeda objects to nodes. A workaround could be to pass the file name of an Andromeda object instead.
 
+As of version 1.0.0, `Andromeda` recognizes the `andromedaMemoryLimit` option. The default behavior of `ParallelLogger` is to set the `andromedaMemoryLimit` in each thread to be either the global `andromedaMemoryLimit / numberOfThreads` (if the global option is set) or 75% of the system memory / number of threads.
+

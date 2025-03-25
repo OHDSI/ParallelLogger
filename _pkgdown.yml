@@ -33,6 +33,7 @@ reference:
       - clusterApply 
       - stopCluster
       - getThreadNumber
+      - getPhysicalMemory
   - title: "Function automation"
     desc: >
       Functions for capturing arguments for function calls so these can be executed automatically later on.

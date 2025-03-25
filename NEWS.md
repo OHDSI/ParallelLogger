@@ -1,10 +1,3 @@
-ParallelLogger 3.4.1
-====================
-
-Changes
-
-1. Do not register loggers if running as notebook; doing so causes stack error.
-
 ParallelLogger 3.4.0
 ====================
 
@@ -16,7 +9,10 @@ Changes
 
 3. Added `getPhysicalMemory()` function.
 
-4. Added `setAndromedaMemoryLimit` argument to `makeCluster()`. When TRUE, the andromedaMemoryLimit option will be set in each thread to be either the global andromedaMemoryLimit / numberOfThreads or 75% of the system memory / number of threads.
+4. Added `setAndromedaMemoryLimit` argument to `makeCluster()`. When TRUE, the `andromedaMemoryLimit` option will be set in each thread to be either the global `andromedaMemoryLimit / numberOfThreads` or 75% of the system memory / number of threads.
+
+5. Do not register loggers if running as notebook; doing so causes stack error.
+
 
 ParallelLogger 3.3.1
 ====================
