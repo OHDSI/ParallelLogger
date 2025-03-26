@@ -347,7 +347,20 @@ getPhysicalMemory <- function() {
     if (length(memory) > 0) {
       return(memory / (1e9)) # Convert to GB
     } else {
-      return(NA)
+      output <- tryCatch(
+        system("grep MemTotal /proc/meminfo", intern = TRUE),
+        error = function(e) {
+          return("")
+        }
+      )
+      idx <- grep("MemTotal", output, value = TRUE)
+      if (length(idx) > 0) {
+        memoryString <- gsub("MemTotal:", "", idx[1])
+        memory <- as.numeric(memoryString)
+        return(memory / (1e9)) # Convert to GB
+      } else {
+        return(NA)
+      }
     }
   } else {
     warning("Operating system not supported.")

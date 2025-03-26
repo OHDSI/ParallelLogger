@@ -1,5 +1,7 @@
 This update includes 5 changes (see NEWS.md)
 
+This fixes the earlier erro on CRAN's Debian environment.
+
 ---
 
 ## Test environments
