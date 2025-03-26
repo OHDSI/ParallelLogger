@@ -339,33 +339,26 @@ getPhysicalMemory <- function() {
     }
   } else if (os == "Linux" || os == "Darwin") {
     memory <- tryCatch(
-      as.numeric(system("sysctl -n hw.memsize", intern = TRUE)),
+      as.numeric(system("sysctl -n hw.memsize", intern = TRUE)) / 1e9,
       error = function(e) {
-        return()
-      }
-    )
-    if (length(memory) > 0) {
-      return(memory / (1e9)) # Convert to GB
-    } else {
-      output <- tryCatch(
-        system("grep MemTotal /proc/meminfo", intern = TRUE),
-        error = function(e) {
-          return("")
-        }
-      )
-      idx <- grep("MemTotal", output, value = TRUE)
-      if (length(idx) > 0) {
-        memoryString <- gsub("MemTotal:", "", idx[1])
-        memory <- as.numeric(memoryString)
-        return(memory / (1e9)) # Convert to GB
-      } else {
         return(NA)
       }
+    )
+    if (!is.na(memory)) {
+      return(memory / (1e9)) # Convert to GB
+    } else {
+      memory <- tryCatch({
+        output <- system("grep MemTotal /proc/meminfo", intern = TRUE)
+        output <- gsub("kb", "", gsub("MemTotal:", "", output))
+        as.numeric(output) / 1e6 # Convert to GB
+      } ,
+      error = function(e) {
+        return(NA)
+      })
+      return(memory)
     }
   } else {
     warning("Operating system not supported.")
     return(NA)
   }
 }
-
-
