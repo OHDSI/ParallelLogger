@@ -339,8 +339,11 @@ getPhysicalMemory <- function() {
     }
   } else if (os == "Linux" || os == "Darwin") {
     memory <- tryCatch(
-      as.numeric(system("sysctl -n hw.memsize", intern = TRUE)) / 1e9,
+      as.numeric(system("sysctl -n hw.memsize", intern = TRUE))/1e+09, 
       error = function(e) {
+        return(NA)
+      },
+      warning = function(e) {
         return(NA)
       }
     )
@@ -351,7 +354,7 @@ getPhysicalMemory <- function() {
         output <- system("grep MemTotal /proc/meminfo", intern = TRUE)
         output <- gsub("kb", "", gsub("MemTotal:", "", output))
         as.numeric(output) / 1e6 # Convert to GB
-      } ,
+      },
       error = function(e) {
         return(NA)
       })
