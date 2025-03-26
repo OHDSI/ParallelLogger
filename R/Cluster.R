@@ -323,7 +323,12 @@ formatError <- function(threadNumber, error, args) {
 getPhysicalMemory <- function() {
   os <- Sys.info()[['sysname']]
   if (os == "Windows") {
-    output <- system("wmic ComputerSystem get TotalPhysicalMemory /value", intern = TRUE)
+    output <- tryCatch(
+      system("wmic ComputerSystem get TotalPhysicalMemory /value", intern = TRUE),
+      error = function(e) {
+        return("")
+      }
+    )
     idx <- grep("TotalPhysicalMemory=", output, value = TRUE)
     if (length(idx) > 0) {
       memoryString <- gsub("TotalPhysicalMemory=", "", idx[1])
@@ -333,7 +338,12 @@ getPhysicalMemory <- function() {
       return(NA)
     }
   } else if (os == "Linux" || os == "Darwin") {
-    memory <- as.numeric(system("sysctl -n hw.memsize", intern = TRUE))
+    memory <- tryCatch(
+      as.numeric(system("sysctl -n hw.memsize", intern = TRUE)),
+      error = function(e) {
+        return()
+      }
+    )
     if (length(memory) > 0) {
       return(memory / (1e9)) # Convert to GB
     } else {

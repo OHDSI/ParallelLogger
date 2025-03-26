@@ -76,3 +76,9 @@ test_that("Test getThreadNumber", {
   expect_equal(sort(unlist(x)), 1:3)
 })
 
+
+test_that("Test getPhysicalMemory", {
+  # Cannot determine physical memory on CRAN's Debian machine, so skip there:
+  testthat::skip_on_cran()
+  expect_false(is.na(getPhysicalMemory()))
+})
