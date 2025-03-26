@@ -352,7 +352,7 @@ getPhysicalMemory <- function() {
     } else {
       memory <- tryCatch({
         output <- system("grep MemTotal /proc/meminfo", intern = TRUE)
-        output <- gsub("kb", "", gsub("MemTotal:", "", output))
+        output <- gsub("kB", "", gsub("MemTotal:", "", output), ignore.case = TRUE)
         as.numeric(output) / 1e6 # Convert to GB
       },
       error = function(e) {
