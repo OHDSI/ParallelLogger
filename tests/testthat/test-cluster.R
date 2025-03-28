@@ -25,34 +25,7 @@ test_that("Create a cluster of nodes for parallel computation", {
   res <- ParallelLogger::clusterApply(cluster, f(), summary)
   ParallelLogger::stopCluster(cluster)
 
-  testthat::expect_equal(length(res), 1)
-})
-
-test_that("makeCluster", {
-  cluster <- snow::makeCluster(2, type = "SOCK")
-  logThreadStart <- function(loggers, threadNumber) {
-    ParallelLogger::clearLoggers()
-    for (logger in loggers) {
-      ParallelLogger::registerLogger(logger)
-    }
-    options(threadNumber = threadNumber)
-    ParallelLogger::logTrace("Thread ", threadNumber, " initiated")
-    finalize <- function(env) {
-      ParallelLogger::logTrace("Thread ", threadNumber, " terminated")
-    }
-    reg.finalizer(globalenv(), finalize, onexit = TRUE)
-    return(NULL)
-  }
-
-  loggers <- ParallelLogger::getLoggers()
-  testthat::expect_gt(length(cluster), expected = 1)
-
-  for (i in 1:length(cluster)) {
-    res <- snow::sendCall(cluster[[i]], logThreadStart, list(loggers = loggers, threadNumber = i))
-    testthat::expect_equal(res, NULL)
-  }
-
-  ParallelLogger::clearLoggers()
+  expect_equal(length(res), 1)
 })
 
 test_that("Test require package", {
@@ -66,9 +39,9 @@ test_that("Test require package", {
       expectLoading <- sprintf("Loading required package: %s", package)
       expectWarning <- sprintf("Warning: there is no package called ‘%s’", package)
 
-      testthat::expect_equal(out, FALSE)
-      testthat::expect_true(grepl(expectLoading, res[1]))
-      testthat::expect_true(grepl(expectWarning, res[2]))
+      expect_equal(out, FALSE)
+      expect_true(grepl(expectLoading, res[1]))
+      expect_true(grepl(expectWarning, res[2]))
     },
     error = function(e) {
     },
@@ -84,6 +57,28 @@ test_that("Test require package", {
 test_that("Check andromedaTempFolder", {
   check <- "c:\\test"
   ParallelLogger:::doSetAndromedaTempFolder(check)
-  testthat::expect_true(!is.null(getOption("andromedaTempFolder")))
-  testthat::expect_equal(getOption("andromedaTempFolder"), check)
+  expect_true(!is.null(getOption("andromedaTempFolder")))
+  expect_equal(getOption("andromedaTempFolder"), check)
+})
+
+
+test_that("Test getThreadNumber", {
+  expect_equal(getThreadNumber(), 0)
+  
+  fun <- function(x) {
+    return(ParallelLogger::getThreadNumber())
+  }
+  
+  cluster <- makeCluster(numberOfThreads = 3)
+  x <- clusterApply(cluster, 1:3, fun)
+  stopCluster(cluster)
+  
+  expect_equal(sort(unlist(x)), 1:3)
+})
+
+
+test_that("Test getPhysicalMemory", {
+  # Cannot determine physical memory on CRAN's Debian machine, so skip there:
+  skip_on_cran()
+  expect_false(is.na(getPhysicalMemory()))
 })

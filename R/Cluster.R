@@ -1,6 +1,6 @@
 # @file Cluster.R
 #
-# Copyright 2024 Observational Health Data Sciences and Informatics
+# Copyright 2025 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 #
@@ -16,9 +16,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+#' Return the number of the current thread
+#'
+#' @return
+#' Returns the number of the current thread. Returns 0 if this is the main thread.
+#' 
+#' @export
+getThreadNumber <- function() {
+  threadNumber <- getOption("PARALLELLOGGER_THREAD_NUMBER")
+  if (is.null(threadNumber)) {
+    return(0)
+  } else {
+    return(threadNumber)
+  }
+}
+
 doSetAndromedaTempFolder <- function(andromedaTempFolder) {
   options(andromedaTempFolder = andromedaTempFolder)
   ParallelLogger::logTrace("AndromedateTempFolder set to ", andromedaTempFolder)
+}
+
+doSetAndromedaMemoryLimit <- function(memoryLimit) {
+  options(andromedaMemoryLimit = memoryLimit)
+  ParallelLogger::logTrace("AndromedaMemoryLimit set to ", memoryLimit, "GB")
 }
 
 #' Create a cluster of nodes for parallel computation
@@ -28,6 +48,9 @@ doSetAndromedaTempFolder <- function(andromedaTempFolder) {
 #'                                 process in the main thread?
 #' @param setAndromedaTempFolder   When TRUE, the andromedaTempFolder option will be copied to each
 #'                                 thread.
+#' @param setAndromedaMemoryLimit  When TRUE, the andromedaMemoryLimit option will be set in each 
+#'                                 thread to be either the global andromedaMemoryLimit / numberOfThreads
+#'                                 or 75 percent of the system memory / number of threads.
 #'
 #' @return
 #' An object representing the cluster.
@@ -35,7 +58,10 @@ doSetAndromedaTempFolder <- function(andromedaTempFolder) {
 #' @template ClusterExample
 #'
 #' @export
-makeCluster <- function(numberOfThreads, singleThreadToMain = TRUE, setAndromedaTempFolder = TRUE) {
+makeCluster <- function(numberOfThreads, 
+                        singleThreadToMain = TRUE, 
+                        setAndromedaTempFolder = TRUE,
+                        setAndromedaMemoryLimit = TRUE) {
   if (numberOfThreads == 1 && singleThreadToMain) {
     cluster <- list()
     class(cluster) <- "noCluster"
@@ -48,7 +74,7 @@ makeCluster <- function(numberOfThreads, singleThreadToMain = TRUE, setAndromeda
       for (logger in loggers) {
         ParallelLogger::registerLogger(logger)
       }
-      options(threadNumber = threadNumber)
+      options(PARALLELLOGGER_THREAD_NUMBER = threadNumber)
       ParallelLogger::logTrace("Thread ", threadNumber, " initiated")
       finalize <- function(env) {
         ParallelLogger::logTrace("Thread ", threadNumber, " terminated")
@@ -70,6 +96,25 @@ makeCluster <- function(numberOfThreads, singleThreadToMain = TRUE, setAndromeda
             cluster[[i]],
             doSetAndromedaTempFolder,
             list(andromedaTempFolder = getOption("andromedaTempFolder"))
+          )
+        }
+        for (i in 1:length(cluster)) {
+          snow::recvOneResult(cluster)
+        }
+      }
+    }
+    if (setAndromedaMemoryLimit) {
+      memoryLimit <- getOption("andromedaMemoryLimit")
+      if (is.null(memoryLimit)) {
+        memoryLimit <- getPhysicalMemory() * 0.75
+      }
+      if (!is.na(memoryLimit)) {
+        memoryLimitPerThread <- memoryLimit / length(cluster)
+        for (i in 1:length(cluster)) {
+          snow::sendCall(
+            cluster[[i]],
+            doSetAndromedaMemoryLimit,
+            list(memoryLimit = memoryLimitPerThread)
           )
         }
         for (i in 1:length(cluster)) {
@@ -182,7 +227,7 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
       if (progressBar) {
         pb <- txtProgressBar(style = 3)
       }
-
+      
       for (i in 1:min(n, p)) {
         snow::sendCall(cluster[[i]], functionWrapper, c(
           list(x[[i]]),
@@ -190,7 +235,7 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
           list(fun = fun)
         ), tag = i)
       }
-
+      
       val <- vector("list", n)
       hasError <- FALSE
       for (i in 1:n) {
@@ -215,8 +260,8 @@ clusterApply <- function(cluster, x, fun, ..., stopOnError = FALSE, progressBar 
             list(...),
             list(fun = fun)
           ), tag = j)
-
-
+          
+          
           # snow::sendCall(cluster[[d$node]], fun, c(list(x[[j]]), list(...)), tag = j)
         }
         val[d$tag] <- list(d$value)
@@ -265,3 +310,58 @@ formatError <- function(threadNumber, error, args) {
   )
 }
 
+#' Get the total amount of physical memory
+#'
+#' @returns
+#' The number of GB of RAM. Returns NA if the function failed. One GB is 
+#' 1,000,000,000 bytes.
+#' 
+#' @examples
+#' getPhysicalMemory()
+#' 
+#' @export
+getPhysicalMemory <- function() {
+  os <- Sys.info()[['sysname']]
+  if (os == "Windows") {
+    output <- tryCatch(
+      system("wmic ComputerSystem get TotalPhysicalMemory /value", intern = TRUE),
+      error = function(e) {
+        return("")
+      }
+    )
+    idx <- grep("TotalPhysicalMemory=", output, value = TRUE)
+    if (length(idx) > 0) {
+      memoryString <- gsub("TotalPhysicalMemory=", "", idx[1])
+      memory <- as.numeric(memoryString)
+      return(memory / (1e9)) # Convert to GB
+    } else {
+      return(NA)
+    }
+  } else if (os == "Linux" || os == "Darwin") {
+    memory <- tryCatch(
+      as.numeric(system("sysctl -n hw.memsize", intern = TRUE))/1e+09, 
+      error = function(e) {
+        return(NA)
+      },
+      warning = function(e) {
+        return(NA)
+      }
+    )
+    if (!is.na(memory)) {
+      return(memory / (1e9)) # Convert to GB
+    } else {
+      memory <- tryCatch({
+        output <- system("grep MemTotal /proc/meminfo", intern = TRUE)
+        output <- gsub("kB", "", gsub("MemTotal:", "", output), ignore.case = TRUE)
+        as.numeric(output) / 1e6 # Convert to GB
+      },
+      error = function(e) {
+        return(NA)
+      })
+      return(memory)
+    }
+  } else {
+    warning("Operating system not supported.")
+    return(NA)
+  }
+}

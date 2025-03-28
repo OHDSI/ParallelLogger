@@ -1,6 +1,6 @@
 # @file Args.R
 #
-# Copyright 2024 Observational Health Data Sciences and Informatics
+# Copyright 2025 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 #
@@ -210,9 +210,11 @@ fetchRdDB <- function(filebase, key = NULL) {
 #' # [1] 24
 #' @export
 selectFromList <- function(x, select) {
-  return(sapply(x, function(x) {
-    x[names(x)[names(x) %in% select]]
-  }, simplify = FALSE))
+  selectFun <- function(y) {
+    fields <- names(y)[names(y) %in% select]
+    return(sapply(fields, function(z) y[[z]], simplify = FALSE))
+  }
+  return(sapply(x, selectFun, simplify = FALSE))
 }
 
 #' Exclude variables from a list of objects of the same type

@@ -1,6 +1,6 @@
 # @file Logging.R
 #
-# Copyright 2024 Observational Health Data Sciences and Informatics
+# Copyright 2025 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 #
@@ -39,8 +39,14 @@ handlersRegistered <- function() {
   }
 }
 
+#' @importFrom rstudioapi getActiveDocumentContext
+isRunningInNotebookChunk = function() {
+  isTRUE(try(rstudioapi::getActiveDocumentContext()$id != "#console", 
+             silent=TRUE))
+}
+
 registerDefaultHandlers <- function() {
-  if (!is.null(getOption("threadNumber")) || handlersRegistered()) {
+  if (getThreadNumber() != 0 || isRunningInNotebookChunk() || handlersRegistered()) {
     return()
   }
   if (inTryCatchOrWithCallingHandlers()) {

@@ -1,6 +1,6 @@
 # @file Layouts.R
 #
-# Copyright 2024 Observational Health Data Sciences and Informatics
+# Copyright 2025 Observational Health Data Sciences and Informatics
 #
 # This file is part of ParallelLogger
 #
@@ -63,8 +63,8 @@ layoutTimestamp <- function(level, message) {
 #' @export
 layoutParallel <- function(level, message) {
   time <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
-  threadNumber <- getOption("threadNumber")
-  if (is.null(threadNumber)) {
+  threadNumber <- getThreadNumber()
+  if (threadNumber == 0) {
     threadLabel <- "Main thread"
   } else {
     threadLabel <- paste("Thread", threadNumber)
@@ -113,8 +113,8 @@ layoutParallel <- function(level, message) {
 #' @export
 layoutStackTrace <- function(level, message) {
   time <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
-  threadNumber <- getOption("threadNumber")
-  if (is.null(threadNumber)) {
+  threadNumber <- getThreadNumber()
+  if (threadNumber == 0) {
     threadLabel <- "Main thread"
   } else {
     threadLabel <- paste("Thread", threadNumber)
@@ -161,8 +161,8 @@ layoutEmail <- function(level, message) {
 #' @export
 layoutErrorReport <- function(level, message) {
   lines <- c()
-  threadNumber <- getOption("threadNumber")
-  if (is.null(threadNumber)) {
+  threadNumber <- getThreadNumber()
+  if (threadNumber == 0) {
     lines <- c(lines, "Thread: Main")
   } else {
     lines <- c(lines, paste("Thread: ", threadNumber))
@@ -175,7 +175,7 @@ layoutErrorReport <- function(level, message) {
   lines <- c(lines, "Stack trace:")
   lines <- c(lines, .tidyStackTrace(limitedLabels(sys.calls())))
   lines <- c(lines, "")
-  if (is.null(threadNumber)) {
+  if (threadNumber == 0) {
     lines <- c(lines, .systemInfo())
     lines <- c(lines, "")
   }
@@ -207,7 +207,7 @@ layoutErrorReport <- function(level, message) {
 
 .tidyStackTrace <- function(trace) {
   # saveRDS(trace, sprintf("s:/temp/trace_%d.rds", length(trace)))
-  if (is.null(getOption("threadNumber"))) {
+  if (getThreadNumber() == 0) {
     if (length(trace) > 4 && grepl("echoToConsole = FALSE", trace[length(trace) - 4])) {
       # Captured via globalCallingHandlers(): 2 more layers to discard
       offset <- 2

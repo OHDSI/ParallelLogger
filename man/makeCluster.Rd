@@ -7,7 +7,8 @@
 makeCluster(
   numberOfThreads,
   singleThreadToMain = TRUE,
-  setAndromedaTempFolder = TRUE
+  setAndromedaTempFolder = TRUE,
+  setAndromedaMemoryLimit = TRUE
 )
 }
 \arguments{
@@ -18,6 +19,10 @@ process in the main thread?}
 
 \item{setAndromedaTempFolder}{When TRUE, the andromedaTempFolder option will be copied to each
 thread.}
+
+\item{setAndromedaMemoryLimit}{When TRUE, the andromedaMemoryLimit option will be set in each 
+thread to be either the global andromedaMemoryLimit / numberOfThreads
+or 75 percent of the system memory / number of threads.}
 }
 \value{
 An object representing the cluster.
