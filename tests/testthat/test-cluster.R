@@ -78,7 +78,8 @@ test_that("Test getThreadNumber", {
 
 
 test_that("Test getPhysicalMemory", {
-  # Very dirty, but skip_on_cran() doesn't work on CRAN's M1mac machine:
+  # Very dirty, but skip_on_cran() doesn't work on CRAN's M1mac machine
+  # (see https://github.com/r-lib/testthat/issues/2074)
   if (Sys.getenv("CDM5_POSTGRESQL_CDM_SCHEMA", unset = "") == "") {
     skip("Not an OHDSI machine, so skipped test for getPhysicalMemory()")
   }

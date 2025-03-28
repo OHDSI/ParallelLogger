@@ -33,6 +33,7 @@ devtools::spell_check()
 unlink("extras/ParallelLogger.pdf")
 system("R CMD Rd2pdf ./ --output=extras/ParallelLogger.pdf")
 
+dir.create("inst/doc", showWarnings = FALSE)
 rmarkdown::render("vignettes/Logging.Rmd",
                   output_file = "../inst/doc/Logging.pdf",
                   rmarkdown::pdf_document(latex_engine = "pdflatex",
