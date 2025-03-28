@@ -339,7 +339,7 @@ getPhysicalMemory <- function() {
     }
   } else if (os == "Linux" || os == "Darwin") {
     memory <- tryCatch(
-      as.numeric(system("sysctl -n hw.memsize", intern = TRUE))/1e+09, 
+      as.numeric(system("/usr/sbin/sysctl -n hw.memsize", intern = TRUE))/1e+09, 
       error = function(e) {
         return(NA)
       },

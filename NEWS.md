@@ -1,3 +1,11 @@
+ParallelLogger 3.4.1
+====================
+
+Bugfixes
+
+1. Fixes `getPhysicalMemory()` on some Mac machines, to prevent getting kicked of CRAN.
+
+
 ParallelLogger 3.4.0
 ====================
 

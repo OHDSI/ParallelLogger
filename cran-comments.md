@@ -1,6 +1,6 @@
-This update includes 5 changes (see NEWS.md)
+This update includes 1 bugfix (see NEWS.md)
 
-This fixes the earlier erro on CRAN's Debian environment.
+This fixes the issue noted by Prof. Ripley on the M1mac environment.
 
 ---
 
@@ -8,7 +8,7 @@ This fixes the earlier erro on CRAN's Debian environment.
 * Ubuntu 20.04, R 4.4.3
 * Microsoft Windows Server 2019, R 4.4.3
 * MacOS, R 4.4.3
-* MacOS, R 4.4.1
+* MacOS (M3), R 4.4.1
 
 ## R CMD check results
 
