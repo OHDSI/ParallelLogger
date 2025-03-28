@@ -21,7 +21,10 @@ test_that("layoutTimestamp func", {
   time <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
   test <- sprintf("%s\t%s", time, msg)
   result <- ParallelLogger::layoutTimestamp(lvl, msg)
-  expect_equal(result, test)
+  # May have jumped 1 second, so get second time:
+  time2 <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
+  test2 <- sprintf("%s\t%s", time2, msg)
+  expect_true(result == test | result == test2)
 })
 
 test_that("layoutErrorReport func", {
@@ -30,7 +33,10 @@ test_that("layoutErrorReport func", {
   time <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
   test <- sprintf("Thread: Main\nMessage:  %s\nLevel:  ERROR", msg)
   result <- capture.output(capture.output(out <- ParallelLogger::layoutErrorReport(lvl, msg), type = "message"), type = "output")
-  testthat::expect_match(out, test)
+  # May have jumped 1 second, so get second time:
+  time2 <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
+  test2 <- sprintf("%s\t%s", time2, msg) 
+  expect_true(grepl(test, out)[[1]] | grepl(test2, out)[[1]])
 })
 
 test_that("layoutEmail func", {
@@ -39,8 +45,8 @@ test_that("layoutEmail func", {
   test1 <- sprintf("Message:  %s", msg)
   test2 <- sprintf("Level:  %s", lvl)
   result <- capture.output(capture.output(out <- ParallelLogger::layoutEmail(lvl, msg), type = "message"), type = "output")
-  testthat::expect_match(out, test1)
-  testthat::expect_match(out, test2)
+  expect_match(out, test1)
+  expect_match(out, test2)
 })
 
 
@@ -55,8 +61,8 @@ test_that("layoutStackTrace func", {
   tryCatch(
     expr = {
       try(result <- capture.output(capture.output(out <- ParallelLogger::layoutStackTrace(lvl, msg), type = "message"), type = "output"), silent = TRUE)
-      testthat::expect_match(out, test1)
-      testthat::expect_match(out, test2)
+      expect_match(out, test1)
+      expect_match(out, test2)
     },
     error = function(e) { },
     warning = function(w) { },

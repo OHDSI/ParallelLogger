@@ -25,7 +25,7 @@ test_that("Create a cluster of nodes for parallel computation", {
   res <- ParallelLogger::clusterApply(cluster, f(), summary)
   ParallelLogger::stopCluster(cluster)
 
-  testthat::expect_equal(length(res), 1)
+  expect_equal(length(res), 1)
 })
 
 test_that("Test require package", {
@@ -39,9 +39,9 @@ test_that("Test require package", {
       expectLoading <- sprintf("Loading required package: %s", package)
       expectWarning <- sprintf("Warning: there is no package called ‘%s’", package)
 
-      testthat::expect_equal(out, FALSE)
-      testthat::expect_true(grepl(expectLoading, res[1]))
-      testthat::expect_true(grepl(expectWarning, res[2]))
+      expect_equal(out, FALSE)
+      expect_true(grepl(expectLoading, res[1]))
+      expect_true(grepl(expectWarning, res[2]))
     },
     error = function(e) {
     },
@@ -57,8 +57,8 @@ test_that("Test require package", {
 test_that("Check andromedaTempFolder", {
   check <- "c:\\test"
   ParallelLogger:::doSetAndromedaTempFolder(check)
-  testthat::expect_true(!is.null(getOption("andromedaTempFolder")))
-  testthat::expect_equal(getOption("andromedaTempFolder"), check)
+  expect_true(!is.null(getOption("andromedaTempFolder")))
+  expect_equal(getOption("andromedaTempFolder"), check)
 })
 
 
@@ -79,6 +79,6 @@ test_that("Test getThreadNumber", {
 
 test_that("Test getPhysicalMemory", {
   # Cannot determine physical memory on CRAN's Debian machine, so skip there:
-  testthat::skip_on_cran()
+  skip_on_cran()
   expect_false(is.na(getPhysicalMemory()))
 })
