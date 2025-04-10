@@ -1,3 +1,11 @@
+ParallelLogger 3.4.2
+====================
+
+Bugfixes
+
+1. Fixes `getPhysicalMemory()` on Mac machines (broken in previous fix).
+
+
 ParallelLogger 3.4.1
 ====================
 
