@@ -321,6 +321,6 @@ formatError <- function(threadNumber, error, args) {
 #' @export
 getPhysicalMemory <- function() {
   memory <- memuse::Sys.meminfo()$totalram
-  memory <- memuse::swap.unit(x, "GB")
+  memory <- memuse::swap.unit(memory, "GB")
   return(memory@size)
 }
