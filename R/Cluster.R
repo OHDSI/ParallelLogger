@@ -313,55 +313,14 @@ formatError <- function(threadNumber, error, args) {
 #' Get the total amount of physical memory
 #'
 #' @returns
-#' The number of GB of RAM. Returns NA if the function failed. One GB is 
-#' 1,000,000,000 bytes.
+#' The number of GB of RAM. One GB is 1,000,000,000 bytes.
 #' 
 #' @examples
 #' getPhysicalMemory()
 #' 
 #' @export
 getPhysicalMemory <- function() {
-  os <- Sys.info()[['sysname']]
-  if (os == "Windows") {
-    output <- tryCatch(
-      system("wmic ComputerSystem get TotalPhysicalMemory /value", intern = TRUE),
-      error = function(e) {
-        return("")
-      }
-    )
-    idx <- grep("TotalPhysicalMemory=", output, value = TRUE)
-    if (length(idx) > 0) {
-      memoryString <- gsub("TotalPhysicalMemory=", "", idx[1])
-      memory <- as.numeric(memoryString)
-      return(memory / (1e9)) # Convert to GB
-    } else {
-      return(NA)
-    }
-  } else if (os == "Linux" || os == "Darwin") {
-    memory <- tryCatch(
-      as.numeric(system("/usr/sbin/sysctl -n hw.memsize", intern = TRUE))/1e+09, # Convert to GB
-      error = function(e) {
-        return(NA)
-      },
-      warning = function(e) {
-        return(NA)
-      }
-    )
-    if (!is.na(memory)) {
-      return(memory) 
-    } else {
-      memory <- tryCatch({
-        output <- system("grep MemTotal /proc/meminfo", intern = TRUE)
-        output <- gsub("kB", "", gsub("MemTotal:", "", output), ignore.case = TRUE)
-        as.numeric(output) / 1e6 # Convert to GB
-      },
-      error = function(e) {
-        return(NA)
-      })
-      return(memory)
-    }
-  } else {
-    warning("Operating system not supported.")
-    return(NA)
-  }
+  memory <- memuse::Sys.meminfo()$totalram
+  memory <- memuse::swap.unit(x, "GB")
+  return(memory@size)
 }

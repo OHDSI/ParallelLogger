@@ -3,7 +3,7 @@ ParallelLogger 3.4.2
 
 Bugfixes
 
-1. Fixes `getPhysicalMemory()` on Mac machines (broken in previous fix).
+1. The `getPhysicalMemory()` package now uses the `memuse` package, for simplicity and better reliability.
 
 
 ParallelLogger 3.4.1
