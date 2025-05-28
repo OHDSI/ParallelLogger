@@ -9,6 +9,7 @@ registerLogger(createLogger(name = "TEST",
                             threshold = "TRACE",
                             appenders = list(createFileAppender(layout = layoutParallel,
                                                                 fileName = logFile))))
+
 message("A message")
 warning("A warning")
 stop("A fatal error")
