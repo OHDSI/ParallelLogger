@@ -46,16 +46,15 @@ isRunningInNotebookChunk <- function() {
   }
   
   ctxt <- rstudioapi::getActiveDocumentContext()
-  if (grepl("\\.Rmd$", ctxt$path)) {
+  if (grepl("(\\.rmd$)|(\\.qmd$)", ctxt$path, ignore.case = TRUE)) {
     return(TRUE)
   }
   
   # Look for _notebook within the header if the file hasn't been saved
   contents <- ctxt$contents
-  header <- grep("^---$", contents)
+  header <- grep("^---", contents)
   if (length(header) == 2) {
-    return(any(grepl("_notebook$",
-                     contents[min(header) : max(header)])))
+    return(any(grepl("^format:", contents[min(header) : max(header)])))
   }
   
   return(FALSE)

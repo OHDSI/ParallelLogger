@@ -22,6 +22,7 @@
 #' @importFrom methods getFunction is
 #' @importFrom utils installed.packages install.packages menu capture.output help memory.limit
 #' setTxtProgressBar txtProgressBar limitedLabels sessionInfo
+#' @importFrom rstudioapi getActiveDocumentContext
 NULL
 
 globalVars <- new.env()

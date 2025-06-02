@@ -1,0 +1,27 @@
+---
+title: "Untitled"
+format: html
+---
+
+```{r}
+ParallelLogger:::registerDefaultHandlers()
+```
+
+
+```{r}
+globalCallingHandlers()
+```
+
+
+```{r}
+rstudioapi::getActiveDocumentContext()$id
+```
+
+```{r}
+rstudioapi::getActiveDocumentContext()
+```
+
+```{r}
+ctxt <- rstudioapi::getActiveDocumentContext()
+ctxt$contents
+```
