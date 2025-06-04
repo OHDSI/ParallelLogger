@@ -1,6 +1,4 @@
-This update includes 1 bugfix (see NEWS.md)
-
-This fixes the issue noted by Prof. Ripley on the M1mac environment.
+This update includes 2 bugfixes (see NEWS.md)
 
 ---
 
