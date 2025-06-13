@@ -41,6 +41,12 @@ doSetAndromedaMemoryLimit <- function(memoryLimit) {
   ParallelLogger::logTrace("AndromedaMemoryLimit set to ", memoryLimit, "GB")
 }
 
+doSetAndromedaThreads <- function(threads) {
+  options(andromedaThreads = threads)
+  ParallelLogger::logTrace("AndromedaThreads set to ", threads)
+}
+
+
 #' Create a cluster of nodes for parallel computation
 #'
 #' @param numberOfThreads          Number of parallel threads.
@@ -51,6 +57,8 @@ doSetAndromedaMemoryLimit <- function(memoryLimit) {
 #' @param setAndromedaMemoryLimit  When TRUE, the andromedaMemoryLimit option will be set in each 
 #'                                 thread to be either the global andromedaMemoryLimit / numberOfThreads
 #'                                 or 75 percent of the system memory / number of threads.
+#' @param setAndromedaThreads      When TRUE, the andromedaThreads option will be set in each 
+#'                                 thread to be the global andromedaThreads / numberOfThreads.                                
 #'
 #' @return
 #' An object representing the cluster.
@@ -61,7 +69,8 @@ doSetAndromedaMemoryLimit <- function(memoryLimit) {
 makeCluster <- function(numberOfThreads, 
                         singleThreadToMain = TRUE, 
                         setAndromedaTempFolder = TRUE,
-                        setAndromedaMemoryLimit = TRUE) {
+                        setAndromedaMemoryLimit = TRUE,
+                        setAndromedaThreads = TRUE) {
   if (numberOfThreads == 1 && singleThreadToMain) {
     cluster <- list()
     class(cluster) <- "noCluster"
@@ -120,6 +129,23 @@ makeCluster <- function(numberOfThreads,
         for (i in 1:length(cluster)) {
           snow::recvOneResult(cluster)
         }
+      }
+    }
+    if (setAndromedaThreads) {
+      andromedaThreads <- getOption("andromedaThreads")
+      if (is.null(andromedaThreads)) {
+        andromedaThreads <- parallel::detectCores()
+      }
+      andromedaThreadsPerThread <- max(1, round(andromedaThreads / length(cluster)))
+      for (i in 1:length(cluster)) {
+        snow::sendCall(
+          cluster[[i]],
+          doSetAndromedaThreads,
+          list(threads = andromedaThreadsPerThread)
+        )
+      }
+      for (i in 1:length(cluster)) {
+        snow::recvOneResult(cluster)
       }
     }
   }

@@ -1,3 +1,10 @@
+ParallelLogger 3.5.0
+====================
+
+Changes
+
+1. Added `setAndromedaThreads` argument to `makeCluster()`. When `TRUE` (default), the number of threads Andromeda can use will be equally divided across `ParallelLogger` threads.
+
 ParallelLogger 3.4.2
 ====================
 

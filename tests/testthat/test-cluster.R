@@ -80,3 +80,24 @@ test_that("Test getThreadNumber", {
 test_that("Test getPhysicalMemory", {
   expect_false(is.na(getPhysicalMemory()))
 })
+
+test_that("Test Andromeda memory limit and threads", {
+
+  oldMemoryLimit = getOption("andromedaMemoryLimit")
+  oldThreads = getOption("andromedaThreads")
+  on.exit(options("andromedaMemoryLimit" = oldMemoryLimit))
+  on.exit(options("andromedaThreads" = oldThreads), add = TRUE)
+  
+  options("andromedaMemoryLimit" = 1)
+  options("andromedaThreads" = 6)
+  fun <- function(x) {
+    return(c(getOption("andromedaMemoryLimit"), getOption("andromedaThreads")))
+  }
+  
+  cluster <- makeCluster(numberOfThreads = 3)
+  x <- clusterApply(cluster, 1:3, fun)
+  stopCluster(cluster)
+  
+  expect_equal(unlist(x), rep(c(1/3, 2), 3))
+})
+
