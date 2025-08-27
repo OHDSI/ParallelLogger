@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ParallelLogger</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">3.5.0</span>
       </span>
     </div>
 
@@ -73,7 +73,8 @@
 <span>  <span class="va">numberOfThreads</span>,</span>
 <span>  singleThreadToMain <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  setAndromedaTempFolder <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  setAndromedaMemoryLimit <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  setAndromedaMemoryLimit <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  setAndromedaThreads <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -99,6 +100,11 @@ thread.</p></dd>
 <dd><p>When TRUE, the andromedaMemoryLimit option will be set in each
 thread to be either the global andromedaMemoryLimit / numberOfThreads
 or 75 percent of the system memory / number of threads.</p></dd>
+
+
+<dt id="arg-setandromedathreads">setAndromedaThreads<a class="anchor" aria-label="anchor" href="#arg-setandromedathreads"></a></dt>
+<dd><p>When TRUE, the andromedaThreads option will be set in each
+thread to be the global andromedaThreads / numberOfThreads.</p></dd>
 
 </dl></div>
     <div id="value">
