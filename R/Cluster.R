@@ -56,7 +56,7 @@ doSetAndromedaThreads <- function(threads) {
 #'                                 thread.
 #' @param setAndromedaMemoryLimit  When TRUE, the andromedaMemoryLimit option will be set in each 
 #'                                 thread to be either the global andromedaMemoryLimit / numberOfThreads
-#'                                 or 75 percent of the system memory / number of threads.
+#'                                 or 20 percent of the system memory / number of threads.
 #' @param setAndromedaThreads      When TRUE, the andromedaThreads option will be set in each 
 #'                                 thread to be the global andromedaThreads / numberOfThreads.                                
 #'
@@ -115,7 +115,7 @@ makeCluster <- function(numberOfThreads,
     if (setAndromedaMemoryLimit) {
       memoryLimit <- getOption("andromedaMemoryLimit")
       if (is.null(memoryLimit)) {
-        memoryLimit <- getPhysicalMemory() * 0.75
+        memoryLimit <- getPhysicalMemory() * 0.20
       }
       if (!is.na(memoryLimit)) {
         memoryLimitPerThread <- memoryLimit / length(cluster)

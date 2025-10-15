@@ -23,7 +23,7 @@ thread.}
 
 \item{setAndromedaMemoryLimit}{When TRUE, the andromedaMemoryLimit option will be set in each 
 thread to be either the global andromedaMemoryLimit / numberOfThreads
-or 75 percent of the system memory / number of threads.}
+or 20 percent of the system memory / number of threads.}
 
 \item{setAndromedaThreads}{When TRUE, the andromedaThreads option will be set in each 
 thread to be the global andromedaThreads / numberOfThreads.}

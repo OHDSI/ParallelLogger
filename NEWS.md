@@ -1,3 +1,10 @@
+ParallelLogger 3.5.1
+====================
+
+Bugfixes
+
+1. By default, the `andromedaMemoryLimit` option will be set to 20% of system memory / number of threads instead of 75%. This avoids out-of-memory errors when there are multiple Andromeda objects per thread.
+
 ParallelLogger 3.5.0
 ====================
 
