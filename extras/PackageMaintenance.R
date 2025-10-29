@@ -50,6 +50,9 @@ pkgdown::build_site()
 OhdsiRTools::fixHadesLogo()
 
 # Release package -----------------------------------------------------
+# pak::pkg_install("r-lib/revdepcheck")
+revdepcheck::revdep_check(num_workers = 4) # Checks packages in CRAN only
+
 devtools::check_win_devel()
 
 rhub::rc_submit(platforms = "atlas")
